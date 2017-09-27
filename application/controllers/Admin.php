@@ -13,12 +13,19 @@ class Admin extends CI_Controller
     {
         parent::__construct();
         $this->load->model('User_model'); //load database model.
+        $this->load->model('Form_data_model'); //load database model.
     }
+
+    public $response = array("result"=>"none", "data"=>"none");
+
     public function index()
     {
         $this->check_sess();
         $this->load->view('head');
-        $this->load->view('admin-sidebar');
+        $this->load->view('admin/admin-sidebar');
+
+        $this->response['schools'] = $this->Form_data_model->select('schools');
+        $this->load->view('admin/dashboard', $this->response);
         $this->load->view('footer');
     }
 
@@ -31,9 +38,52 @@ class Admin extends CI_Controller
         }
     }
 
+    //Logout function
     function logout()
     {
         $this->session->sess_destroy();
         redirect('/login/index');
+    }
+
+    //Function to view add new school Form.
+    function addSchool()
+    {
+        $this->check_sess();
+        $this->load->view('head');
+        $this->load->view('admin/admin-sidebar');
+
+        $this->response['province'] = $this->Form_data_model->select('province');
+        $this->load->view('admin/addSchool', $this->response);
+        $this->load->view('footer');
+    }
+
+    //Function to add new school.
+    function addNewSchool()
+    {
+        $census_id = $this->security->xss_clean($_REQUEST['census_id']);
+        $name = $this->security->xss_clean($_REQUEST['name']);
+        $province_id = $this->security->xss_clean($_REQUEST['province']);
+        $district_id = $this->security->xss_clean($_REQUEST['district']);
+        $zone_id = $this->security->xss_clean($_REQUEST['zone']);
+        $telephone = $this->security->xss_clean($_REQUEST['telephone']);
+        $fax = $this->security->xss_clean($_REQUEST['fax']);
+        $email = $this->security->xss_clean($_REQUEST['email']);
+        $pname = $this->security->xss_clean($_REQUEST['pname']);
+        $pmobile = $this->security->xss_clean($_REQUEST['pmobile']);
+        $pemail = $this->security->xss_clean($_REQUEST['pemail']);
+
+        $schoolArray = array('census_id' =>$census_id, 'schoolname' => $name, 'province_id' => $province_id, 'district_id' => $district_id, 'zone_id' => $zone_id, 'telephone' => $telephone, 'fax' => $fax, 'email' => $email, 'principal_name' => $pname, 'principal_mobile' => $pmobile, 'principal_email' => $pemail);
+
+        $res = $this->Form_data_model->addSchool($schoolArray);
+        //$res = 1;
+        if ($res == 1){
+
+            $this->session->set_flashdata('success',$name . ' School Added Successfully');
+            redirect('admin/index');
+
+        } else {
+            $this->session->set_flashdata('not-success','Something went wrong! School Did not Added');
+            redirect('admin/index');
+        }
     }
 }

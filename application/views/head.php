@@ -28,11 +28,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Animation Css -->
     <link href="<?php echo base_url()."assets/plugins/animate-css/animate.css"?>" rel="stylesheet" />
 
+    <!-- Sweet Alert Css -->
+    <link href="<?php echo base_url()."assets/plugins/sweetalert/sweetalert.css"?>" rel="stylesheet" />
+
     <!-- Custom Css -->
     <link href="<?php echo base_url()."assets/css/style.css"?>" rel="stylesheet">
 
     <!-- Admin Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<?php echo base_url()."assets/css/themes/all-themes.css"?>" rel="stylesheet" />
+
+    <!-- Bootstrap Select Css -->
+    <link href="<?php echo base_url()."assets/plugins/bootstrap-select/css/bootstrap-select.css"?>" rel="stylesheet" />
+
+    <!-- Jquery Core Js -->
+    <script src="<?php echo base_url()."assets/plugins/jquery/jquery.min.js"?>"></script>
+
+    <!-- Bootstrap Core Js -->
+    <script src="<?php echo base_url()."assets/plugins/bootstrap/js/bootstrap.js"?>"></script>
 </head>
 
 
@@ -79,7 +91,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <!-- Logged user's Name -->
-                <li class="name"><a href="javascript:void(0);">John Doe</a></li>
+                <li class="name"><a href="javascript:void(0);"><?php echo $this->session->name; ?></a></li>
                 <li class="pull-right dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>

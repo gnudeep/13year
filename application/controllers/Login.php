@@ -10,7 +10,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 /**
  * Description of Login
  *
- * @author edu
+ * @author kosala
+ * This Class handle the functions for user login.
  */
 class Login extends CI_Controller {
     //put your code here
