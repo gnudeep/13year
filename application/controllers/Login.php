@@ -34,7 +34,7 @@ class Login extends CI_Controller {
         if ($user_level == "0") {
                 redirect('/admin/index');
         }else if ($user_level == "1") {
-        redirect('/admin/officer');
+        redirect('/sadmin/index');
         }else if ($user_level == "2") {
             redirect('/admin/sclerk');
         }else if ($user_level == "3") {
@@ -56,7 +56,8 @@ class Login extends CI_Controller {
             $data = $this->User_model->get_a_record('LOWER(uname)',$uname);
             $name = $data[0]['name'];
             $role = $data[0]['role'];
-            $userData = array('username' => $uname, 'name' => $name, 'user_role'=>$role, 'user_logged' => "in");
+            $school = $data[0]['school_id'];
+            $userData = array('username' => $uname, 'name' => $name, 'user_role'=>$role, 'school_id' => $school, 'user_logged' => "in");
             $this->session->set_userdata($userData);
 
             $this->redirect_user($role);

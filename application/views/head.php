@@ -13,7 +13,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta charset="utf-8" />
     <title> 13 Years Guaranteed Education Program </title>
     <!-- Favicon-->
-    <link rel="icon" href="<?php echo base_url()."assets/favicon.ico"?>" type="image/x-icon">
+    <link rel="icon" href="<?php echo base_url()."assets/favicon2.ico"?>" type="image/x-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="navbar-header">
             <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="<?php echo base_url()."index.php/admin/index"?>">13 Years Guaranteed Education Program</a>
+            <a class="navbar-brand" > Professional Entry </a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">

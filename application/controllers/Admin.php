@@ -74,7 +74,7 @@ class Admin extends CI_Controller
 
         $schoolArray = array('census_id' =>$census_id, 'schoolname' => $name, 'province_id' => $province_id, 'district_id' => $district_id, 'zone_id' => $zone_id, 'telephone' => $telephone, 'fax' => $fax, 'email' => $email, 'principal_name' => $pname, 'principal_mobile' => $pmobile, 'principal_email' => $pemail);
 
-        $res = $this->Form_data_model->addSchool($schoolArray);
+        $res = $this->Form_data_model->insert('schools', $schoolArray);
         //$res = 1;
         if ($res == 1){
 

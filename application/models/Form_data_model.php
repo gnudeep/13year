@@ -62,8 +62,8 @@ class Form_data_model extends CI_Model
         return $result;
     }
 
-    public function addSchool($schoolArray){
-        $this->db->insert('school', $schoolArray);
+    public function insert($table, $schoolArray){
+        $this->db->insert($table, $schoolArray);
 
         if($this->db->affected_rows()){
             return '1';
