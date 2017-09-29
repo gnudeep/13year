@@ -16,7 +16,10 @@ class Form_data_model extends CI_Model
                 $res = $this->getAllRecords('province');
                 break;
             case "schools":
-                $res = $this->getAllRecords('school');
+                $res = $this->getAllRecords('schools');
+                break;
+            case "subjects":
+                $res = $this->getAllRecords('subject_list');
                 break;
         }
 

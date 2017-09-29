@@ -86,4 +86,34 @@ class Admin extends CI_Controller
             redirect('admin/index');
         }
     }
+    
+    public function Subjects()
+    {
+        header('Content-Type: application/x-json; charset=utf-8');
+        // Datatables Variables
+        $draw = intval($this->input->get("draw"));
+        $start = intval($this->input->get("start"));
+        $length = intval($this->input->get("length"));
+
+
+        $subjects = $this->Form_data_model->select('subjects');
+
+        $data = array();
+
+        foreach($subjects as $r) {
+
+            $data[] = array(
+                $r['subject_name']
+            );
+        }
+
+        $output = array(
+            "draw" => $draw,
+            "recordsTotal" => sizeof($subjects),
+            "recordsFiltered" => sizeof($subjects),
+            "data" => $data
+        );
+        echo json_encode($output);
+        exit();
+    }
 }

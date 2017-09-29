@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         <?php } ?>
         </div>
-        <!-- Exportable Table -->
+        <!-- Exportable Table For School List -->
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                            <table class="table table-bordered table-striped table-hover js-exportable">
                                 <thead>
                                 <tr>
                                     <th>Census ID</th>
@@ -84,6 +84,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
+        <!-- Exportable Table For Subjects List -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            SUBJECTS LIST
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover" id="subjectTable">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -101,7 +126,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script>
     $(document).ready(function () {
-        $('.js-basic-example').DataTable({
+        $('.dataTable').DataTable({
             responsive: true
         });
 
@@ -114,5 +139,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             ]
         });
+        
+        $('#subjectTable').DataTable({
+            dom: 'Bfrtip',
+            responsive: true,
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+
+            ],
+            "ajax": {
+                url : "<?php echo base_url().'index.php/Admin/Subjects' ?>",
+                type : 'POST',
+                data:{  '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>' }
+            },
+        });
+        
     });
 </script>

@@ -1,17 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Login
  *
  * @author kosala
  * This Class handle the functions for user login.
+ * User Levels
+ * Super Admin - 0
+ * School Admin - 1
+ * School Finance - 2
+ * School Teacher - 3
  */
 class Login extends CI_Controller {
     //put your code here
