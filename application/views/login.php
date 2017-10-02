@@ -10,8 +10,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="icon" href="<?php echo base_url()."assets/favicon.ico"?>" type="image/x-icon">
 
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">
+    <link href="<?php echo base_url()."assets/css/gfonts.css"?>" rel="stylesheet" type="text/css">
+
+    <!-- Material Icons -->
+    <link href="<?php echo base_url()."assets/css/material-icons.css"?>" rel="stylesheet">
 
     <!-- Bootstrap Core Css -->
     <link href="<?php echo base_url()."assets/plugins/bootstrap/css/bootstrap.css"?>" rel="stylesheet">

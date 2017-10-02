@@ -91,29 +91,14 @@ class Admin extends CI_Controller
     {
         header('Content-Type: application/x-json; charset=utf-8');
         // Datatables Variables
-        $draw = intval($this->input->get("draw"));
-        $start = intval($this->input->get("start"));
-        $length = intval($this->input->get("length"));
-
-
-        $subjects = $this->Form_data_model->select('subjects');
-
-        $data = array();
-
-        foreach($subjects as $r) {
-
-            $data[] = array(
-                $r['subject_name']
-            );
-        }
-
-        $output = array(
-            "draw" => $draw,
-            "recordsTotal" => sizeof($subjects),
-            "recordsFiltered" => sizeof($subjects),
-            "data" => $data
-        );
-        echo json_encode($output);
-        exit();
+        
+        //Load our library EditorLib 
+        $this->load->library('EditorLib');
+        
+        //`Call the process method to process the posted data
+        $this->editorlib->process($_POST);
+        
+        //Let the model produce the data
+        $this->editorlib->CI->DataTable_model->Subjects($_POST);
     }
 }

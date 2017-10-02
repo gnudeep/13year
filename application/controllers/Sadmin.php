@@ -100,4 +100,19 @@ class Sadmin extends CI_Controller
         $this->load->view('sadmin/addUser');
         $this->load->view('footer');
     }
+
+    public function Teachers()
+    {
+        header('Content-Type: application/x-json; charset=utf-8');
+        // Datatables Variables
+
+        //Load our library EditorLib 
+        $this->load->library('EditorLib');
+
+        //`Call the process method to process the posted data
+        $this->editorlib->process($_POST);
+
+        //Let the model produce the data
+        $this->editorlib->CI->DataTable_model->Teachers($_POST);
+    }
 }

@@ -83,16 +83,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </section>
 
     <!-- Select Plugin Js -->
-    <script src="<?php echo base_url()." assets/plugins/bootstrap-select/js/bootstrap-select.js "?>"></script>
+    <script src="<?php echo base_url()."assets/plugins/bootstrap-select/js/bootstrap-select.js "?>"></script>
 
     <!-- Input Mask Plugin Js -->
-    <script src="<?php echo base_url()." assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js "?>"></script>
+    <script src="<?php echo base_url()."assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js "?>"></script>
 
     <script>
         $(document).ready(function() {
-            $('.telephone').inputmask('999-9999999', {
-                placeholder: '___-_______'
-            });
+            
             $(".required").append("<span class='col-red'> *</span>");
 
             $('#addTeacherForm').validate({

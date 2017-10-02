@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                            <table class="table table-bordered table-striped table-hover" id="teachers">
                                 <thead>
                                 <tr>
                                     <th>Title</th>
@@ -48,32 +48,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Mobile</th>
                                     <th>Email</th>
                                     <th>Trained Teacher</th>
+                                    <th>Subject 01</th>
+                                    <th>Subject 02</th>
+                                    <th>Subject 03</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-
-                                <?php if ($teachers) { ?>
-                                    <?php foreach ($teachers as $row) { ?>
-                                        <tr>
-                                            <td> <?php echo $row['title'];?> </td>
-                                            <td> <?php echo $row['teacher_in_name'];?> </td>
-                                            <td> <?php echo $row['teacher_mobile'];?> </td>
-                                            <td> <?php echo $row['teacher_email'];?> </td>
-                                            <td> <?php $trained = ($row['teacher_trained'] == 1) ? 'Yes' : 'No'; echo $trained;?> </td>
-                                        </tr>
-                                    <?php } ?>
-                                <?php } else { ?>
-                                    <tr>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                    </tr>
-                                <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -94,6 +74,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/export/vfs_fonts.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/export/buttons.print.min.js"?>"></script>
+<script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/editor/js/dataTables.editor.js"?>"></script>
+<script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/select/js/dataTables.select.min.js"?>"></script>
 
 
 <script>
@@ -111,5 +93,91 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             ]
         });
+
+        var teacherEditor = new $.fn.dataTable.Editor( {
+            "ajax": "<?php echo base_url().'index.php/Sadmin/Teachers' ?>",
+            "data":function ( d ) {
+                d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
+            },
+            "table": "#teachers",
+            "fields": [ 
+                {
+                    "label": "Title:",
+                    "name": "teachers.title",
+                },
+                {
+                    "label": "Name:",
+                    "name": "teachers.teacher_in_name",
+                },
+                {
+                    "label": "Mobile:",
+                    "name": "teachers.teacher_mobile",
+                },
+                {
+                    "label": "Email:",
+                    "name": "teachers.teacher_email",
+                },
+                {
+                    "label": "Trained Teacher:",
+                    "name": "teachers.teacher_trained",
+                    "type": "select",
+                },
+                {
+                    "label": "Subject 01:",
+                    "name": "teachers.teacher_sub_1",
+                    "type": "select",
+                },
+                {
+                    "label": "Subject 02:",
+                    "name": "teachers.teacher_sub_2",
+                    "type": "select",
+                },
+                {
+                    "label": "Subject 03:",
+                    "name": "teachers.teacher_sub_3",
+                    "type": "select",
+                }
+            ]
+        } );
+
+        teacherEditor.on( 'preSubmit', function ( e, o, action ) {
+            o.<?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
+        } );
+
+
+        $('#teachers').DataTable( {
+            dom: "Bfrtip",
+            responsive: true,
+            ajax: {
+                url: "<?php echo base_url().'index.php/Sadmin/Teachers' ?>",
+                data:{  '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>' },
+                type: "POST"
+            },
+            serverSide: true,
+            columns: [
+                { data: "teachers.title" },
+                { data: "teachers.teacher_in_name" },
+                { data: "teachers.teacher_mobile" },
+                { data: "teachers.teacher_email" },
+                { data: "teachers.teacher_trained" },
+                { data: "subject1.subject_name" },
+                { data: "subject2.subject_name" },
+                { data: "subject3.subject_name" }
+            ],
+            "columnDefs": [
+                {
+                    "render": function (data, type, row) {
+                        return (data == '1') ? 'Yes' : 'No';
+                    },
+                    "targets": 4
+                }
+            ],
+            select: true,
+            buttons: [
+                { extend: "create", editor: teacherEditor },
+                { extend: "edit",   editor: teacherEditor },
+                { extend: "remove", editor: teacherEditor }
+            ]
+        } );
     });
 </script>

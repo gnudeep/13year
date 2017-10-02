@@ -95,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover" id="subjectTable">
+                            <table class="table table-bordered table-striped table-hover" id="subjects">
                                 <thead>
                                     <tr>
                                         <th>Subject</th>
@@ -122,6 +122,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/export/vfs_fonts.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/export/buttons.html5.min.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/export/buttons.print.min.js"?>"></script>
+<script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/editor/js/dataTables.editor.js"?>"></script>
+<script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/select/js/dataTables.select.min.js"?>"></script>
 
 
 <script>
@@ -136,23 +138,45 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             responsive: true,
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
-
             ]
         });
-        
-        $('#subjectTable').DataTable({
-            dom: 'Bfrtip',
-            responsive: true,
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
 
-            ],
-            "ajax": {
-                url : "<?php echo base_url().'index.php/Admin/Subjects' ?>",
-                type : 'POST',
-                data:{  '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>' }
+        var subjectEditor = new $.fn.dataTable.Editor( {
+            "ajax": "<?php echo base_url().'index.php/Admin/Subjects' ?>",
+            "data":function ( d ) {
+                d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
             },
-        });
+            "table": "#subjects",
+            "fields": [ 
+                {
+                "label": "Subject:",
+                "name": "subject_name",
+                }
+            ]
+        } );
+
+        subjectEditor.on( 'preSubmit', function ( e, o, action ) {
+            o.<?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
+        } );
+        
+        $('#subjects').DataTable( {
+            dom: "Bfrtip",
+            ajax: {
+                url: "<?php echo base_url().'index.php/Admin/Subjects' ?>",
+                data:{  '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>' },
+                type: "POST"
+            },
+            serverSide: true,
+            columns: [
+                { data: "subject_name" }
+            ],
+            select: true,
+            buttons: [
+                { extend: "create", editor: subjectEditor },
+                { extend: "edit",   editor: subjectEditor },
+                { extend: "remove", editor: subjectEditor }
+            ]
+        } );
         
     });
 </script>

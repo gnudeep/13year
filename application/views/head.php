@@ -17,7 +17,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Google Fonts -->
     <link href="<?php echo base_url()."assets/css/gfonts.css"?>" rel="stylesheet" type="text/css">
-    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" type="text/css">-->
+
+    <!-- Material Icons -->
+    <link href="<?php echo base_url()."assets/css/material-icons.css"?>" rel="stylesheet">
 
     <!-- Bootstrap Core Css -->
     <link href="<?php echo base_url()."assets/plugins/bootstrap/css/bootstrap.css"?>" rel="stylesheet">
@@ -31,8 +33,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Sweet Alert Css -->
     <link href="<?php echo base_url()."assets/plugins/sweetalert/sweetalert.css"?>" rel="stylesheet" />
 
-    <!-- Material Icons -->
-    <link href="<?php echo base_url()."assets/css/material-icons.css"?>" rel="stylesheet">
+    <!-- DataTables Css -->
+    <link href="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/editor/css/editor.dataTables.min.css"?>" rel="stylesheet" />
     
     <!-- Custom Css -->
     <link href="<?php echo base_url()."assets/css/style.css"?>" rel="stylesheet">
