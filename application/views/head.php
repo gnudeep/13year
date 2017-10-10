@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <html>
 <head>
     <meta charset="utf-8" />
-    <title> 13 Years Guaranteed Education Program </title>
+    <title> 13 Years of Guaranteed Education Program </title>
     <!-- Favicon-->
     <link rel="icon" href="<?php echo base_url()."assets/favicon2.ico"?>" type="image/x-icon">
 
@@ -34,6 +34,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link href="<?php echo base_url()."assets/plugins/sweetalert/sweetalert.css"?>" rel="stylesheet" />
 
     <!-- DataTables Css -->
+    <link href="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/select/css/select.dataTables.min.css"?>" rel="stylesheet" />
+
+    <!-- DataTables Editor Css -->
     <link href="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/editor/css/editor.dataTables.min.css"?>" rel="stylesheet" />
     
     <!-- Custom Css -->
@@ -91,7 +94,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="navbar-header">
             <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" > Professional Entry </a>
+            <a class="navbar-brand" > Professional Entry - 13 Years of Guaranteed Education Program </a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">

@@ -32,4 +32,11 @@ class FormControl extends CI_Controller
         $res = $this->Form_data_model->get_zones($district_id);
         echo json_encode($res);
     }
+
+    public function getTeachers(){
+        header('Content-Type: application/x-json; charset=utf-8');
+        $subject_id = $this->input->post('subj');
+        $res = $this->Form_data_model->getTeachersForSubjects($subject_id, $this->session->school_id);
+        echo json_encode($res);
+    }
 }

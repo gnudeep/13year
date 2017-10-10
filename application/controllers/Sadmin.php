@@ -54,6 +54,12 @@ class Sadmin extends CI_Controller
         $TeacherSearchArray = array('school_id' =>$this->session->school_id);
         $this->response['teachers'] = $this->Form_data_model->searchdb('teachers', $TeacherSearchArray);
     }
+    
+    /*function getSchoolTeachers()
+    {
+        $searchArray = array('census_id' =>$this->session->school_id);
+        $this->response['teachers'] = $this->Form_data_model->searchdb('schools', $searchArray);
+    }*/
 
     //Function to view add new school Form.
     function addTeacher()
@@ -97,12 +103,44 @@ class Sadmin extends CI_Controller
         $this->load->view('head');
         $this->load->view('sadmin/sidebar');
 
-        $this->load->view('sadmin/addUser');
+        $this->getSchoolDetails();
+        $this->load->view('sadmin/addUser', $this->response);
         $this->load->view('footer');
     }
 
-    public function Teachers()
+    //Function to add new school.
+    function createNewUser()
     {
+        $this->check_sess();
+
+        header('Content-Type: application/x-json; charset=utf-8');
+
+        $school_id = $this->session->school_id;
+        $role = $this->input->post('role');
+        $teacher_id = $this->input->post('teacher_id');
+        $teacher_name = $this->input->post('teacher_name');
+        $in_name = $this->input->post('in_name');
+        $u_name = $this->input->post('u_name');
+        $password = $this->input->post('password');
+        
+        $name = ($role == '3' ? $teacher_name : $in_name);
+        $teacher_id = ($role == '3' ? $teacher_id : NULL);
+
+        $user_array = array('role' => $role, 'name' => $name, 'uname' => $u_name, 'passwd' => $password, 'teacher_id' => $teacher_id, 'school_id' => $school_id);
+        
+        $res = $this->Form_data_model->insert('user', $user_array);
+
+        if($res == '1'){
+            echo "success";
+        }else {
+            echo strval($workplace_id);
+        }
+    }
+
+    public function Dtable($method)
+    {
+        $this->check_sess();
+        
         header('Content-Type: application/x-json; charset=utf-8');
         // Datatables Variables
 
@@ -113,6 +151,6 @@ class Sadmin extends CI_Controller
         $this->editorlib->process($_POST);
 
         //Let the model produce the data
-        $this->editorlib->CI->DataTable_model->Teachers($_POST);
+        $this->editorlib->CI->DataTable_model->$method($_POST);
     }
 }

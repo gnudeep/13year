@@ -64,6 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                     </div>
                 <?php echo form_close()?>
+                <a href="<?php echo base_url()."index.php/general"?>">View on map</a>
             </div>
         </div>
     </div>

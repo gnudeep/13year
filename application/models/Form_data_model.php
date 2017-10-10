@@ -72,4 +72,35 @@ class Form_data_model extends CI_Model
             return '1';
         }
     }
+    
+    public function getTeachersForSubjects($subject, $school){
+        $this->db->where('school_id =', $school);
+        $this->db->where('teacher_sub_1 =', $subject);
+        $this->db->or_where('teacher_sub_2 =', $subject);
+        $this->db->or_where('teacher_sub_3 =', $subject);
+        $query = $this->db->get("teachers");
+
+        if ($query->num_rows() >= 1) {
+            $res  = $query->result_array();
+            return $res;
+        } else{
+            return 0;
+        }
+    }
+    
+    public function getClassDetails($school_id, $class_id ){
+        $this->db->select('*');
+        $this->db->from('class_subjects C');
+        $this->db->join('subject_list S', 'S.id = C.subject_id');
+        $this->db->join('teachers T', 'T.id = C.teacher_id');
+        $this->db->where('C.school_id', $school_id);
+        $this->db->where('C.class_id', $class_id);
+        $this->db->order_by('C.class_id', 'ASC');
+        $query = $this->db->get();
+        $res = $query->result_array();
+
+        if($query->num_rows() >= 1){
+            return $res;
+        }
+    }
 }

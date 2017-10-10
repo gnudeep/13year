@@ -24,6 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 $config['base_url'] = 'http://localhost/13year/';
+#$config['base_url'] = 'http://172.20.31.99/13year/';
 
 /*
 |--------------------------------------------------------------------------

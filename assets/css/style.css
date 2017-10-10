@@ -1,4 +1,4 @@
-﻿/* Navbar ====================================== */
+/* Navbar ====================================== */
 @import url(materialize.css);
 .navbar {
   font-family: "Roboto", sans-serif;
@@ -3256,7 +3256,7 @@ section.content {
       color: #555; }
     .info-box-3 .content .number {
       font-weight: normal;
-      font-size: 26px;
+      font-size: 36px;
       margin-top: -4px;
       color: #555; }
 
@@ -8040,3 +8040,4 @@ html.ie11 .dropdown-menu ul.menu li a {
 html.ie11 .bs-searchbox .form-control {
   width: 90%; }
 
+   
