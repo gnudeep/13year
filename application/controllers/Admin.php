@@ -25,6 +25,7 @@ class Admin extends CI_Controller
         $this->load->view('admin/admin-sidebar');
 
         $this->response['schools'] = $this->Form_data_model->select('schools');
+        $this->response['coordinators'] = $this->Form_data_model->select('coordinators');
         $this->load->view('admin/dashboard', $this->response);
         $this->load->view('footer');
     }
@@ -95,10 +96,39 @@ class Admin extends CI_Controller
         //Load our library EditorLib 
         $this->load->library('EditorLib');
         
-        //`Call the process method to process the posted data
+        //Call the process method to process the posted data
         $this->editorlib->process($_POST);
         
         //Let the model produce the data
         $this->editorlib->CI->DataTable_model->Subjects($_POST);
+    }
+    
+    public function changeCoordinator()
+    {
+        header('Content-Type: application/x-json; charset=utf-8');
+        
+        $formAction = $this->input->post('formAction');
+        $school_id = $this->input->post('school_id');
+        $cname = $this->input->post('cname');
+        $cnic = $this->input->post('cnic');
+        $cdob = $this->input->post('cdob');
+        $cmobile = $this->input->post('cmobile');
+        $cemail = $this->input->post('cemail');
+        $appsch = $this->input->post('appsch');
+        $appser = $this->input->post('appser');
+        $cuname = $this->input->post('cuname');
+        $cpw = $this->input->post('cpw');
+        
+        $coordinator_array = array('school_id' => $school_id, 'coordinator_nic' => $cnic, 'coordinator_name' => $cname, 'coordinator_dob' => $cdob, 'coordinator_mobile' => $cmobile, 'coordinator_email' => $cemail, 'coordinator_ser_app' => $appser, 'coordinator_sch_app' => $appsch);
+        
+        $user_array = array('role' => '1', 'name' => $cname, 'uname' => $cuname, 'passwd' => $cpw, 'school_id' => $school_id);
+        
+        $res = $this->Form_data_model->addCoordinator($coordinator_array, $user_array);
+        
+        if($res == '1'){
+            echo "success";
+        }else {
+            echo strval($workplace_id);
+        }
     }
 }

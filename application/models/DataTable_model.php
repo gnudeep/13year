@@ -38,14 +38,16 @@ class DataTable_model extends CI_Model
             ->fields(
             Field::inst( 'teachers.title' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'teachers.teacher_in_name' )->validator( 'Validate::notEmpty' ),
+            Field::inst( 'teachers.nic' ),
+            Field::inst( 'teachers.dob' ),
             Field::inst( 'teachers.teacher_mobile' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'teachers.teacher_email' ),
-            Field::inst( 'teachers.teacher_trained' )
+            Field::inst( 'teachers.teacher_trained_1' )
             ->validator( 'Validate::notEmpty' )
             ->options( function () {
                 return array(
-                    array( 'value' => '1', 'label' => 'Yes' ),
-                    array( 'value' => '2', 'label' => 'No' )
+                    array( 'value' => '1', 'label' => 'Trained' ),
+                    array( 'value' => '2', 'label' => '' )
                 );
             }),
             Field::inst( 'school.schoolname' )->validator( 'Validate::notEmpty' ),
@@ -188,8 +190,8 @@ class DataTable_model extends CI_Model
         // Use the Editor database class
         Editor::inst( $this->editorDb, 'students_info' )
             ->fields(
-            Field::inst( 'students_info.phase' )->validator( 'Validate::notEmpty' ),
-            Field::inst( 'students_info.std_id' )->validator( 'Validate::notEmpty' ),
+            Field::inst( 'students_info.status' )->validator( 'Validate::notEmpty' ),
+            Field::inst( 'students_info.index_no' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'students_info.school_id' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'students_info.full_name' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'students_info.in_name' )->validator( 'Validate::notEmpty' ),
@@ -245,6 +247,7 @@ class DataTable_model extends CI_Model
                       ->value( 'id' )
                       ->label( 'fund_name' )
                      ),
+            Field::inst( 'funds.fund_purpose' ),
             Field::inst( 'funds_list.fund_name' )
         )
             ->where( 'funds.school_id', $this->session->school_id )
@@ -268,11 +271,11 @@ class DataTable_model extends CI_Model
             ->options( Options::inst()
                       ->table( 'funds' )
                       ->value( 'id' )
-                      ->label( 'received_date', ':', 'amount' )
+                      ->label( 'fund_purpose' )
                      ),
             Field::inst( 'expenses.purpose' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'expenses.amount' )->validator( 'Validate::notEmpty' ),
-            Field::inst( 'funds.received_date' )
+            Field::inst( 'funds.fund_purpose' )
         )
             ->where( 'expenses.school_id', $this->session->school_id )
             ->leftJoin( 'funds as funds', 'funds.id', '=', 'expenses.funds_id' )

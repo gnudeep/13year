@@ -46,7 +46,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <tr>
                                             <th> Received Date </th>
                                             <th> Source </th>
-                                            <th> Amount </th>
+                                            <th> Fund purpose </th>
+                                            <th> Amount (Rs.) </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -60,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="card">
                         <div class="header">
                             <h2>
-                                Available Balance
+                                Available Balance (Rs.)
                             </h2>
                         </div>
                         <div class="body">
@@ -92,10 +93,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <thead>
                                         <tr>
                                             <th>Date</th>
-                                            <th>Type</th>
-                                            <th>Fund</th>
-                                            <th>Pupose</th>
-                                            <th>Amount</th>
+                                            <th>Category</th>
+                                            <th>Type of grant</th>
+                                            <th>Pupose of Expenditure</th>
+                                            <th>Amount (Rs.)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -169,6 +170,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         "type": "date"
                     },
                     {
+                        "label": "Fund purpose:",
+                        "name": "funds.fund_purpose"
+                    },
+                    {
                         "label": "Fund Source:",
                         "name": "funds.fund_id",
                         "type": "select",
@@ -191,6 +196,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             fundsEditor.field('funds.school_id').input().addClass('form-control show-tick');
             fundsEditor.field('funds.received_date').input().addClass('form-control show-tick');
             fundsEditor.field('funds.fund_id').input().addClass('form-control show-tick');
+            fundsEditor.field('funds.fund_purpose').input().addClass('form-control');
             fundsEditor.field('funds.amount').input().addClass('form-control show-tick');
 
             $('#funds').DataTable({
@@ -209,6 +215,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                     {
                         data: "funds_list.fund_name"
+                    },
+                    {
+                        data: "funds.fund_purpose"
                     },
                     {
                         data: "funds.amount"
@@ -303,7 +312,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         data: "expenses.type"
                     },
                     {
-                        data: "funds.received_date"
+                        data: "funds.fund_purpose"
                     },
                     {
                         data: "expenses.purpose"

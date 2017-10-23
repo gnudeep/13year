@@ -68,7 +68,8 @@ class Sadmin extends CI_Controller
         $this->load->view('head');
         $this->load->view('sadmin/sidebar');
 
-        $this->load->view('sadmin/addTeacher');
+        $this->response['subjects'] = $this->Form_data_model->select('subjects');
+        $this->load->view('sadmin/addTeacher', $this->response);
         $this->load->view('footer');
     }
 
@@ -77,12 +78,24 @@ class Sadmin extends CI_Controller
     {
         $school_id = $this->session->school_id;
         $title = $this->security->xss_clean($_REQUEST['title']);
-        $name = $this->security->xss_clean($_REQUEST['in_name']);
-        $u_name = $this->security->xss_clean($_REQUEST['u_name']);
-        $passwd = $this->security->xss_clean($_REQUEST['passwd']);
-        $role = $this->security->xss_clean($_REQUEST['role']);
-
-        $dataArray = array('school_id' =>$school_id, 'title' => $title,'name' => $name,'uname' => $u_name, 'passwd' => $passwd, 'role' => $role);
+        $name = $this->security->xss_clean($_REQUEST['name']);
+        $nic = $this->security->xss_clean($_REQUEST['nic']);
+        $dob = $this->security->xss_clean($_REQUEST['dob']);
+        $mobile = $this->security->xss_clean($_REQUEST['mobile']);
+        $email = $this->security->xss_clean($_REQUEST['email']);
+        
+        $trained1 = $this->security->xss_clean($_REQUEST['trained1']);
+        $trained2 = (isset($_REQUEST['trained2']) ? $this->security->xss_clean($_REQUEST['trained2']): '0');
+        $trained3 = (isset($_REQUEST['trained3']) ? $this->security->xss_clean($_REQUEST['trained3']): '0');
+        
+        $sub1 = $this->security->xss_clean($_REQUEST['sub1']);
+        $sub2 = ($_REQUEST['sub2'] != "" ? $this->security->xss_clean($_REQUEST['sub2']) : NULL);
+        $sub3 = ($_REQUEST['sub3'] != "" ? $this->security->xss_clean($_REQUEST['sub3']) : NULL);
+        
+        $app_ser = $this->security->xss_clean($_REQUEST['app_ser']);
+        $app_sch = $this->security->xss_clean($_REQUEST['app_sch']);
+        
+        $dataArray = array('school_id' =>$school_id, 'title' => $title, 'teacher_in_name' => $name, 'nic' => $nic, 'dob' => $dob, 'teacher_mobile' => $mobile, 'teacher_email' => $email, 'teacher_trained_1' => $trained1, 'teacher_trained_2' => $trained2, 'teacher_trained_3' => $trained3, 'teacher_sub_1' => $sub1, 'teacher_sub_2' => $sub2, 'teacher_sub_3' => $sub3, 'app_date_service' => $app_ser, 'app_date_school' => $app_sch);
 
         $res = $this->Form_data_model->insert('teachers', $dataArray);
         //$res = 1;

@@ -45,9 +45,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <tr>
                                     <th>Title</th>
                                     <th>Name</th>
+                                    <th>NIC No</th>
                                     <th>Mobile</th>
                                     <th>Email</th>
-                                    <th>Trained Teacher</th>
                                     <th>Subject 01</th>
                                     <th>Subject 02</th>
                                     <th>Subject 03</th>
@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <th>Grade</th>
                                         <th>Class</th>
                                         <th>Class Teacher</th>
-                                        <th>Commenced Date</th>
+                                        <th>Class Start Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -119,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <!-- Subjects List Table -->
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <div class="card">
-                    <div class="header">
+                    <div class="header bg-blue-grey">
                         <h2>
                             USERS LIST
                         </h2>
@@ -161,10 +161,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <th>Name with Initials</th>
                                         <th>gender</th>
                                         <th>address</th>
-                                        <th>Telephone</th>
+                                        <th>Parent Telephone</th>
                                         <th>Medium</th>
                                         <th>Distance to school (km)</th>
-                                        <th>Income</th>
+                                        <th>Parent Income</th>
                                         <th>Travel Mode</th>
                                     </tr>
                                 </thead>
@@ -220,6 +220,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             "display": 'lightbox',
             "fields": [ 
                 {
+                    "label": "NIC:",
+                    "name": "teachers.nic",
+                },
+                {
                     "label": "Title:",
                     "name": "teachers.title",
                     "type": "select",
@@ -244,9 +248,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 {
                     "label": "Trained Teacher:",
-                    "name": "teachers.teacher_trained",
+                    "name": "teachers.teacher_trained_1",
                     "type": "select",
-                    "placeholder": "<-- Please Select -->",
+                },
+                {
+                    "label": "Date of Appointment to Teacher Service:",
+                    "name": "teachers.appoint_service",
+                },
+                {
+                    "label": "Date of Appointment to School:",
+                    "name": "teachers.appoint_school",
                 },
                 {
                     "label": "Subject 01:",
@@ -277,10 +288,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         } );
 
         teacherEditor.field('teachers.title').input().addClass( 'form-control show-tick' );
+        teacherEditor.field('teachers.nic').input().addClass( 'form-control' );
         teacherEditor.field('teachers.teacher_in_name').input().addClass( 'form-control show-tick' );
         teacherEditor.field('teachers.teacher_mobile').input().addClass( 'form-control show-tick' );
         teacherEditor.field('teachers.teacher_email').input().addClass( 'form-control show-tick' );
-        teacherEditor.field('teachers.teacher_trained').input().addClass( 'form-control show-tick' );
+        teacherEditor.field('teachers.teacher_trained_1').input().addClass( 'form-control show-tick' );
         teacherEditor.field('teachers.teacher_sub_1').input().addClass( 'form-control show-tick' );
         teacherEditor.field('teachers.teacher_sub_2').input().addClass( 'form-control show-tick' );
         teacherEditor.field('teachers.teacher_sub_3').input().addClass( 'form-control show-tick' );
@@ -297,25 +309,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             columns: [
                 { data: "teachers.title" },
                 { data: "teachers.teacher_in_name" },
+                { data: "teachers.nic" },
                 { data: "teachers.teacher_mobile" },
                 { data: "teachers.teacher_email" },
-                { data: "teachers.teacher_trained" },
                 { data: "subject1.subject_name" },
                 { data: "subject2.subject_name" },
                 { data: "subject3.subject_name" }
             ],
-            "columnDefs": [
-                {
-                    "className": "dt-center", "targets": 4 ,
-                    "render": function (data, type, row) {
-                        return (data == '1') ? 'Yes' : 'No';
-                    },
-                    "targets": 4
-                }
-            ],
             select: true,
             buttons: [
-                { extend: "create", editor: teacherEditor },
                 { extend: "edit",   editor: teacherEditor },
                 { extend: "remove", editor: teacherEditor }
             ]
@@ -358,7 +360,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     "type": "select",
                 },
                 {
-                    "label": "Commenced Date:",
+                    "label": "Class Start Date:",
                     "name": "classes.commenced_date",
                     "type": "date",
                 }
@@ -391,6 +393,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 { data: "classes.commenced_date" }
             ],
             select: true,
+            bFilter: false,
             buttons: [
                 { extend: "create", editor: classEditor },
                 { extend: "edit",   editor: classEditor },
@@ -480,6 +483,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 { data: "teachers.teacher_in_name" }
             ],
             select: true,
+            bFilter: false,
             buttons: [
                 { extend: "create", editor: subjectEditor },
                 { extend: "edit",   editor: subjectEditor },
@@ -560,7 +564,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     "render": function (data, type, row) {
                         var role;
                         if(data == '1'){
-                            role = "School Administrator";
+                            role = "School Coordinator";
                         }else 
                         if(data == '2'){
                             role = "Finance Administrator";
@@ -579,97 +583,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             ]
         } );
         
-
-        //Handle Teachers DataTable
-        var studentEditor = new $.fn.dataTable.Editor( {
-            "ajax": "<?php echo base_url().'index.php/Sadmin/Dtable/Students' ?>",
-            "data":function ( d ) {
-                d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-            },
-            "table": "#students",
-            "display": 'lightbox',
-            "fields": [ 
-                {
-                    "label": "Index No:",
-                    "name": "students_info.std_id"
-                },
-                {
-                    "label": "School Census ID:",
-                    "name": "students_info.school_id",
-                    "def": "<?php echo $this->session->school_id; ?>",
-                    attr:  {
-                        "readonly": "readonly"
-                    }
-                },
-                {
-                    "label": "Full Name:",
-                    "name": "students_info.full_name",
-                },
-                {
-                    "label": "Name with Initials:",
-                    "name": "students_info.in_name",
-                },
-                {
-                    "label": "Gender:",
-                    "name": "students_info.gender",
-                    "type": "select",
-                    "options": [
-                        "Male",
-                        "Female"
-                    ]
-                },
-                {
-                    "label": "Address:",
-                    "name": "students_info.address",
-                    "type": "textarea"
-                },
-                {
-                    "label": "Telephone:",
-                    "name": "students_info.telephone"
-                },
-                {
-                    "label": "Medium:",
-                    "name": "students_info.medium",
-                    "type": "select",
-                    "options": [
-                        "Sinhala",
-                        "English"
-                    ]
-                },
-                {
-                    "label": "Distance to School (km):",
-                    "name": "students_info.dist_school"
-                },
-                {
-                    "label": "Parents Income:",
-                    "name": "students_info.income"
-                },
-                {
-                    "label": "Travel Mode:",
-                    "name": "students_info.travel_mode_id",
-                    "type": "select",
-                    "placeholder": "<-- Please Select -->",
-                    "placeholderDisabled": false,
-                }
-            ]
-        } );
-
-        studentEditor.on( 'preSubmit', function ( e, o, action ) {
-            o.<?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
-        } );
-
-        studentEditor.field('students_info.std_id').input().addClass( 'form-control show-tick' );
-        studentEditor.field('students_info.school_id').input().addClass( 'form-control show-tick' );
-        studentEditor.field('students_info.full_name').input().addClass( 'form-control show-tick' );
-        studentEditor.field('students_info.in_name').input().addClass( 'form-control show-tick' );
-        studentEditor.field('students_info.gender').input().addClass( 'form-control show-tick' );
-        studentEditor.field('students_info.address').input().addClass( 'form-control show-tick' );
-        studentEditor.field('students_info.telephone').input().addClass( 'form-control show-tick' );
-        studentEditor.field('students_info.medium').input().addClass( 'form-control show-tick' );
-        studentEditor.field('students_info.dist_school').input().addClass( 'form-control show-tick' );
-        studentEditor.field('students_info.income').input().addClass( 'form-control show-tick' );
-        studentEditor.field('students_info.travel_mode_id').input().addClass( 'form-control show-tick' );
-
+        
         $('#students').DataTable( {
             dom: "Bfrtip",
             responsive: true,
@@ -680,7 +594,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             },
             serverSide: true,
             columns: [
-                { data: "students_info.std_id" },
+                { data: "students_info.index_no" },
                 { data: "students_info.in_name" },
                 { data: "students_info.gender" },
                 { data: "students_info.address" },

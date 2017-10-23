@@ -26,8 +26,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <i class="material-icons">add</i>
                         <span> Add Student </span>
                     </a>
-                </li><!--
+                </li>
                 <li>
+                    <a href="<?php echo base_url()."index.php/teacher/attendanceForm"?>">
+                        <i class="material-icons">face</i>
+                        <span> Mark Attendance </span>
+                    </a>
+                </li>
+                <!--<li>
                     <a href="<?php //echo base_url()."index.php/sadmin/addTeacher"?>">
                         <i class="material-icons">add</i>
                         <span>Add Teacher</span>

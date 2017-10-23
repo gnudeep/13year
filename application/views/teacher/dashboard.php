@@ -46,12 +46,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <tr>
                                             <th>Index No</th>
                                             <th>Name with Initials</th>
-                                            <th>gender</th>
-                                            <th>address</th>
-                                            <th>Telephone</th>
+                                            <th>Gender</th>
+                                            <th>Address</th>
+                                            <th>Parent Telephone</th>
                                             <th>Medium</th>
                                             <th>Distance to school (km)</th>
-                                            <th>Income</th>
+                                            <th>Parent's Income</th>
                                             <th>Travel Mode</th>
                                         </tr>
                                     </thead>
@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </div>
             </div>
-            <!-- Students List Table -->
+            <!-- Subjects List Table -->
             <div class="row clearfix">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                     <div class="card">
@@ -89,6 +89,55 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                                 <?php echo $row['subject_name'];?> </td>
                                             <td>
                                                 <?php echo $row['teacher_in_name'];?> </td>
+                                        </tr>
+                                        <?php } ?>
+                                        <?php } else { ?>
+                                        <tr>
+                                            <td> </td>
+                                            <td> </td>
+                                        </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Attendance List Table -->
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Attendance History
+                            </h2>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover" id="subjects">
+                                    <thead>
+                                        <tr>
+                                            <!--<th>Month</th>
+                                            <th>Index no.</th>
+                                            <th>Student</th>
+                                            <th>Attended Days</th>-->
+                                            <?php if ($attendance) { ?>
+                                            <?php foreach ($attendance['0'] as $key => $id) { ?>
+                                            <th>
+                                                <?php echo $key;?> </th>
+                                        <?php } ?>
+                                            <?php } ?>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if ($attendance) { ?>
+                                        <?php foreach ($attendance as $key => $id) { ?>
+                                        <tr>
+                                            <?php foreach ($id as $head => $val) { ?>
+                                                <td>
+                                                    <?php echo $val;?> </td>
+                                            <?php } ?>
                                         </tr>
                                         <?php } ?>
                                         <?php } else { ?>
@@ -183,7 +232,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         "type": "textarea"
                     },
                     {
-                        "label": "Telephone:",
+                        "label": "Parent Telephone:",
                         "name": "students_info.telephone"
                     },
                     {
@@ -200,7 +249,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         "name": "students_info.dist_school"
                     },
                     {
-                        "label": "Parents Income:",
+                        "label": "Parent's Income:",
                         "name": "students_info.income"
                     },
                     {
@@ -209,7 +258,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         "type": "select",
                         "placeholder": "<-- Please Select -->",
                         "placeholderDisabled": false,
-                    }
+                       },
+                       {
+                       "label": "Status:",
+                       "name": "students_info.status",
+                       "type": "hidden",
+                       "default":"Phase 1"
+                       }
                 ]
             });
 
@@ -242,7 +297,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 },
                 serverSide: true,
                 columns: [{
-                        data: "students_info.std_id"
+                        data: "students_info.index_no"
                     },
                     {
                         data: "students_info.in_name"
@@ -271,10 +326,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 ],
                 select: true,
                 buttons: [{
-                        extend: "create",
-                        editor: studentEditor
-                    },
-                    {
                         extend: "edit",
                         editor: studentEditor
                     },
@@ -493,3 +544,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
 
     </script>
+
+<?php
+/*Array ( [0] => Array ( [NIC] => 222222222v [Name] => A. ABC DEF [2017-10] => 20 [2017-09] => 22 ) 
+       [1] => Array ( [NIC] => 883323173v [Name] => G. Kosala [2017-10] => 14 [2017-09] => 25 ) )
+Array ( [0] => Array ( [NIC] => 222222222v [Name] => A. ABC DEF [2017-10] => 20 [2017-09] => 22 ) 
+       [1] => Array ( [NIC] => 883323173v [Name] => G. Kosala [2017-10] => 14 [2017-09] => 25 ) ) */

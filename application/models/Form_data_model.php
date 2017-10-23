@@ -21,6 +21,15 @@ class Form_data_model extends CI_Model
             case "subjects":
                 $res = $this->getAllRecords('subject_list');
                 break;
+            case "coordinators":
+                $res = $this->getAllCoordinators();
+                break;
+            case "travel_mode":
+                $res = $this->getAllRecords('travel_mode');
+                break;
+            case "subjects":
+                $res = $this->getAllRecords('subject_list');
+                break;
         }
 
         return $res;
@@ -64,14 +73,6 @@ class Form_data_model extends CI_Model
 
         return $result;
     }
-
-    public function insert($table, $schoolArray){
-        $this->db->insert($table, $schoolArray);
-
-        if($this->db->affected_rows()){
-            return '1';
-        }
-    }
     
     public function getTeachersForSubjects($subject, $school){
         $this->db->where('school_id =', $school);
@@ -102,5 +103,127 @@ class Form_data_model extends CI_Model
         if($query->num_rows() >= 1){
             return $res;
         }
+    }
+
+    public function get_recent_id($table){
+        $this->db->select('id');
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit(1);
+        $query = $this->db->get($table);
+        $res  = $query->result_array();
+
+        return $res;
+    }
+    
+    public function getAllCoordinators(){
+        $this->db->select('*, c.coordinator_name, c.coordinator_mobile, c.coordinator_email, u.uname');
+        $this->db->from('coordinators c');
+        $this->db->join('schools s', 's.census_id = c.school_id');
+        $this->db->join('user u', 'u.id = c.user_id');
+        $query = $this->db->get();
+        $res = $query->result_array();
+
+        if($query->num_rows() >= 1){
+            return $res;
+        }
+    }
+    
+    public function getClassStudents($class_id){
+        $this->db->select('*, c.id');
+        $this->db->from('class_students c');
+        $this->db->join('students_info s', 'c.student_id = s.id');
+        $this->db->order_by('s.index_no', 'ASC');
+        $query = $this->db->get();
+        $res = $query->result_array();
+
+        if($query->num_rows() >= 1){
+            return $res;
+        }
+    }
+    
+    public function getClassAttendance($school_id, $class_id){
+        $this->db->select('p.month, s.index_no, s.in_name, p.attended_days');
+        $this->db->from('p1_attendance p');
+        $this->db->join('students_info s', 'p.student_id = s.id');
+        $this->db->where('p.school_id', $school_id);
+        $this->db->where('p.class_id', $class_id);
+        $this->db->order_by('p.month', 'ASC');
+        $query = $this->db->get();
+        
+        $sql1 = "SET @SQL = NULL ";
+        $this->db->query($sql1);
+        
+        $sql2 = "SELECT SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT CONCAT( 'SUM(CASE WHEN p.month = ''', mn ,''' THEN p.attended_days ELSE 0 END) AS `', mn, '`' )),',', 5) INTO @SQL FROM (SELECT p.month AS mn FROM p1_attendance p ORDER BY p.month)d";
+        $this->db->query($sql2);
+        
+        $sql3 = "SET @SQL = CONCAT('SELECT s.index_no AS `Index No`, s.in_name AS Name, ', @SQL, 'FROM p1_attendance p INNER JOIN students_info s ON p.student_id = s.id GROUP BY s.index_no, s.in_name;')";
+        $this->db->query($sql3);
+        
+        $sql4 = "PREPARE stmt FROM @SQL;";
+        $this->db->query($sql4);
+
+        $sql5 = "EXECUTE stmt;";
+        
+        $query = $this->db->query($sql5);
+        
+        $res = $query->result_array();
+
+        if($query->num_rows() >= 1){
+            return $res;
+        }
+    }
+
+    public function insert($table, $schoolArray){
+        $this->db->insert($table, $schoolArray);
+
+        if($this->db->affected_rows()){
+            return '1';
+        }
+    }
+    
+    public function addCoordinator($coordinator, $user){
+        $res=0;
+        $this->db->trans_start();
+
+        $this->db->insert('coordinators', $coordinator);
+        $this->db->insert('user', $user);
+
+        if ($this->db->trans_status() === TRUE){
+            $res = 1;
+            $this->db->trans_complete();
+        } else {
+            $err_message = $this->db->error();
+            log_message('error', $err_message);
+            $this->db->trans_complete();
+        }
+
+        return $res;
+    }
+    
+    public function addAttendance($table, $data){
+        $this->db->insert_batch($table, $data);
+        
+        if($this->db->affected_rows()){
+            return '1';
+        }
+    }
+
+    public function addStudent($std_info, $class){
+        $res=0;
+        $this->db->trans_start();
+
+        $this->db->insert('students_info', $std_info);
+        $this->db->insert('class_students', $class);
+
+        if ($this->db->trans_status() === TRUE){
+            $res = 1;
+            $this->db->trans_complete();
+        } else {
+            $err_message = $this->db->error();
+            log_message('error', $err_message);
+            $this->db->trans_complete();
+        }
+
+        return $res;
     }
 }

@@ -12,7 +12,10 @@ class General_data_model extends CI_Model
 {
     public function getSchools(){
         $this->db->select('*');
-        $query = $this->db->get('schools');
+        $this->db->from('schools');
+        $this->db->join('province', 'province.id = schools.province_id', 'left');
+        $this->db->join('zone', 'zone.id = schools.zone_id', 'left');
+        $query = $this->db->get();
 
         if ($query->num_rows() >= 1) {
             $res  = $query->result_array();
@@ -48,12 +51,23 @@ class General_data_model extends CI_Model
     }
     
     public function getTotalStudents($school_id){
-        
+        $res = ['male' => 0, 'female' => 0];
         $status_active = array('Phase 1', 'Phase 2', 'Phase 3');
         
         $this->db->select('id, gender, status');
+        $this->db->where('school_id', $school_id);
         $this->db->where_in('status', $status_active);
         $query = $this->db->get('students_info');
-        return $query->num_rows();
+        $res['total'] = $query->num_rows();
+        
+        foreach ($query->result() as $row){
+            if ($row->gender == 'Male'){
+                $res['male'] ++;
+            } else {
+                $res['female'] ++;
+            }
+        }
+        
+        return $res;
     }
 }

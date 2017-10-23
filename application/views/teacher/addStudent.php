@@ -9,6 +9,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+<link href="<?php echo base_url()."assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"?>" rel="stylesheet" />
 
     <section class="content">
         <div class="container-fluid">
@@ -24,82 +25,102 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <h2> STUDENT DETAILS </h2>
                         </div>
                         <div class="body">
-                            <?php echo form_open('sadmin/addNewStudent', 'role="form" id="addStudentForm"'); ?>
-                            <!--<label for="name" class="required">Student Name</label>-->
-                            <label for="std_id" class="required">Index No</label>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" class="form-control" name="std_id" required>
-                                    <label class="form-label">Student Index No</label>
+                            <?php echo form_open('teacher/addNewStudent', 'role="form" id="addStudentForm"'); ?>
+                            <div class="col-md-6">
+                                <!--<label for="name" class="required">Student Name</label>-->
+                                <label for="std_id" class="required">Index No</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="index_no" required>
+                                        <label class="form-label">Student Index No</label>
+                                    </div>
+                                </div>
+                                <label for="nic" class="required">NIC No</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="nic" required>
+                                        <label class="form-label">Student NIC No</label>
+                                    </div>
+                                </div>
+                                <label for="in_name" class="required">Name with Initials</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="in_name" required>
+                                        <label class="form-label">Student Name with Initials</label>
+                                    </div>
+                                </div>
+                                <label for="dob" class="required">Birth Day</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="datepicker form-control" name="dob" required>
+                                        <label class="form-label">Birth Day</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label required">Gender</label>
+                                    <select id="title" class="form-control show-tick" name="gender" required>
+                                    <option value="">-- Please select --</option>
+                                        <option value="Male"> Male </option>
+                                        <option value="Female"> Female </option>
+                                </select>
+                                </div>
+                                <label for="name" class="required">Address</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <textarea rows="1" class="form-control no-resize auto-growth" name="address"></textarea>
+                                        <label class="form-label">Address</label>
+                                    </div>
                                 </div>
                             </div>
-                            <label for="full_name" class="required">Full Name</label>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" class="form-control" name="full_name" required>
-                                    <label class="form-label">Student Full Name</label>
+                            <div class="col-md-6">
+                                <label for="telephone" class="required">Parent's Telephone No</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control telephone" name="telephone" required placeholder="Ex: 000-1234567">
+                                    </div>
+                                </div>
+                                <label for="email">Email Address</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="email">
+                                        <label class="form-label">Email Address</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label required">Medium</label>
+                                    <select id="medium" class="form-control show-tick" name="medium" required>
+                                        <option value="">-- Please select --</option>
+                                        <option value="Sinhala">Sinhala</option>
+                                        <option value="Tamil">Tamil</option>
+                                        <option value="English">English</option>
+                                </select>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label "> Distance to School in km </label>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="dist_school" required>
+                                        <label class="form-label">Distance to School in km</label>
+                                    </div>
+                                </div>
+                                <label for="trained"> Parent's Income </label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="income" required>
+                                        <label class="form-label"> Parent's Income </label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label ">Travel Mode</label>
+                                    <select id="title" class="form-control show-tick" name="travel_mode">
+                                        <option value="">-- Please select --</option>
+                                        <?php if ($travel_modes) { ?>
+                                        <?php foreach ($travel_modes as $row) { ?>
+                                        <option value="<?php echo $row['id'];?>" > <?php echo $row['travel_mode'] ;?> </option>
+                                        <?php    } ?>
+                                        <?php } ?>
+                                </select>
                                 </div>
                             </div>
-                            <label for="in_name" class="required">Name with Initials</label>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" class="form-control" name="in_name" required>
-                                    <label class="form-label">Student Name with Initials</label>
-                                </div>
-                            </div>
-                            <div class="form-group form-float">
-                                <label class="form-label required">Gender</label>
-                                <select id="title" class="form-control show-tick" name="gender" required>
-                                <option value="">-- Please select --</option>
-                                    <option value="Male"> Male </option>
-                                    <option value="Female"> Female </option>
-                            </select>
-                            </div>
-                            <label for="name" class="required">Address</label>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <textarea rows="1" class="form-control no-resize auto-growth" name="address"></textarea>
-                                    <label class="form-label">Address</label>
-                                </div>
-                            </div>
-                            <label for="telephone" class="required">Telephone No</label>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" class="form-control telephone" name="telephone" required placeholder="Ex: 000-1234567">
-                                </div>
-                            </div>
-                            <label for="email">Email Address</label>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="text" class="form-control" name="email">
-                                    <label class="form-label">Email Address</label>
-                                </div>
-                            </div>
-                            <div class="form-group form-float">
-                                <label class="form-label required">Subject 1</label>
-                                <select id="title" class="form-control show-tick" name="sub1" required>
-                                <option value="">-- Please select --</option>
-                            </select>
-                            </div>
-                            <div class="form-group form-float">
-                                <label class="form-label ">Subject 2</label>
-                                <select id="title" class="form-control show-tick" name="sub2">
-                                <option value="">-- Please select --</option>
-                            </select>
-                            </div>
-                            <div class="form-group form-float">
-                                <label class="form-label ">Subject 3</label>
-                                <select id="title" class="form-control show-tick" name="sub3">
-                                <option value="">-- Please select --</option>
-                            </select>
-                            </div>
-                            <label for="trained"> Student Training </label>
-                            <div class="form-group form-float">
-                                <div class="form-line">
-                                    <input type="checkbox" name="trained" id="trained" value="1" />
-                                    <label for="trained"> Student has Trained </label>
-                                </div>
-                            </div><br>
                             <button class="btn btn-danger waves-effect" type="reset">RESET</button>
                             <button class="btn btn-primary waves-effect" type="submit">SUBMIT</button>
                             <?php echo form_close()?>

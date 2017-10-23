@@ -84,7 +84,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </h2>
                         </div>
                         <div class="body">
-                            <div id="regions_div" style="width: 850px; height: 500px;"></div>
+                            <div id="regions_div" style="width: 850px; height: 800px;"></div>
                         </div>
                     </div>
                 </div>
@@ -93,7 +93,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="header">
                             <h2 id="school">
                                 SELECTED SCHOOL
-                            </h2>
+                            </h2><small id="schooldesc">School Info</small>
                         </div>
                         <div class="body">
                             <div class="info-box-3 bg-red hover-zoom-effect">
@@ -119,7 +119,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <i class="material-icons">face</i>
                                 </div>
                                 <div class="content">
-                                    <div>FeMale</div>
+                                    <div>Female</div>
                                     <div id="female" class="number count-to" data-from="0" data-to="" data-speed="500" data-fresh-interval="20"></div>
                                 </div>
                             </div>
@@ -127,7 +127,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </div>
 
-                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+<!--                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                     <div class="card">
                         <div class="header">
                             <h2>
@@ -138,7 +138,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div id="regions_div2" style="width: 900px; height: 500px;"></div>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </section>
 
@@ -199,7 +199,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     $(document).ready(function () {
         $schoolsArray = Array(<?php echo json_encode($schools); ?>);
-        console.log($schoolsArray['0']['0']['lat']);
+        console.log(<?php echo json_encode($schools); ?>);
         google.charts.load('current', { 'packages': ['map', 'table'],
                                        'mapsApiKey': 'AIzaSyDMi68dvm91pJnVYOEL087Y_5wioxMLOmc'});
         google.charts.setOnLoadCallback(drawMap);
@@ -220,7 +220,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 showTooltip: true,
                 showInfoWindow: true,
                 mapType: 'normal',
-                zoomLevel: 7
+                zoomLevel: 8
             };
 
             var map = new google.visualization.Map(document.getElementById('regions_div'));
@@ -232,8 +232,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var selection = map.getSelection();
                 var school = data.getValue(selection[0].row, 2);
                 var school_id = $schoolsArray['0'][selection[0].row]['census_id'];
-
+                var province = $schoolsArray['0'][selection[0].row]['province'];
+                var zone = $schoolsArray['0'][selection[0].row]['zone'];
+                
                 $('#school').text(school);
+                $('#schooldesc').text(zone + ' Zone, ' + province + ' Province');
 
                 var post_url = "index.php/General/getSchoolData/2";
                 var dataarray = {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>',school_id: school_id};
@@ -247,11 +250,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $.each(res, function(ID,province_office){
                             $('#main_division').append('<option value='+res[ID].ID+'>'+res[ID].office_division+'</option>');
                         });*/
-                        $('#students').data('from', 0);
-                        $('#students').data('to', school_id);
-                        $('#students').text(school_id);
-                        $('#students').data('speed', 50);
-                        $('#students').countTo();
+                        $('#students').text(res['total']);
+                        $('#male').text(res['male']);
+                        $('#female').text(res['female']);
                     }
                 });
 
