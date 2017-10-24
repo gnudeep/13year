@@ -116,8 +116,8 @@ class Admin extends CI_Controller
         $cemail = $this->input->post('cemail');
         $appsch = $this->input->post('appsch');
         $appser = $this->input->post('appser');
-        $cuname = $this->input->post('cuname');
-        $cpw = $this->input->post('cpw');
+        $cuname = strtolower($this->input->post('cuname'));
+        $cpw = password_hash($this->input->post('cpw'), PASSWORD_DEFAULT);
         
         $coordinator_array = array('school_id' => $school_id, 'coordinator_nic' => $cnic, 'coordinator_name' => $cname, 'coordinator_dob' => $cdob, 'coordinator_mobile' => $cmobile, 'coordinator_email' => $cemail, 'coordinator_ser_app' => $appser, 'coordinator_sch_app' => $appsch);
         

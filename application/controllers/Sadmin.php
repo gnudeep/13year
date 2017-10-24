@@ -133,8 +133,8 @@ class Sadmin extends CI_Controller
         $teacher_id = $this->input->post('teacher_id');
         $teacher_name = $this->input->post('teacher_name');
         $in_name = $this->input->post('in_name');
-        $u_name = $this->input->post('u_name');
-        $password = $this->input->post('password');
+        $u_name = strtolower($this->input->post('u_name'));
+        $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
         
         $name = ($role == '3' ? $teacher_name : $in_name);
         $teacher_id = ($role == '3' ? $teacher_id : NULL);

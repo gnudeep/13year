@@ -175,7 +175,14 @@ class DataTable_model extends CI_Model
             ->fields(
             Field::inst( 'name' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'uname' )->validator( 'Validate::notEmpty' ),
-            Field::inst( 'passwd' )->validator( 'Validate::notEmpty' ),
+            Field::inst( 'passwd' )
+            ->validator( 'Validate::notEmpty' )
+            ->setFormatter( function ( $val, $data, $opts ) {
+                return password_hash($val, PASSWORD_DEFAULT);
+            } )
+            ->getFormatter( function ( $val, $data, $opts ) {
+                return "";
+            } ),
             Field::inst( 'role' )->validator( 'Validate::notEmpty' )
         )
             ->where( 'school_id', $this->session->school_id )

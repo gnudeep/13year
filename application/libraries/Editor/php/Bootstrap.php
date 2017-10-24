@@ -20,7 +20,8 @@ if (!defined('DATATABLES')) exit();
 //   Load the database connection configuration options
 //
 if ( ! isset( $sql_details ) ) {
-	include( dirname(__FILE__).'/config.php' );
+	#include( dirname(__FILE__).'/config.php' );
+    include(dirname(__FILE__).'/../../../../../13year_conf/DTconfig.php');
 }
 
 

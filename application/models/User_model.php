@@ -16,16 +16,16 @@ class User_model extends CI_Model
 
 	public function login($uname, $pwd){
 		$this->db->where('LOWER(uname)', strtolower($uname));
-		$this->db->where('passwd', $pwd);
+		//$this->db->where('passwd', $pwd);
 		$query = $this->db->get('user');
 
-		//$data  = $query->result_array();
+		$data  = $query->result_array();
         
 		if ($query->num_rows() == 1) {
-            //if(password_verify($pwd, $data['0']['passwd'])){
+            if(password_verify($pwd, $data['0']['passwd'])){
                 
 			return 1;
-            //}
+            }
 		}
 	}
 	
