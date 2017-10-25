@@ -146,7 +146,7 @@ class Sadmin extends CI_Controller
         if($res == '1'){
             echo "success";
         }else {
-            echo strval($workplace_id);
+            echo "not success";
         }
     }
 

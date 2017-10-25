@@ -82,7 +82,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="form-label">Re Type Passsword</label>
                                 </div>
                             </div><br>
-                            <button class="btn btn-danger waves-effect" type="reset">RESET</button>
+                            <button class="btn btn-danger waves-effect" type="reset" id="reset">RESET</button>
                             <button class="btn btn-primary waves-effect" type="button" id="submit">SUBMIT</button>
                             <?php echo form_close()?>
                         </div>
@@ -98,6 +98,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!-- Input Mask Plugin Js -->
     <script src="<?php echo base_url()."assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js "?>"></script>
+
+    <!-- SweetAlert Plugin Js -->
+    <script src="<?php echo base_url()."assets/plugins/sweetalert/sweetalert.min.js"?>"></script>
 
     <script>
         $(document).ready(function() {
@@ -158,7 +161,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     contentType: false,
                     processData: false,
                     success: function(response){
-                        getMainBranch(work_place_id);
+                        swal("Successfull!", "Finished Marking Attendance!", "success");
+                        $('#reset').trigger('click');
                     }
                 });
 
