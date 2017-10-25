@@ -161,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     contentType: false,
                     processData: false,
                     success: function(response){
-                        swal("Successfull!", "Finished Marking Attendance!", "success");
+                        swal("Successfull!", "User Account Added!", "success");
                         $('#reset').trigger('click');
                     }
                 });
