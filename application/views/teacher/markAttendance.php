@@ -161,7 +161,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 });
             });
-    
+            
             $('#attSubmit').click(function(){
                 $('#markAttendanceForm').valid();
                 var form_data = new FormData();

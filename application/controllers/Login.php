@@ -58,7 +58,8 @@ class Login extends CI_Controller {
             $role = $data[0]['role'];
             $school = $data[0]['school_id'];
             $teacher_id = $data[0]['teacher_id'];
-            $userData = array('username' => $uname, 'name' => $name, 'user_role'=>$role, 'school_id' => $school, 'teacher_id' => $teacher_id, 'user_logged' => "in");
+            $user_id = $data[0]['id'];
+            $userData = array('username' => $uname, 'name' => $name, 'user_id'=> $user_id, 'user_role'=>$role, 'school_id' => $school, 'teacher_id' => $teacher_id, 'user_logged' => "in");
             $this->session->set_userdata($userData);
 
             $this->redirect_user($role);

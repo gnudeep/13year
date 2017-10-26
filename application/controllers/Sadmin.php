@@ -15,6 +15,7 @@ class Sadmin extends CI_Controller
         parent::__construct();
         $this->load->model('User_model'); //load database model.
         $this->load->model('Form_data_model'); //load database model.
+        $this->load->library('dblog');
     }
 
     public $response = array("result"=>"none", "data"=>"none");
@@ -95,14 +96,17 @@ class Sadmin extends CI_Controller
         $app_ser = $this->security->xss_clean($_REQUEST['app_ser']);
         $app_sch = $this->security->xss_clean($_REQUEST['app_sch']);
         
-        $dataArray = array('school_id' =>$school_id, 'title' => $title, 'teacher_in_name' => $name, 'nic' => $nic, 'dob' => $dob, 'teacher_mobile' => $mobile, 'teacher_email' => $email, 'teacher_trained_1' => $trained1, 'teacher_trained_2' => $trained2, 'teacher_trained_3' => $trained3, 'teacher_sub_1' => $sub1, 'teacher_sub_2' => $sub2, 'teacher_sub_3' => $sub3, 'app_date_service' => $app_ser, 'app_date_school' => $app_sch);
+        $dataArray = array('school_id' =>$school_id, 'title' => $title, 'teacher_in_name' => $name, 'nic' => $nic, 'dob' => $dob, 'teacher_mobile' => $mobile, 'teacher_email' => $email, 'teacher_trained_1' => $trained1, 'teacher_trained_2' => $trained2, 'teacher_trained_3' => $trained3, 'teacher_sub_1' => $sub1, 'teacher_sub_2' => $sub2, 'teacher_sub_3' => $sub3, 'app_date_service' => $app_ser, 'app_date_school' => $app_sch, 'last_edit' => $this->session->user_id );
 
         $res = $this->Form_data_model->insert('teachers', $dataArray);
         //$res = 1;
         if ($res == 1){
 
             $this->session->set_flashdata('success',$name . ' Teacher Has Successfully Added');
+            $query = $this->Form_data_model->getLastQuery();
+            $this->dblog->logQueries($query);
             redirect('sadmin/index');
+            
 
         } else {
             $this->session->set_flashdata('not-success','Something went wrong! Teacher Details Did not Added');
@@ -145,6 +149,8 @@ class Sadmin extends CI_Controller
 
         if($res == '1'){
             echo "success";
+            $query = $this->Form_data_model->getLastQuery();
+            $this->dblog->logQueries($query);
         }else {
             echo "not success";
         }

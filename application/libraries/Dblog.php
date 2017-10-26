@@ -27,10 +27,9 @@ class Dblog {
             //$sqlFunction = substr($query,0 , 3);
             //if ($sqlFunction != 'SEL') {
                 //$log = $query . "\n Execution Time: ". $times[$key]. "\n Executed By: ". $CI->session->username . " - ". $sqlFunction;
-                $log = $sql .  "\n Executed By: ". $CI->session->username . "\n Executed at: ". $times ;
+                $log = $sql .  "\n Executed By: ". $CI->session->username . " | User ID: ". $CI->session->user_id  . "\n Executed at: ". $times ;
                 fwrite($handle, $log. "\n\n");
             //}
-            echo "loggggg";
         //}
 
         fclose($handle);

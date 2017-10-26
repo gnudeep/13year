@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Form_data_model extends CI_Model
 {
+    
     public function select($table){
         switch ($table){
             case "province":
@@ -129,7 +130,7 @@ class Form_data_model extends CI_Model
     }
     
     public function getClassStudents($class_id){
-        $this->db->select('*, c.id');
+        $this->db->select('*, s.id');
         $this->db->from('class_students c');
         $this->db->join('students_info s', 'c.student_id = s.id');
         $this->db->order_by('s.index_no', 'ASC');
@@ -142,6 +143,44 @@ class Form_data_model extends CI_Model
     }
     
     public function getClassAttendance($school_id, $class_id){
+        $checkQ = $this->db->query('SELECT * FROM p1_attendance');
+        
+        if($checkQ->num_rows() >= 1){
+
+            $this->db->select('p.month, s.index_no, s.in_name, p.attended_days');
+            $this->db->from('p1_attendance p');
+            $this->db->join('students_info s', 'p.student_id = s.id');
+            $this->db->where('p.school_id', $school_id);
+            $this->db->where('p.class_id', $class_id);
+            $this->db->order_by('p.month', 'ASC');
+            $query = $this->db->get();
+        
+            $sql1 = "SET @SQL = NULL ";
+            $this->db->query($sql1);
+            
+            $sql2 = "SELECT SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT CONCAT( 'SUM(CASE WHEN p.month = ''', mn ,''' THEN p.attended_days ELSE 0 END) AS `', mn, '`' )),',', 5) INTO @SQL FROM (SELECT p.month AS mn FROM p1_attendance p ORDER BY p.month)d";
+            $this->db->query($sql2);
+            
+            $sql3 = "SET @SQL = CONCAT('SELECT s.index_no AS `Index No`, s.in_name AS Name, ', @SQL, 'FROM p1_attendance p INNER JOIN students_info s ON p.student_id = s.id GROUP BY s.index_no, s.in_name;')";
+            $this->db->query($sql3);
+            
+            $sql4 = "PREPARE stmt FROM @SQL;";
+            $this->db->query($sql4);
+    
+            $sql5 = "EXECUTE stmt;";
+            
+            $query = $this->db->query($sql5);
+            
+            $res = $query->result_array();
+    
+            if($query->num_rows() >= 1){
+                return $res;
+            }
+        }
+        
+    }
+    
+    /* public function getClassAttendance($school_id, $class_id){
         $this->db->select('p.month, s.index_no, s.in_name, p.attended_days');
         $this->db->from('p1_attendance p');
         $this->db->join('students_info s', 'p.student_id = s.id');
@@ -150,33 +189,35 @@ class Form_data_model extends CI_Model
         $this->db->order_by('p.month', 'ASC');
         $query = $this->db->get();
         
-        $sql1 = "SET @SQL = NULL ";
+        $sql1 = "SET @SQL := NULL ";
         $this->db->query($sql1);
         
         $sql2 = "SELECT SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT CONCAT( 'SUM(CASE WHEN p.month = ''', mn ,''' THEN p.attended_days ELSE 0 END) AS `', mn, '`' )),',', 5) INTO @SQL FROM (SELECT p.month AS mn FROM p1_attendance p ORDER BY p.month)d";
         $this->db->query($sql2);
         
-        $sql3 = "SET @SQL = CONCAT('SELECT s.index_no AS `Index No`, s.in_name AS Name, ', @SQL, 'FROM p1_attendance p INNER JOIN students_info s ON p.student_id = s.id GROUP BY s.index_no, s.in_name;')";
+        $sql3 = "SET @SQL := CONCAT('SELECT s.index_no AS `Index No`, s.in_name AS Name, ', @SQL, 'FROM p1_attendance p INNER JOIN students_info s ON p.student_id = s.id GROUP BY s.index_no, s.in_name;')";
         $this->db->query($sql3);
         
         $sql4 = "PREPARE stmt FROM @SQL;";
         $this->db->query($sql4);
 
         $sql5 = "EXECUTE stmt;";
+        $this->db->query($sql5);
         
-        $query = $this->db->query($sql5);
+        $sql6 = "DEALLOCATE PREPARE stmt;";
+        $query = $this->db->query($sql6);
         
         $res = $query->result_array();
 
         if($query->num_rows() >= 1){
             return $res;
         }
-    }
+    } */
 
     public function insert($table, $schoolArray){
         $this->db->insert($table, $schoolArray);
 
-        if($this->db->affected_rows()){
+        if($this->db->affected_rows() > 0){
             return '1';
         }
     }
@@ -225,5 +266,9 @@ class Form_data_model extends CI_Model
         }
 
         return $res;
+    }
+
+    public function getLastQuery(){
+        return $this->db->last_query();
     }
 }

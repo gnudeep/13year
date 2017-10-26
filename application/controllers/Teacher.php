@@ -110,7 +110,7 @@ class Teacher extends CI_Controller
         
         $student_id = $this->Form_data_model->get_recent_id('students_info')['0']['id'] + 1;
 
-        $stdArray = array('id' => $student_id, 'school_id' =>$school_id, 'index_no' => $index_no,'nic' => $nic,'in_name' => $in_name, 'dob' => $dob, 'gender' => $gender, 'address' => $address, 'telephone' => $telephone, 'medium' => $medium, 'dist_school' => $dist_school, 'income' => $income, 'travel_mode_id' => $travel_mode, 'status' => 'Phase 1');
+        $stdArray = array('id' => $student_id, 'school_id' =>$school_id, 'index_no' => $index_no,'nic' => $nic,'in_name' => $in_name, 'dob' => $dob, 'gender' => $gender, 'address' => $address, 'telephone' => $telephone, 'medium' => $medium, 'dist_school' => $dist_school, 'income' => $income, 'travel_mode_id' => $travel_mode, 'status' => 'Phase 1', 'last_edit' => $this->session->user_id);
 
         $classArray = array('school_id' => $school_id, 'class_id' => $class_id, 'student_id' => $student_id);
 
@@ -153,7 +153,7 @@ class Teacher extends CI_Controller
         $attmonth = $this->security->xss_clean($_POST['attmonth']);
 
         $attArray = array('class_id' => $class, 'month' => $attmonth);
-        $res = $this->Form_data_model->searchdb('p1_attendance',$attArray);
+        $res = $this->Form_data_model->searchdb('p1_attendance', $attArray);
         
         echo json_encode($res);
     }
