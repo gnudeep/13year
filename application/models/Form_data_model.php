@@ -120,7 +120,7 @@ class Form_data_model extends CI_Model
         $this->db->select('*, c.coordinator_name, c.coordinator_mobile, c.coordinator_email, u.uname');
         $this->db->from('coordinators c');
         $this->db->join('schools s', 's.census_id = c.school_id');
-        $this->db->join('user u', 'u.id = c.user_id');
+        $this->db->join('user u', 'u.id = c.user_id', 'left');
         $query = $this->db->get();
         $res = $query->result_array();
 
@@ -134,6 +134,7 @@ class Form_data_model extends CI_Model
         $this->db->from('class_students c');
         $this->db->join('students_info s', 'c.student_id = s.id');
         $this->db->order_by('s.index_no', 'ASC');
+        $this->db->where('c.class_id', $class_id);
         $query = $this->db->get();
         $res = $query->result_array();
 

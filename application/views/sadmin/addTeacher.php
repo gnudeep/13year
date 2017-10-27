@@ -75,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="col-md-6">
                                 <div class="form-group form-float">
                                     <label class="form-label required">Subject 1</label>
-                                    <select id="title" class="form-control show-tick" name="sub1" required>
+                                    <select id="title" class="form-control show-tick" name="sub1" required data-live-search="true">
                                         <option value="">-- Please select --</option>
                                         
                                         <?php if ($subjects) { ?>
@@ -89,7 +89,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                                 <div class="form-group form-float">
                                     <label class="form-label ">Subject 2</label>
-                                    <select id="title" class="form-control show-tick" name="sub2">
+                                    <select id="title" class="form-control show-tick" name="sub2" data-live-search="true">
                                         <option value="">-- Please select --</option>
 
                                         <?php if ($subjects) { ?>
@@ -103,7 +103,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                                 <div class="form-group form-float">
                                     <label class="form-label ">Subject 3</label>
-                                    <select id="title" class="form-control show-tick" name="sub3">
+                                    <select id="title" class="form-control show-tick" name="sub3" data-live-search="true">
                                         <option value="">-- Please select --</option>
 
                                         <?php if ($subjects) { ?>
