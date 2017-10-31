@@ -12,7 +12,7 @@ class Report extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('General_data_model'); //load database model.
+        $this->load->model('Report_data_model'); //load database model.
     }
 
     public $response = array("result"=>"none", "data"=>"none");
@@ -23,7 +23,7 @@ class Report extends CI_Controller
         $this->load->view('head');
         $this->load->view('report/sidebar');
 
-        $this->response['schools'] = $this->General_data_model->getSchools();
+        $this->response['schools'] = $this->Report_data_model->getSchools();
         $this->load->view('report/dashboard', $this->response);
         $this->load->view('footer');
     }
@@ -44,12 +44,14 @@ class Report extends CI_Controller
         redirect('/login/index');
     }
 
-    
+
     public function getSchoolData()
     {
         header('Content-Type: application/x-json; charset=utf-8');
         $school_id = $this->input->post('school_id');
-        $res = $this->General_data_model->getTotalStudents($school_id);
-        echo json_encode($res);
+        $this->response['teachers'] = $this->Report_data_model->getSchoolTeachers($school_id, 'count');
+        $this->response['classes'] = $this->Report_data_model->getSchoolClasses($school_id, 'count');
+        $this->response['students'] = $this->Report_data_model->getSchoolStudents($school_id, 'count');
+        echo json_encode($this->response);
     }
 }

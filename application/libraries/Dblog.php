@@ -19,7 +19,7 @@ class Dblog {
         $CI =& get_instance();
 
         $filepath = APPPATH . 'logs/Query-log-' . date('Y-m-d') . '.php';
-        $handle = fopen($filepath, "a+");
+        $handle = fopen($filepath, "w");
 
         $dt = new DateTime();
         $times = $dt->format('Y-m-d H:i:s');
@@ -27,11 +27,13 @@ class Dblog {
             //$sqlFunction = substr($query,0 , 3);
             //if ($sqlFunction != 'SEL') {
                 //$log = $query . "\n Execution Time: ". $times[$key]. "\n Executed By: ". $CI->session->username . " - ". $sqlFunction;
-                $log = $sql .  "\n Executed By: ". $CI->session->username . " | User ID: ". $CI->session->user_id  . "\n Executed at: ". $times ;
-                fwrite($handle, $log. "\n\n");
+                //$log = $sql .  "\n Executed By: ". $CI->session->username . " | User ID: ". $CI->session->user_id  . "\n Executed at: ". $times ;
+                //fwrite($handle, $log. "\n\n");
             //}
         //}
 
+        $log = $sql .  "\n Executed By: ". $CI->session->username . " | User ID: ". $CI->session->user_id  . "\n Executed at: ". $times ;
+        fwrite($handle, $log. "\n\n");
         fclose($handle);
     }
 }

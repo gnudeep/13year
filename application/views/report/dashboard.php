@@ -23,9 +23,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </h2>
                     </div>
                     <div class="body">
+                    <?php echo form_open(); ?>
                         <div class="form-group form-float">
                             <label class="form-label"> School </label>
-                            <select id="school_id" class="form-control show-tick" name="school_id" id="school_id" required>
+                            <select id="school_id" class="form-control show-tick" name="school_id" autofocus data-live-search="true">
                                 <option value="">-- Please select --</option>
                                 <?php if ($schools) { ?>
                                 <?php foreach ($schools as $row) { ?>
@@ -34,6 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?php } ?>
                             </select>
                         </div>
+                    <?php echo form_close(); ?>
                     </div>
                 </div>
             </div>
@@ -48,11 +50,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </h2>
                     </div>
                     <div class="body">
-                        
+                    <div class="row clearfix">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box-3 bg-teal hover-expand-effect">
+                                <div class="icon">
+                                    <i class="material-icons">people</i>
+                                </div>
+                                <div class="content">
+                                    <div class="text">TEACHERS</div>
+                                    <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="teachers" ></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box-3 bg-teal hover-expand-effect">
+                                <div class="icon">
+                                    <i class="material-icons">domain</i>
+                                </div>
+                                <div class="content">
+                                    <div class="text">CLASSES</div>
+                                    <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="classes" ></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box-3 bg-teal hover-expand-effect">
+                                <div class="icon">
+                                    <i class="material-icons">face</i>
+                                </div>
+                                <div class="content">
+                                    <div class="text">Students</div>
+                                    <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="students" ></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
         </div>
+        
         
     </div>
 </section>
@@ -86,16 +123,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             iDisplayLength: 5,
             page: {length: '5'}
         });
-        
-        $.validator.addMethod('nic', function (value, element) {
-            return value.match(/^([0-9]{9}[x|X|v|V])|([0-9]{12})$/);
-        },
-          'Please enter valid NIC'
-         );
-        
-        $('#cmobile').inputmask('999-9999999', {
-            placeholder: '___-_______'
-        });
 
         //Exportable table
         $('.js-exportable').DataTable({
@@ -105,180 +132,31 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ]
         });
-
-        var subjectEditor = new $.fn.dataTable.Editor( {
-            "ajax": "<?php echo base_url().'index.php/Admin/Subjects' ?>",
-            "data":function ( d ) {
-                d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-            },
-            "table": "#subjects",
-            "fields": [ 
-                {
-                "label": "Subject:",
-                "name": "subject_name",
-                }
-            ]
-        } );
-
-        subjectEditor.on( 'preSubmit', function ( e, o, action ) {
-            o.<?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
-        } );
         
-        $('#subjects').DataTable( {
-            dom: "Bfrtip",
-            ajax: {
-                url: "<?php echo base_url().'index.php/Admin/Subjects' ?>",
-                data:{  '<?php echo $this->security->get_csrf_token_name(); ?>' : '<?php echo $this->security->get_csrf_hash(); ?>' },
-                type: "POST"
-            },
-            serverSide: true,
-            columns: [
-                { data: "subject_name" }
-            ],
-            select: {
-                style: 'single'
-            },
-            buttons: [
-                { extend: "create", editor: subjectEditor },
-                { extend: "edit",   editor: subjectEditor },
-                { extend: "remove", editor: subjectEditor }
-            ]
-        } );
-        
-        var coordTable = $('#coordinatorTable').DataTable({
-            dom: 'Bfrtip',
-            responsive: true,
-            page: {length: '5'},
-            select: {
-                style: 'single'
-            },
-            buttons: [
-                {
-                    text: 'New',
-                    className: 'btn btn-primary waves-effect',
-                    action: function ( e, dt, node, config ) {
-                        $('#coordinatorModal-title').text('Add Coordinator');
-                        $('#coordinatorModal_submit').data('action', 'add')
-                        $('#coordinatorModal').modal('toggle');
-                        $('#CoordinatorForm').validate({
-                            rules: {
-                                school : 'required',
-                                cname : 'required',
-                                cnic : {required :true, nic: true},
-                                cmobile : 'required',
-                                cdob : 'required',
-                                cemail : 'required',
-                                cuname : 'required',
-                                cpw : 'required',
-                                're_passwd': {
-                                    equalTo: "#cpw"
-                                }
-                            },
-                            highlight: function(input) {
-                                $(input).parents('.form-line').addClass('error');
-                            },
-                            unhighlight: function(input) {
-                                $(input).parents('.form-line').removeClass('error');
-                            },
-                            errorPlacement: function(error, element) {
-                                $(element).parents('.form-group').append(error);
-                            }
-                        });
-                    }
+        $('#school_id').change(function(){
+            var form_data = new FormData();
+            var school_id = $(this).val();
+
+            form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
+            form_data.append('school_id', school_id);
+
+            var post_url = "index.php/report/getschoolData/2";
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + post_url,
+                dataType :'json',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    $('#teachers').text(response['teachers']);
+                    $('#classes').text(response['classes']);
+                    $('#students').text(response['students']);
                 },
-                {
-                    text: 'Edit',
-                    className: 'btn btn-primary waves-effect',
-                    action: function ( e, dt, node, config ) {
-                        if(coordTable.rows({selected: true}).data()['0']){
-                            $('#coordinatorModal-title').text('Edit Coordinator');
-                            $('#coordinatorModal_submit').data('action', 'edit')
-                            $('#coordinatorModal').modal('toggle');
-                            $('#CoordinatorForm').validate({
-                                rules: {
-                                    school : 'required',
-                                    cname : 'required',
-                                    cnic : {required :true, nic: true},
-                                    cmobile : 'required',
-                                    cdob : 'required',
-                                    cemail : 'required',
-                                    're_passwd': {
-                                        equalTo: "#cpw"
-                                    }
-                                },
-                                highlight: function(input) {
-                                    $(input).parents('.form-line').addClass('error');
-                                },
-                                unhighlight: function(input) {
-                                    $(input).parents('.form-line').removeClass('error');
-                                },
-                                errorPlacement: function(error, element) {
-                                    $(element).parents('.form-group').append(error);
-                                }
-                            });
-                            var data = coordTable.rows({selected: true}).data();
-
-                            $('#school_id').val(data['0']['0']).trigger('change');
-                            $('#cname').val(data['0']['3']);
-                            $('#cnic').val(data['0']['2']);
-                            $('#cdob').val(data['0']['4']);
-                            $('#cmobile').val(data['0']['5']);
-                            $('#cemail').val(data['0']['6']);
-                            $('#appsch').val(data['0']['7']);
-                            $('#appser').val(data['0']['8']);
-                            $('#cuname').val(data['0']['9']);
-                            $('.form-line').addClass('focused')
-                        }
-                        
-                    }
+                error: function (response) {
+                    alert("Error Updating! Please try again.");
                 }
-            ]
-        });
-        
-        $('#coordinatorModal_submit').click(function(){
-            if( $('#CoordinatorForm').valid() ){
-                var formAction = $('#coordinatorModal_submit').data('action');
-                var form_data = new FormData();
-                var school_id = $('#school_id').val();
-                var cname = $('#cname').val();
-                var cnic = $('#cnic').val();
-                var cdob = $('#cdob').val();
-                var cmobile = $('#cmobile').val();
-                var cemail = $('#cemail').val();
-                var appsch = $('#appsch').val();
-                var appser = $('#appser').val();
-                var cuname = $('#cuname').val();
-                var cpw = $('#cpw').val();
-
-                form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
-                form_data.append('formAction', formAction);
-                form_data.append('school_id', school_id);
-                form_data.append('cname', cname);
-                form_data.append('cnic', cnic);
-                form_data.append('cdob', cdob);
-                form_data.append('cmobile', cmobile);
-                form_data.append('cemail', cemail);
-                form_data.append('appsch', appsch);
-                form_data.append('appser', appser);
-                form_data.append('cuname', cuname);
-                form_data.append('cpw', cpw);
-
-                var post_url = "index.php/Admin/changeCoordinator/2";
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + post_url,
-                    dataType :'text',
-                    data: form_data,
-                    contentType: false,
-                    processData: false,
-                    success: function(response){
-                        location.reload();
-                    },
-                    error: function (response) {
-                        alert("Error Updating! Please try again.");
-                    }
-                });
-            }
+            });
         });
             
         
