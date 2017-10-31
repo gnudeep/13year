@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <label for="nic" class="required">NIC No</label>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="nic" required>
+                                        <input type="text" class="form-control" name="nic">
                                         <label class="form-label">Student NIC No</label>
                                     </div>
                                 </div>
@@ -98,14 +98,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="form-group form-float">
                                     <label class="form-label "> Distance to School in km </label>
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="dist_school" required>
+                                        <input type="text" class="form-control" name="dist_school">
                                         <label class="form-label">Distance to School in km</label>
                                     </div>
                                 </div>
                                 <label for="trained"> Parent's Income </label>
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="income" required>
+                                        <input type="text" class="form-control" name="income">
                                         <label class="form-label"> Parent's Income </label>
                                     </div>
                                 </div>
@@ -146,13 +146,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
             $(".required").append("<span class='col-red'> *</span>");
 
+            
+            $.validator.addMethod('nicno', function(value, element) {
+                    return value.match(/^([0-9]{9}[x|X|v|V])|([0-9]{12})$/);
+                },
+                'Please enter valid NIC'
+            );
+
             $('#addStudentForm').validate({
                 rules: {
-                    'checkbox': {
-                        required: true
-                    },
-                    'gender': {
-                        required: true
+                    nic : {
+                        nicno: true,
+                        required :true
                     }
                 },
                 highlight: function(input) {
