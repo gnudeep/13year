@@ -162,7 +162,7 @@ class Form_data_model extends CI_Model
             $sql2 = "SELECT SUBSTRING_INDEX(GROUP_CONCAT(DISTINCT CONCAT( 'SUM(CASE WHEN p.month = ''', mn ,''' THEN p.attended_days ELSE 0 END) AS `', mn, '`' )),',', 5) INTO @SQL FROM (SELECT p.month AS mn FROM p1_attendance p ORDER BY p.month)d";
             $this->db->query($sql2);
             
-            $sql3 = "SET @SQL = CONCAT('SELECT s.index_no AS `Index No`, s.in_name AS Name, ', @SQL, 'FROM p1_attendance p INNER JOIN students_info s ON p.student_id = s.id GROUP BY s.index_no, s.in_name;')";
+            $sql3 = "SET @SQL = CONCAT('SELECT s.index_no AS `Index No`, s.in_name AS Name, ', @SQL, 'FROM p1_attendance p INNER JOIN students_info s ON p.student_id = s.id WHERE p.school_id = ". $school_id . " and p.class_id = " . $class_id ." GROUP BY s.index_no, s.in_name;')";
             $this->db->query($sql3);
             
             $sql4 = "PREPARE stmt FROM @SQL;";
@@ -172,6 +172,8 @@ class Form_data_model extends CI_Model
             
             $query = $this->db->query($sql5);
             
+            echo $query;
+
             $res = $query->result_array();
     
             if($query->num_rows() >= 1){
