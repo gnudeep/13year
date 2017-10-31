@@ -72,9 +72,12 @@ class Report_data_model extends CI_Model
     }
 
     public function getSchoolTeachers($school_id, $r_type){
-        $this->db->select('id, title, teacher_in_name, teacher_sub_1, teacher_sub_2, teacher_sub_3');
+        $this->db->select('title AS Title, teacher_in_name AS Name With Initials, s1.subject_name AS Subject 01, s2.subject_name AS Subject 02, s3.subject_name AS Subject 03');
+        $this->db->join('subject_list s1', 's1.id = t.teacher_sub_1', 'left');
+        $this->db->join('subject_list s2', 's2.id = t.teacher_sub_2', 'left');
+        $this->db->join('subject_list s3', 's3.id = t.teacher_sub_3', 'left');
         $this->db->where('school_id', $school_id);
-        $query = $this->db->get('teachers');
+        $query = $this->db->get('teachers t');
 
         if($r_type == 'list'){
             return $query->result_array();
@@ -84,9 +87,10 @@ class Report_data_model extends CI_Model
     }
     
     public function getSchoolClasses($school_id, $r_type){
-        $this->db->select('*');
-        $this->db->where('school_id', $school_id);
-        $query = $this->db->get('classes');
+        $this->db->select('grade AS Grade, class_name AS Class Name, commenced_date AS Commenced Date, t.teacher_in_name AS Teacher');
+        $this->db->join('teachers t', 't.id = c.class_teacher', 'left');
+        $this->db->where('c.school_id', $school_id);
+        $query = $this->db->get('classes c');
 
         if($r_type == 'list'){
             return $query->result_array();
@@ -96,7 +100,7 @@ class Report_data_model extends CI_Model
     }
     
     public function getSchoolStudents($school_id, $r_type){
-        $this->db->select('*');
+        $this->db->select('index_no AS Index No, nic AS NIC, in_name AS Name With Initials, gender AS Gender');
         $this->db->where('school_id', $school_id);
         $query = $this->db->get('students_info');
 

@@ -44,7 +44,6 @@ class Report extends CI_Controller
         redirect('/login/index');
     }
 
-
     public function getSchoolData()
     {
         header('Content-Type: application/x-json; charset=utf-8');
@@ -53,5 +52,31 @@ class Report extends CI_Controller
         $this->response['classes'] = $this->Report_data_model->getSchoolClasses($school_id, 'count');
         $this->response['students'] = $this->Report_data_model->getSchoolStudents($school_id, 'count');
         echo json_encode($this->response);
+    }
+    
+    public function getSelectedInfo()
+    {
+        header('Content-Type: application/x-json; charset=utf-8');
+        $school_id = $this->input->post('school_id');
+        $select = $this->input->post('select');
+
+        switch ($select) {
+            case 'teachers':
+                $res = $this->Report_data_model->getSchoolTeachers($school_id, 'list');
+                break;
+
+            case 'classes':
+                $res = $this->Report_data_model->getSchoolClasses($school_id, 'list');
+                break;
+                
+            case 'students':
+                $res = $this->Report_data_model->getSchoolStudents($school_id, 'list');
+                break;
+            
+            default:
+            $res = '';
+                break;
+        }
+        echo json_encode($res);
     }
 }

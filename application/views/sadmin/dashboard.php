@@ -578,8 +578,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             ],
             select: true,
             buttons: [
-                { extend: "edit",   editor: usersEditor },
-                { extend: "remove", editor: usersEditor }
+                { extend: "edit",   editor: usersEditor }
             ]
         } );
         

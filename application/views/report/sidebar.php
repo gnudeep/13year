@@ -16,15 +16,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <ul class="list">
                 <li class="header">MAIN NAVIGATION</li>
                 <li>
-                    <a href="<?php echo base_url()."index.php/admin/index"?>">
+                    <a href="<?php echo base_url()."index.php/report/index"?>">
                         <i class="material-icons">home</i>
                         <span>Home</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="<?php echo base_url()."index.php/admin/addSchool"?>">
-                        <i class="material-icons">add</i>
-                        <span>Add School</span>
                     </a>
                 </li>
             </ul>

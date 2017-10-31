@@ -9,6 +9,11 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+<style>
+    .info-box-3:hover {
+    cursor: pointer;
+    }
+</style>
 <link href="<?php echo base_url()."assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"?>" rel="stylesheet" />
 
 <section class="content">
@@ -52,35 +57,59 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="body">
                     <div class="row clearfix">
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box-3 bg-teal hover-expand-effect">
+                            <div class="info-box-3 bg-teal hover-expand-effect" data-id="teachers">
                                 <div class="icon">
                                     <i class="material-icons">people</i>
                                 </div>
                                 <div class="content">
                                     <div class="text">TEACHERS</div>
-                                    <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="teachers" ></div>
+                                    <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="teachers_count" ></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box-3 bg-teal hover-expand-effect">
+                            <div class="info-box-3 bg-teal hover-expand-effect" data-id="classes">
                                 <div class="icon">
                                     <i class="material-icons">domain</i>
                                 </div>
                                 <div class="content">
                                     <div class="text">CLASSES</div>
-                                    <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="classes" ></div>
+                                    <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="classes_count" ></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                            <div class="info-box-3 bg-teal hover-expand-effect">
+                            <div class="info-box-3 bg-teal hover-expand-effect" data-id="students">
                                 <div class="icon">
                                     <i class="material-icons">face</i>
                                 </div>
                                 <div class="content">
                                     <div class="text">Students</div>
-                                    <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="students" ></div>
+                                    <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="students_count" ></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="infoModal" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-teal">
+                                        <h4 class="modal-title" id="infoModalLabel">Modal title</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped table-hover js-exportable" id="infoTable">
+                                                <thead>
+                                                    <tr>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-link waves-effect bg-teal" data-dismiss="modal">CLOSE</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -125,12 +154,65 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
 
         //Exportable table
-        $('.js-exportable').DataTable({
-            dom: 'Bfrtip',
-            responsive: true,
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+        
+
+        $('.info-box-3').click(function(){
+            var school_id = $('#school_id').val();
+            if (school_id) {
+                var form_data = new FormData();
+                var id = $(this).data("id");
+                
+                form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
+                form_data.append('select', id);
+                form_data.append('school_id', school_id);
+                
+                var post_url = "index.php/report/getSelectedInfo/2";
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + post_url,
+                    dataType :'json',
+                    data: form_data,
+                    contentType: false,
+                    processData: false,
+                    success: function(res){
+                        $("#infoTable thead tr th").remove();
+                        $("#infoTable tbody tr").remove();
+                        $.each(res, function(rowIndex, r) {
+                            var row = "<tr>";
+                            $.each(r, function(colIndex, c) { 
+                                if (rowIndex == 0) {
+                                    var head = "<th>"+ colIndex +"</th>";
+                                    $("#infoTable thead tr").append(head);
+                                    
+                                    row += "<td>"+c+"</td>";
+                                } else {
+                                    row += "<td>"+c+"</td>";
+                                }
+                                //row += "<td>"+c+"</td>";
+                            });
+                            row += "</tr>";
+                            $("#infoTable tbody").append(row);
+                            console.log(row);
+                            
+                        });
+
+                        /* $('.js-exportable').DataTable({
+                            dom: 'Bfrtip',
+                            responsive: true,
+                            buttons: [
+                                'copy', 'csv', 'excel', 'pdf', 'print'
+                            ]
+                        }); */
+                    },
+                    error: function (response) {
+                        alert("Error Updating! Please try again.");
+                    }
+                });
+
+                $('#infoModalLabel').text(id.toUpperCase())
+                $('#infoModal').modal('show');
+            }
+            
         });
         
         $('#school_id').change(function(){
@@ -149,9 +231,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 contentType: false,
                 processData: false,
                 success: function(response){
-                    $('#teachers').text(response['teachers']);
-                    $('#classes').text(response['classes']);
-                    $('#students').text(response['students']);
+                    $('#teachers_count').text(response['teachers']);
+                    $('#classes_count').text(response['classes']);
+                    $('#students_count').text(response['students']);
                 },
                 error: function (response) {
                     alert("Error Updating! Please try again.");
