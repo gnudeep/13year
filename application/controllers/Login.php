@@ -38,6 +38,8 @@ class Login extends CI_Controller {
             redirect('/finance/index');
         }else if ($user_level == "3") {
             redirect('/teacher/index');
+        }else if ($user_level == "5") {
+            redirect('/report/index');
         }else{
             redirect('/editor/index');
         }
