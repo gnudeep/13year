@@ -196,13 +196,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             
                         });
 
-                        /* $('.js-exportable').DataTable({
+                        $('.js-exportable').DataTable({
                             dom: 'Bfrtip',
                             responsive: true,
                             buttons: [
                                 'copy', 'csv', 'excel', 'pdf', 'print'
                             ]
-                        }); */
+                        });
                     },
                     error: function (response) {
                         alert("Error Updating! Please try again.");
