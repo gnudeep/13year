@@ -100,6 +100,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <table class="table table-bordered table-striped table-hover js-exportable" id="infoTable">
                                                 <thead>
                                                     <tr>
+                                                        <th>sample</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -154,7 +155,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
 
         //Exportable table
-        
+        $('.js-exportable').DataTable({
+            dom: 'Bfrtip',
+            bSort: false,
+            responsive: true,
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
 
         $('.info-box-3').click(function(){
             var school_id = $('#school_id').val();
@@ -196,13 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             
                         });
 
-                        $('.js-exportable').DataTable({
-                            dom: 'Bfrtip',
-                            responsive: true,
-                            buttons: [
-                                'copy', 'csv', 'excel', 'pdf', 'print'
-                            ]
-                        });
+                        
                     },
                     error: function (response) {
                         alert("Error Updating! Please try again.");
