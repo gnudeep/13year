@@ -97,14 +97,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                     <div class="modal-body">
                                         <div class="table-responsive">
-                                            <table class="table table-bordered table-striped table-hover js-exportable" id="infoTable">
-                                                <!-- <thead>
-                                                    <tr>
-                                                        <th>sample</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody> -->
+                                            <table class="table table-bordered table-striped table-hover js-exportable" id="infoTable" style="width:100%" >
                                             </table>
                                         </div>
                                     </div>
@@ -120,6 +113,51 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
         
+        <!-- Exportable Table For School List -->
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>
+                            All SCHOOLS
+                        </h2>
+                    </div>
+                    <div class="body">
+                        <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover data-table" id="allSchools">
+                            <thead>
+                                <tr>
+                                    <th>Census ID</th>
+                                    <th>School Name</th>
+                                    <th>Teachers</th>
+                                    <th>Classes</th>
+                                    <th>Students</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($schoolCounts) { ?>
+                                <?php foreach ($schoolCounts as $row) { ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $row['school_id'];?> </td>
+                                    <td>
+                                        <?php echo $row['school'];?> </td>
+                                    <td>
+                                        <?php echo $row['teachers'];?> </td>
+                                    <td>
+                                        <?php echo $row['classes'];?> </td>
+                                    <td>
+                                        <?php echo $row['students'];?> </td>
+                                </tr>
+                                <?php } ?>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
     </div>
 </section>
@@ -148,6 +186,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         
         $(".required").append("<span class='col-red'> *</span>");
 
+        $('#allSchools').DataTable({
+            dom: 'Bfrtip',
+            bSort: false,
+            responsive: true,
+            buttons: [
+                'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+
         $('.info-box-3').click(function(){
             var school_id = $('#school_id').val();
             if (school_id) {
@@ -172,18 +219,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     contentType: false,
                     processData: false,
                     success: function(res){
+                        if (res.data) {
+                            var table = $('#infoTable').DataTable({
+                                dom: 'Bfrtip',
+                                destroy: true,
+                                bSort: false,
+                                responsive: true,
+                                data: res.data,
+                                columns: res.columns,
+                                buttons: [
+                                    'csv', 'excel', 'pdf', 'print'
+                                ]
+                            });
 
-                        var table = $('#infoTable').DataTable({
-                            dom: 'Bfrtip',
-                            destroy: true,
-                            bSort: false,
-                            responsive: true,
-                            data: res.data,
-                            columns: res.columns,
-                            buttons: [
-                                'csv', 'excel', 'pdf', 'print'
-                            ]
-                        });
+                            table.columns.adjust().draw();
+                        }
+                        
                         
                     },
                     error: function (response) {
@@ -198,8 +249,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
 
         $('#infoModal').on('hidden.bs.modal', function () {
-            $('#infoTable').DataTable().destroy();
-            $('#infoTable').empty();
+            if ( $.fn.dataTable.isDataTable('#infoTable')){
+                $('#infoTable').DataTable().destroy();
+                $('#infoTable').empty();
+            }
+                
         })
         
         $('#school_id').change(function(){

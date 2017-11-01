@@ -24,6 +24,7 @@ class Report extends CI_Controller
         $this->load->view('report/sidebar');
 
         $this->response['schools'] = $this->Report_data_model->getSchools();
+        $this->getSchoolWithCount();
         $this->load->view('report/dashboard', $this->response);
         $this->load->view('footer');
     }
@@ -93,5 +94,20 @@ class Report extends CI_Controller
             $jsonData['data'][] = $row;
         }
         echo json_encode($jsonData);
+    }
+
+    public function getSchoolWithCount()
+    {
+        $res = $this->Report_data_model->getSchools();
+        $rowdata = array();
+        foreach ($res as $row) {
+            $rowdata['school_id'] = $row['census_id'];
+            $rowdata['school'] = $row['schoolname'];
+            $rowdata['teachers'] = $this->Report_data_model->getSchoolTeachers($rowdata['school_id'], 'count');
+            $rowdata['classes'] = $this->Report_data_model->getSchoolClasses($rowdata['school_id'], 'count');
+            $rowdata['students'] = $this->Report_data_model->getSchoolStudents($rowdata['school_id'], 'count');
+            
+            $this->response['schoolCounts'][] = $rowdata;
+        }
     }
 }
