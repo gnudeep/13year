@@ -98,13 +98,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <div class="modal-body">
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-striped table-hover js-exportable" id="infoTable">
-                                                <thead>
+                                                <!-- <thead>
                                                     <tr>
                                                         <th>sample</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                </tbody>
+                                                </tbody> -->
                                             </table>
                                         </div>
                                     </div>
@@ -147,26 +147,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     $(document).ready(function () {
         
         $(".required").append("<span class='col-red'> *</span>");
-        
-        $('.dataTable').DataTable({
-            responsive: true,
-            iDisplayLength: 5,
-            page: {length: '5'}
-        });
-
-        //Exportable table
-        $('.js-exportable').DataTable({
-            dom: 'Bfrtip',
-            bSort: false,
-            responsive: true,
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
-        });
 
         $('.info-box-3').click(function(){
             var school_id = $('#school_id').val();
             if (school_id) {
+                
                 var form_data = new FormData();
                 var id = $(this).data("id");
                 
@@ -174,6 +159,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 form_data.append('select', id);
                 form_data.append('school_id', school_id);
                 
+                var columns = [];
+                var data = [];
+                var row = [];
+
                 var post_url = "index.php/report/getSelectedInfo/2";
                 $.ajax({
                     type: "POST",
@@ -183,31 +172,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     contentType: false,
                     processData: false,
                     success: function(res){
-                        $("#infoTable thead tr th").remove();
-                        $("#infoTable tbody tr").remove();
-                        $.each(res, function(rowIndex, r) {
-                            var row = "<tr>";
-                            $.each(r, function(colIndex, c) { 
-                                if (rowIndex == 0) {
-                                    var head = "<th>"+ colIndex +"</th>";
-                                    $("#infoTable thead tr").append(head);
-                                    
-                                    row += "<td>"+c+"</td>";
-                                } else {
-                                    row += "<td>"+c+"</td>";
-                                }
-                                //row += "<td>"+c+"</td>";
-                            });
-                            row += "</tr>";
-                            $("#infoTable tbody").append(row);
-                            console.log(row);
-                            
-                        });
 
+                        var table = $('#infoTable').DataTable({
+                            dom: 'Bfrtip',
+                            destroy: true,
+                            bSort: false,
+                            responsive: true,
+                            data: res.data,
+                            columns: res.columns,
+                            buttons: [
+                                'csv', 'excel', 'pdf', 'print'
+                            ]
+                        });
                         
                     },
                     error: function (response) {
-                        alert("Error Updating! Please try again.");
+                        
                     }
                 });
 
@@ -216,6 +196,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
             
         });
+
+        $('#infoModal').on('hidden.bs.modal', function () {
+            $('#infoTable').DataTable().destroy();
+            $('#infoTable').empty();
+        })
         
         $('#school_id').change(function(){
             var form_data = new FormData();

@@ -77,6 +77,21 @@ class Report extends CI_Controller
             $res = '';
                 break;
         }
-        echo json_encode($res);
+
+        $jsonData = array();
+        $row = array();
+        foreach ($res as $rowIndex => $r){
+            unset($row);
+            foreach ($r as $colIndex => $c){
+                if ($rowIndex == '0') {
+                    $jsonData['columns'][] = array('title' => $colIndex, 'data' => $colIndex);
+                    $row[$colIndex] = $c;
+                } else {
+                    $row[$colIndex] = $c;
+                }
+            }
+            $jsonData['data'][] = $row;
+        }
+        echo json_encode($jsonData);
     }
 }
