@@ -21,6 +21,52 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span>Home</span>
                     </a>
                 </li>
+                <li>
+                    <a href="javascript:void(0);" id="allschools" >
+                        <i class="material-icons">done_all</i>
+                        <span>List All Schools</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle" id="schoolMenu">
+                        <i class="material-icons">school</i>
+                        <span>Select School</span>
+                    </a>
+                    <ul class="ml-menu" id="schoolListMenu">
+                    <input type="text" class="form-control" id="searchSchool" placeholder="Search school" title="Type in a name">
+
+                    <?php if ($schools) { ?>
+                    <?php foreach ($schools as $row) { ?>
+                        <li>
+                            <a href="javascript:void(0);" data-id="<?php echo $row['census_id'];?>" data-type="school" class="getSchool filter">
+                                <span> <?php echo $row['census_id'] . ' - ' . $row['schoolname'] ;?> </span>
+                            </a>
+                        </li>
+                    <?php    } ?>
+                    <?php } ?>
+
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle" id="subjectsMenu">
+                        <i class="material-icons">book</i>
+                        <span>Select Subject</span>
+                    </a>
+                    <ul class="ml-menu" id="subjectListMenu">
+                    <input type="text" class="form-control" id="searchSubjects" placeholder="Search Subjects" title="Type in a name">
+
+                    <?php if ($subjects) { ?>
+                    <?php foreach ($subjects as $row) { ?>
+                        <li>
+                            <a href="javascript:void(0);" data-id="<?php echo $row['id'];?>" data-type="subject" class="getSubject filter">
+                                <span> <?php echo $row['subject_name'] ;?> </span>
+                            </a>
+                        </li>
+                    <?php    } ?>
+                    <?php } ?>
+
+                    </ul>
+                </li>
             </ul>
         </div>
         <!-- #Menu -->

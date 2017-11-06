@@ -77,6 +77,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php echo form_close()?>
                 <a href="<?php echo base_url()."index.php/general"?>" target="_blank">View Schools Map</a>
             </div>
+            <!-- Footer -->
+            <hr>
+            <div class="legal align-center" style="padding-bottom:20px;">
+                <div class="copyright">
+                    &copy;2017 <a href="javascript:void(0);">Data Management Branch</a><br>
+                    <a href="javascript:void(0);">Ministry of Education, Sri Lanka</a>
+                </div>
+                <div class="version">
+                    <b>Version: </b> 1.0.5
+                </div>
+            </div>
+            <!-- #Footer -->
         </div>
     </div>
 

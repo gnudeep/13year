@@ -10,6 +10,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Report_data_model extends CI_Model
 {
+    public function getTotalRecords($table){
+        $this->db->select('*');
+        $this->db->from($table);
+        $query = $this->db->get();
+        $res = $query->num_rows();
+        return $res;
+    }
     public function getSchools(){
         $this->db->select('*');
         $this->db->from('schools');
@@ -103,6 +110,53 @@ class Report_data_model extends CI_Model
         $this->db->select('index_no AS Index No, nic AS NIC, in_name AS Name With Initials, gender AS Gender');
         $this->db->where('school_id', $school_id);
         $query = $this->db->get('students_info');
+
+        if($r_type == 'list'){
+            return $query->result_array();
+        }else if($r_type == 'count'){
+            return $query->num_rows();
+        }
+    }
+    
+    public function getSubjectTeachers($subject_id, $r_type){
+        $this->db->select('t.school_id AS School ID, t.title AS Title, t.teacher_in_name AS Name With Initials, s.schoolname');
+        $this->db->where('teacher_sub_1', $subject_id);
+        $this->db->or_where('teacher_sub_2', $subject_id);
+        $this->db->or_where('teacher_sub_3', $subject_id);
+        $this->db->join('schools s', 's.census_id = t.school_id');
+        $this->db->order_by('t.school_id', 'ASC');
+        $query = $this->db->get('teachers t');
+
+        if($r_type == 'list'){
+            return $query->result_array();
+        }else if($r_type == 'count'){
+            return $query->num_rows();
+        }
+    }
+    
+    public function getSubjectClasses($subject_id, $r_type){
+        $this->db->select('s.census_id AS School ID, c.grade AS Grade, c.class_name AS Class Name, c.commenced_date AS Commenced Date, t.teacher_in_name AS Teacher');
+        $this->db->where('cs.subject_id', $subject_id);
+        $this->db->join('classes c', 'c.id = cs.class_id');
+        $this->db->join('schools s', 's.census_id = cs.school_id');
+        $this->db->join('teachers t', 't.id = cs.teacher_id');
+        $this->db->order_by('s.census_id', 'ASC');
+        $query = $this->db->get('class_subjects cs');
+
+        if($r_type == 'list'){
+            return $query->result_array();
+        }else if($r_type == 'count'){
+            return $query->num_rows();
+        }
+    }
+    
+    public function getSubjectStudents($subject_id, $r_type){
+        $this->db->select('s.census_id AS School ID, si.index_no AS Index No, si.nic AS NIC, si.in_name AS Name With Initials, si.gender AS Gender');
+        $this->db->where('ss.subject_id', $subject_id);
+        $this->db->join('schools s', 's.census_id = ss.school_id');
+        $this->db->join('students_info si', 'si.id = ss.student_id');
+        $this->db->order_by('s.census_id', 'ASC');
+        $query = $this->db->get('student_subjects ss');
 
         if($r_type == 'list'){
             return $query->result_array();

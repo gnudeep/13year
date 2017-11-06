@@ -12,6 +12,7 @@ class Report extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('Form_data_model'); //load database model.
         $this->load->model('Report_data_model'); //load database model.
     }
 
@@ -21,10 +22,12 @@ class Report extends CI_Controller
     {
         $this->check_sess();
         $this->load->view('head');
-        $this->load->view('report/sidebar');
 
         $this->response['schools'] = $this->Report_data_model->getSchools();
+        $this->response['subjects'] = $this->Form_data_model->select('subjects');
         $this->getSchoolWithCount();
+        
+        $this->load->view('report/sidebar', $this->response);
         $this->load->view('report/dashboard', $this->response);
         $this->load->view('footer');
     }
@@ -55,23 +58,46 @@ class Report extends CI_Controller
         echo json_encode($this->response);
     }
     
+    public function getSubjectData()
+    {
+        header('Content-Type: application/x-json; charset=utf-8');
+        $subject_id = $this->input->post('subject_id');
+        $this->response['teachers'] = $this->Report_data_model->getSubjectTeachers($subject_id, 'count');
+        $this->response['classes'] = $this->Report_data_model->getSubjectClasses($subject_id, 'count');
+        $this->response['students'] = $this->Report_data_model->getSubjectStudents($subject_id, 'count');
+        echo json_encode($this->response);
+    }
+    
     public function getSelectedInfo()
     {
         header('Content-Type: application/x-json; charset=utf-8');
-        $school_id = $this->input->post('school_id');
+        $school_id = $this->input->post('search_id');
+        $search_type = $this->input->post('search_type');
         $select = $this->input->post('select');
 
         switch ($select) {
             case 'teachers':
-                $res = $this->Report_data_model->getSchoolTeachers($school_id, 'list');
+                if ($search_type == 'school') {
+                    $res = $this->Report_data_model->getSchoolTeachers($school_id, 'list');
+                } else {
+                    $res = $this->Report_data_model->getSubjectTeachers($school_id, 'list');
+                }
                 break;
 
             case 'classes':
-                $res = $this->Report_data_model->getSchoolClasses($school_id, 'list');
+                if ($search_type == 'school') {
+                    $res = $this->Report_data_model->getSchoolClasses($school_id, 'list');
+                } else {
+                    $res = $this->Report_data_model->getSubjectClasses($school_id, 'list');
+                }
                 break;
                 
             case 'students':
-                $res = $this->Report_data_model->getSchoolStudents($school_id, 'list');
+                if ($search_type == 'school') {
+                    $res = $this->Report_data_model->getSchoolStudents($school_id, 'list');
+                } else {
+                    $res = $this->Report_data_model->getSubjectStudents($school_id, 'list');
+                }
                 break;
             
             default:
@@ -109,5 +135,14 @@ class Report extends CI_Controller
             
             $this->response['schoolCounts'][] = $rowdata;
         }
+    }
+
+    public function getTotalDetails(){
+        header('Content-Type: application/x-json; charset=utf-8');
+        $this->response['schools'] = $this->Report_data_model->getTotalRecords('schools');
+        $this->response['teachers'] = $this->Report_data_model->getTotalRecords('teachers');
+        $this->response['classes'] = $this->Report_data_model->getTotalRecords('classes');
+        $this->response['students'] = $this->Report_data_model->getTotalRecords('students_info');
+        echo json_encode($this->response);
     }
 }
