@@ -101,6 +101,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <i class="material-icons">face</i>
                                 </div>
                                 <div class="content">
+                                    <div>Total Classes</div>
+                                    <div id="classes" class="number count-to" data-from="0" data-speed="500" data-fresh-interval="20"></div>
+                                </div>
+                            </div>
+                            <div class="info-box-3 bg-red hover-zoom-effect">
+                                <div class="icon">
+                                    <i class="material-icons">face</i>
+                                </div>
+                                <div class="content">
                                     <div>Total Students</div>
                                     <div id="students" class="number count-to" data-from="0" data-speed="500" data-fresh-interval="20"></div>
                                 </div>
@@ -250,6 +259,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $.each(res, function(ID,province_office){
                             $('#main_division').append('<option value='+res[ID].ID+'>'+res[ID].office_division+'</option>');
                         });*/
+                        $('#classes').text(res['total_classes']);
                         $('#students').text(res['total']);
                         $('#male').text(res['male']);
                         $('#female').text(res['female']);

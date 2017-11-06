@@ -67,6 +67,12 @@ class General_data_model extends CI_Model
                 $res['female'] ++;
             }
         }
+
+        $this->db->select('id');
+        $this->db->where('school_id', $school_id);
+        $queryClasses = $this->db->get('classes');
+        $res['total_classes'] = $queryClasses->num_rows();
+
         
         return $res;
     }
