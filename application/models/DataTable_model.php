@@ -199,6 +199,7 @@ class DataTable_model extends CI_Model
             ->fields(
             Field::inst( 'students_info.status' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'students_info.index_no' )->validator( 'Validate::notEmpty' ),
+            Field::inst( 'students_info.nic' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'students_info.school_id' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'students_info.full_name' )->validator( 'Validate::notEmpty' ),
             Field::inst( 'students_info.in_name' )->validator( 'Validate::notEmpty' ),

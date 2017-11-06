@@ -46,6 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <tr>
                                             <th>Index No</th>
                                             <th>Name with Initials</th>
+                                            <th>NIC</th>
                                             <th>Gender</th>
                                             <th>Address</th>
                                             <th>Parent Telephone</th>
@@ -301,6 +302,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                     {
                         data: "students_info.in_name"
+                    },
+                    {
+                        data: "students_info.nic"
                     },
                     {
                         data: "students_info.gender"
