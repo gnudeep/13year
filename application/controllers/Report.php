@@ -112,9 +112,9 @@ class Report extends CI_Controller
             foreach ($r as $colIndex => $c){
                 if ($rowIndex == '0') {
                     $jsonData['columns'][] = array('title' => $colIndex, 'data' => $colIndex);
-                    $row[$colIndex] = $c;
+                    $row[$colIndex] = ucwords($c);
                 } else {
-                    $row[$colIndex] = $c;
+                    $row[$colIndex] = ucwords($c);
                 }
             }
             $jsonData['data'][] = $row;

@@ -25,14 +25,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="card">
                     <div class="header">
                         <h2>
-                            INFO COUNTERS
+                            SUMMARY <span id = "summary-title"></span>
                         </h2>
                     </div>
                     <div class="body">
                         
                     <div class="row clearfix">
-                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box-3 bg-teal hover-expand-effect DTtrigger" data-id="teachers">
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="schools_count_div">
+                                <div class="info-box-3 bg-teal hover-expand-effect DTtrigger" data-id="schools">
                                     <div class="icon">
                                         <i class="material-icons">business</i>
                                     </div>
@@ -200,10 +200,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             var search_id = $('.ml-menu').find('.active').find('.filter').data('id');
 
             if (search_id) {
-                var school_name = $('#school_id').find(":selected").text();
+
+
+                var school_name = $('.ml-menu').find('.active').find('.filter').data('name');
                 var form_data = new FormData();
                 var id = $(this).data("id");
-                
+
                 form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
                 form_data.append('search_type', search_type);
                 form_data.append('select', id);
@@ -231,12 +233,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 data: res.data,
                                 columns: res.columns,
                                 buttons: [
-                                    'csv', 'excel', 'pdf',
+                                    {
+                                        extend: 'csv',
+                                        text: 'csv',
+                                        title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST'
+                                    },
+                                    {
+                                        extend: 'excel',
+                                        text: 'excel',
+                                        title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST'
+                                    },
+                                    {
+                                        extend: 'pdf',
+                                        text: 'pdf',
+                                        title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST'
+                                    },
                                     {
                                         extend: 'print',
                                         text: 'Print',
                                         autoPrint: true,
-                                        title: school_name + ' - ' + id + ' list'
+                                        title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST'
                                     }
                                 ]
                             });
@@ -269,6 +285,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('li').removeClass('active');
             $(this).parent().addClass('active');
             $('#schoolMenu').parent().addClass('active');
+            
+            var school_name = $(this).data('name');
+            $('#schools_count_div').addClass('hidden');
+            $('#summary-title').text(' - ' + school_name);
 
             var form_data = new FormData();
             var school_id = $(this).data('id');
@@ -300,6 +320,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('li').removeClass('active');
             $(this).parent().addClass('active');
             $('#subjectsMenu').parent().addClass('active');
+            
+            var name = $(this).data('name');
+            $('#schools_count_div').addClass('hidden');
+            $('#summary-title').text(' - ' + name);
 
             var form_data = new FormData();
             var subject_id = $(this).data('id');

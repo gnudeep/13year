@@ -28,9 +28,6 @@ class Form_data_model extends CI_Model
             case "travel_mode":
                 $res = $this->getAllRecords('travel_mode');
                 break;
-            case "subjects":
-                $res = $this->getAllRecords('subject_list');
-                break;
         }
 
         return $res;
@@ -117,7 +114,7 @@ class Form_data_model extends CI_Model
     }
     
     public function getAllCoordinators(){
-        $this->db->select('*, c.coordinator_name, c.coordinator_mobile, c.coordinator_email, u.uname');
+        $this->db->select('*, c.id AS cID, u.id AS uID, c.coordinator_name, c.coordinator_mobile, c.coordinator_email, u.uname');
         $this->db->from('coordinators c');
         $this->db->join('schools s', 's.census_id = c.school_id');
         $this->db->join('user u', 'u.id = c.user_id', 'left');
@@ -226,6 +223,25 @@ class Form_data_model extends CI_Model
     }
     
     public function addCoordinator($coordinator, $user){
+        $res=0;
+        $this->db->trans_start();
+
+        $this->db->insert('coordinators', $coordinator);
+        $this->db->insert('user', $user);
+
+        if ($this->db->trans_status() === TRUE){
+            $res = 1;
+            $this->db->trans_complete();
+        } else {
+            $err_message = $this->db->error();
+            log_message('error', $err_message);
+            $this->db->trans_complete();
+        }
+
+        return $res;
+    }
+    
+    public function updateCoordinator($coordinator, $user, $cID, $uID){
         $res=0;
         $this->db->trans_start();
 

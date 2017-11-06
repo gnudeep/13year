@@ -107,7 +107,7 @@ class Report_data_model extends CI_Model
     }
     
     public function getSchoolStudents($school_id, $r_type){
-        $this->db->select('index_no AS Index No, nic AS NIC, in_name AS Name With Initials, gender AS Gender');
+        $this->db->select('index_no AS Index No, UPPER(nic) AS NIC, in_name AS Name With Initials, gender AS Gender');
         $this->db->where('school_id', $school_id);
         $query = $this->db->get('students_info');
 
@@ -119,7 +119,7 @@ class Report_data_model extends CI_Model
     }
     
     public function getSubjectTeachers($subject_id, $r_type){
-        $this->db->select('t.school_id AS School ID, t.title AS Title, t.teacher_in_name AS Name With Initials, s.schoolname');
+        $this->db->select('t.school_id AS School ID, t.title AS Title, t.teacher_in_name AS Name With Initials, s.schoolname AS School Name');
         $this->db->where('teacher_sub_1', $subject_id);
         $this->db->or_where('teacher_sub_2', $subject_id);
         $this->db->or_where('teacher_sub_3', $subject_id);
@@ -151,7 +151,7 @@ class Report_data_model extends CI_Model
     }
     
     public function getSubjectStudents($subject_id, $r_type){
-        $this->db->select('s.census_id AS School ID, si.index_no AS Index No, si.nic AS NIC, si.in_name AS Name With Initials, si.gender AS Gender');
+        $this->db->select('s.census_id AS School ID, si.index_no AS Index No, UPPER(si.nic) AS NIC, si.in_name AS Name With Initials, si.gender AS Gender');
         $this->db->where('ss.subject_id', $subject_id);
         $this->db->join('schools s', 's.census_id = ss.school_id');
         $this->db->join('students_info si', 'si.id = ss.student_id');
