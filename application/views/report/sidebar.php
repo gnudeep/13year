@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <?php if ($schools) { ?>
                     <?php foreach ($schools as $row) { ?>
                         <li>
-                            <a href="javascript:void(0);" data-id="<?php echo $row['census_id'];?>" data-name = "<?php echo $row['census_id'] . ' - ' .  $row['schoolname'];?>" data-type="school" class="getSchool filter">
+                            <a href="javascript:void(0);" data-id="<?php echo $row['census_id'];?>" data-name = "<?php echo $row['census_id'] . ' - ' .  $row['schoolname'];?>" data-type="school" data-zone="<?php echo $row['zone'];?>" data-province="<?php echo $row['province'];?>" class="getSchool filter">
                                 <span> <?php echo $row['census_id'] . ' - ' . $row['schoolname'] ;?> </span>
                             </a>
                         </li>

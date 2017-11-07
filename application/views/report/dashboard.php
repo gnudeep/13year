@@ -299,8 +299,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('#schoolMenu').parent().addClass('active');
             
             var school_name = $(this).data('name');
+            var zone = $(this).data('zone');
+            var province = $(this).data('province');
             $('#schools_count_div').addClass('hidden');
-            $('#summary-title').text(' - ' + school_name);
+            $('#summary-title').text(' - ' + school_name + ' - ' + province + ' Province, ' + zone + ' Zone');
 
             var form_data = new FormData();
             var school_id = $(this).data('id');

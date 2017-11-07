@@ -32,6 +32,21 @@ class Report extends CI_Controller
         $this->load->view('footer');
     }
 
+    public function getMap()
+    {
+        $this->check_sess();
+        $this->load->view('head');
+
+        $this->response['schools'] = $this->General_data_model->getSchools();
+        $this->response['schools'] = $this->Report_data_model->getSchools();
+        $this->response['subjects'] = $this->Form_data_model->select('subjects');
+        $this->getSchoolWithCount();
+        
+        $this->load->view('report/sidebar', $this->response);
+        $this->load->view('report/dashboard', $this->response);
+        $this->load->view('footer');
+    }
+
     public function check_sess()
     {
         if ($this->session->user_logged != "in") {
@@ -129,9 +144,9 @@ class Report extends CI_Controller
         foreach ($res as $row) {
             $rowdata['school_id'] = $row['census_id'];
             $rowdata['school'] = $row['schoolname'];
-            $rowdata['teachers'] = $this->Report_data_model->getSchoolTeachers($rowdata['school_id'], 'count');
-            $rowdata['classes'] = $this->Report_data_model->getSchoolClasses($rowdata['school_id'], 'count');
-            $rowdata['students'] = $this->Report_data_model->getSchoolStudents($rowdata['school_id'], 'count');
+            $rowdata['teachers'] = $this->Report_data_model->getSchoolTeachers($rowdata['school_id'], 'count')['count'];
+            $rowdata['classes'] = $this->Report_data_model->getSchoolClasses($rowdata['school_id'], 'count')['count'];
+            $rowdata['students'] = $this->Report_data_model->getSchoolStudents($rowdata['school_id'], 'count')['count'];
             
             $this->response['schoolCounts'][] = $rowdata;
         }
