@@ -207,6 +207,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 
                 var school_name = $('.ml-menu').find('.active').find('.filter').data('name');
+                var zone = $('.ml-menu').find('.active').find('.filter').data('zone');
+                var province = $('.ml-menu').find('.active').find('.filter').data('province');
                 var form_data = new FormData();
                 var id = $(this).data("id");
 
@@ -277,7 +279,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 });
 
-                $('#infoModalLabel').text(id.toUpperCase())
+                if (search_type == 'school') {
+                    $('#infoModalLabel').text(id.toUpperCase() + ' - ' + school_name + ' - ' + zone + ' Zone, ' + province + ' Province' );
+                } else {
+                    $('#infoModalLabel').text(id.toUpperCase());
+                }
+                
                 $('#infoModal').modal('show');
             }
             
@@ -302,7 +309,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             var zone = $(this).data('zone');
             var province = $(this).data('province');
             $('#schools_count_div').addClass('hidden');
-            $('#summary-title').text(' - ' + school_name + ' - ' + province + ' Province, ' + zone + ' Zone');
+            $('#summary-title').text(' - ' + school_name + ' - ' + zone + ' Zone, ' + province + ' Province');
 
             var form_data = new FormData();
             var school_id = $(this).data('id');

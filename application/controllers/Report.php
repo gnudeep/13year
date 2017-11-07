@@ -14,6 +14,7 @@ class Report extends CI_Controller
         parent::__construct();
         $this->load->model('Form_data_model'); //load database model.
         $this->load->model('Report_data_model'); //load database model.
+        $this->load->model('General_data_model'); //load database model.
     }
 
     public $response = array("result"=>"none", "data"=>"none");
@@ -38,12 +39,9 @@ class Report extends CI_Controller
         $this->load->view('head');
 
         $this->response['schools'] = $this->General_data_model->getSchools();
-        $this->response['schools'] = $this->Report_data_model->getSchools();
-        $this->response['subjects'] = $this->Form_data_model->select('subjects');
-        $this->getSchoolWithCount();
         
-        $this->load->view('report/sidebar', $this->response);
-        $this->load->view('report/dashboard', $this->response);
+        $this->load->view('report/sidebar-map', $this->response);
+        $this->load->view('report/map', $this->response);
         $this->load->view('footer');
     }
 
