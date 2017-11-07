@@ -200,7 +200,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 "display": 'lightbox',
                 "fields": [{
                         "label": "Index No:",
-                        "name": "students_info.std_id"
+                        "name": "students_info.index_no"
                     },
                     {
                         "label": "School Census ID:",
@@ -217,6 +217,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     {
                         "label": "Name with Initials:",
                         "name": "students_info.in_name",
+                    },
+                    {
+                        "label": "NIC Number:",
+                        "name": "students_info.nic",
                     },
                     {
                         "label": "Gender:",
@@ -274,8 +278,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
             });
 
-            studentEditor.field('students_info.std_id').input().addClass('form-control show-tick');
+            studentEditor.field('students_info.index_no').input().addClass('form-control show-tick');
             studentEditor.field('students_info.school_id').input().addClass('form-control show-tick');
+            studentEditor.field('students_info.nic').input().addClass('form-control');
             studentEditor.field('students_info.full_name').input().addClass('form-control show-tick');
             studentEditor.field('students_info.in_name').input().addClass('form-control show-tick');
             studentEditor.field('students_info.gender').input().addClass('form-control show-tick');

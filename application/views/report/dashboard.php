@@ -10,7 +10,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <style>
-    .info-box-3:hover {
+    .info-box-3-high:hover {
     cursor: pointer;
     }
 </style>
@@ -32,46 +32,50 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         
                     <div class="row clearfix">
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="schools_count_div">
-                                <div class="info-box-3 bg-teal hover-expand-effect DTtrigger" data-id="schools">
+                                <div class="info-box-3-high bg-teal hover-expand-effect DTtrigger" data-id="schools">
                                     <div class="icon">
                                         <i class="material-icons">business</i>
                                     </div>
                                     <div class="content">
                                         <div class="text">SCHOOLS</div>
                                         <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="schools_count" ></div>
+                                        <div class="text updated hidden">Updated : <span id="update-school"></span> </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box-3 bg-teal hover-expand-effect DTtrigger" data-id="teachers">
+                                <div class="info-box-3-high bg-teal hover-expand-effect DTtrigger" data-id="teachers">
                                     <div class="icon">
                                         <i class="material-icons">people</i>
                                     </div>
                                     <div class="content">
                                         <div class="text">TEACHERS</div>
                                         <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="teachers_count" ></div>
+                                        <div class="text updated hidden">Updated : <span id="update-teachers"></span> </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box-3 bg-teal hover-expand-effect DTtrigger" data-id="classes">
+                                <div class="info-box-3-high bg-teal hover-expand-effect DTtrigger" data-id="classes">
                                     <div class="icon">
                                         <i class="material-icons">domain</i>
                                     </div>
                                     <div class="content">
                                         <div class="text">CLASSES</div>
                                         <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="classes_count" ></div>
+                                        <div class="text updated hidden">Updated : <span id="update-classes"></span> </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box-3 bg-teal hover-expand-effect DTtrigger" data-id="students">
+                                <div class="info-box-3-high bg-teal hover-expand-effect DTtrigger" data-id="students">
                                     <div class="icon">
                                         <i class="material-icons">face</i>
                                     </div>
                                     <div class="content">
                                         <div class="text">Students</div>
                                         <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="students_count" ></div>
+                                        <div class="text updated hidden">Updated : <span id="update-students"></span> </div>
                                     </div>
                                 </div>
                             </div>
@@ -232,6 +236,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 responsive: true,
                                 data: res.data,
                                 columns: res.columns,
+                                columnDefs: [
+                                    {
+                                        "targets": [ 0 ],
+                                        "visible": false
+                                    }
+                                ],
                                 buttons: [
                                     {
                                         extend: 'csv',
@@ -282,6 +292,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         })
         
         $('.getSchool').click(function(){
+            $('.updated').removeClass('hidden');
+
             $('li').removeClass('active');
             $(this).parent().addClass('active');
             $('#schoolMenu').parent().addClass('active');
@@ -305,10 +317,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 contentType: false,
                 processData: false,
                 success: function(response){
-                    $('#schools_count').text('');
-                    $('#teachers_count').text(response['teachers']);
-                    $('#classes_count').text(response['classes']);
-                    $('#students_count').text(response['students']);
+                    $('#teachers_count').text(response['teachers']['count']);
+                    $('#update-teachers').text(response['teachers']['last_update']);
+
+                    $('#classes_count').text(response['classes']['count']);
+                    $('#update-classes').text(response['classes']['last_update']);
+
+                    $('#students_count').text(response['students']['count']);
+                    $('#update-students').text(response['students']['last_update']);
+
                 },
                 error: function (response) {
                     alert("Error Updating! Please try again.");
@@ -317,6 +334,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         });
         
         $('.getSubject').click(function(){
+            $('.updated').removeClass('hidden');
+
             $('li').removeClass('active');
             $(this).parent().addClass('active');
             $('#subjectsMenu').parent().addClass('active');
@@ -340,13 +359,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 contentType: false,
                 processData: false,
                 success: function(response){
-                    $('#schools_count').text('');
-                    $('#teachers_count').text(response['teachers']);
-                    $('#classes_count').text(response['classes']);
-                    $('#students_count').text(response['students']);
+                    $('#teachers_count').text(response['teachers']['count']);
+                    $('#update-teachers').text(response['teachers']['last_update']);
+
+                    $('#classes_count').text(response['classes']['count']);
+                    $('#update-classes').text(response['classes']['last_update']);
+
+                    $('#students_count').text(response['students']['count']);
+                    $('#update-students').text(response['students']['last_update']);
                 },
                 error: function (response) {
-                    alert("Error Updating! Please try again.");
+                    alert("Error! Please try again.");
                 }
             });
         });

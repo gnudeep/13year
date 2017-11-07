@@ -79,22 +79,27 @@ class Report_data_model extends CI_Model
     }
 
     public function getSchoolTeachers($school_id, $r_type){
-        $this->db->select('title AS Title, teacher_in_name AS Name With Initials, s1.subject_name AS Subject 01, s2.subject_name AS Subject 02, s3.subject_name AS Subject 03');
+        $this->db->select('t.createdTime, title AS Title, teacher_in_name AS Name With Initials, s1.subject_name AS Subject 01, s2.subject_name AS Subject 02, s3.subject_name AS Subject 03');
         $this->db->join('subject_list s1', 's1.id = t.teacher_sub_1', 'left');
         $this->db->join('subject_list s2', 's2.id = t.teacher_sub_2', 'left');
         $this->db->join('subject_list s3', 's3.id = t.teacher_sub_3', 'left');
         $this->db->where('school_id', $school_id);
+        $this->db->order_by('t.createdTime', 'DESC');
         $query = $this->db->get('teachers t');
+
+        $row = $query->row();
 
         if($r_type == 'list'){
             return $query->result_array();
         }else if($r_type == 'count'){
-            return $query->num_rows();
+            $res['count'] = $query->num_rows();
+            $res['last_update'] = $query->row()->createdTime;
+            return $res;
         }
     }
     
     public function getSchoolClasses($school_id, $r_type){
-        $this->db->select('grade AS Grade, class_name AS Class Name, commenced_date AS Commenced Date, t.teacher_in_name AS Teacher');
+        $this->db->select('c.timeCreated, grade AS Grade, class_name AS Class Name, commenced_date AS Commenced Date, t.teacher_in_name AS Teacher');
         $this->db->join('teachers t', 't.id = c.class_teacher', 'left');
         $this->db->where('c.school_id', $school_id);
         $query = $this->db->get('classes c');
@@ -102,24 +107,28 @@ class Report_data_model extends CI_Model
         if($r_type == 'list'){
             return $query->result_array();
         }else if($r_type == 'count'){
-            return $query->num_rows();
+            $res['count'] = $query->num_rows();
+            $res['last_update'] = $query->row()->timeCreated;
+            return $res;
         }
     }
     
     public function getSchoolStudents($school_id, $r_type){
-        $this->db->select('index_no AS Index No, UPPER(nic) AS NIC, in_name AS Name With Initials, gender AS Gender');
+        $this->db->select('timeCreated, index_no AS Index No, UPPER(nic) AS NIC, in_name AS Name With Initials, gender AS Gender');
         $this->db->where('school_id', $school_id);
         $query = $this->db->get('students_info');
 
         if($r_type == 'list'){
             return $query->result_array();
         }else if($r_type == 'count'){
-            return $query->num_rows();
+            $res['count'] = $query->num_rows();
+            $res['last_update'] = $query->row()->timeCreated;
+            return $res;
         }
     }
     
     public function getSubjectTeachers($subject_id, $r_type){
-        $this->db->select('t.school_id AS School ID, t.title AS Title, t.teacher_in_name AS Name With Initials, s.schoolname AS School Name');
+        $this->db->select('t.createdTime, t.school_id AS School ID, t.title AS Title, t.teacher_in_name AS Name With Initials, s.schoolname AS School Name');
         $this->db->where('teacher_sub_1', $subject_id);
         $this->db->or_where('teacher_sub_2', $subject_id);
         $this->db->or_where('teacher_sub_3', $subject_id);
@@ -130,12 +139,14 @@ class Report_data_model extends CI_Model
         if($r_type == 'list'){
             return $query->result_array();
         }else if($r_type == 'count'){
-            return $query->num_rows();
+            $res['count'] = $query->num_rows();
+            $res['last_update'] = $query->row()->createdTime;
+            return $res;
         }
     }
     
     public function getSubjectClasses($subject_id, $r_type){
-        $this->db->select('s.census_id AS School ID, c.grade AS Grade, c.class_name AS Class Name, c.commenced_date AS Commenced Date, t.teacher_in_name AS Teacher');
+        $this->db->select('c.timeCreated, s.census_id AS School ID, c.grade AS Grade, c.class_name AS Class Name, c.commenced_date AS Commenced Date, t.teacher_in_name AS Teacher');
         $this->db->where('cs.subject_id', $subject_id);
         $this->db->join('classes c', 'c.id = cs.class_id');
         $this->db->join('schools s', 's.census_id = cs.school_id');
@@ -146,12 +157,14 @@ class Report_data_model extends CI_Model
         if($r_type == 'list'){
             return $query->result_array();
         }else if($r_type == 'count'){
-            return $query->num_rows();
+            $res['count'] = $query->num_rows();
+            $res['last_update'] = $query->row()->timeCreated;
+            return $res;
         }
     }
     
     public function getSubjectStudents($subject_id, $r_type){
-        $this->db->select('s.census_id AS School ID, si.index_no AS Index No, UPPER(si.nic) AS NIC, si.in_name AS Name With Initials, si.gender AS Gender');
+        $this->db->select('si.timeCreated, s.census_id AS School ID, si.index_no AS Index No, UPPER(si.nic) AS NIC, si.in_name AS Name With Initials, si.gender AS Gender');
         $this->db->where('ss.subject_id', $subject_id);
         $this->db->join('schools s', 's.census_id = ss.school_id');
         $this->db->join('students_info si', 'si.id = ss.student_id');
@@ -161,7 +174,9 @@ class Report_data_model extends CI_Model
         if($r_type == 'list'){
             return $query->result_array();
         }else if($r_type == 'count'){
-            return $query->num_rows();
+            $res['count'] = $query->num_rows();
+            $res['last_update'] = $query->row()->timeCreated;
+            return $res;
         }
     }
 }
