@@ -67,13 +67,16 @@ class Report_data_model extends CI_Model
         $query = $this->db->get('students_info');
         $res['total'] = $query->num_rows();
         
-        foreach ($query->result() as $row){
-            if ($row->gender == 'Male'){
-                $res['male'] ++;
-            } else {
-                $res['female'] ++;
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row){
+                if ($row->gender == 'Male'){
+                    $res['male'] ++;
+                } else {
+                    $res['female'] ++;
+                }
             }
         }
+            
         
         return $res;
     }
@@ -113,16 +116,53 @@ class Report_data_model extends CI_Model
         }
     }
     
-    public function getSchoolStudents($school_id, $r_type){
+    public function getSchoolFunds($school_id, $r_type){
+        $this->db->select('f.timeCreated, fl.fund_name AS Teacher, fund_purpose AS Fund Purpose, amount AS Amount, received_date AS Received Date');
+        $this->db->join('funds_list fl', 'fl.id = f.fund_id', 'left');
+        $this->db->where('f.school_id', $school_id);
+        $query = $this->db->get('funds f');
+
+        if($r_type == 'list'){
+            return $query->result_array();
+        }else if($r_type == 'total'){
+            $res['total'] = 0;
+            if ($query->num_rows() > 0) {
+                foreach ($query->result() as $row){
+                    $res['total'] += $row->Amount;
+                }
+            }
+            $res['last_update'] = $query->row()->timeCreated;
+            return $res;
+        }
+    }
+    
+    public function getSchoolStudents($school_id, $r_type, $filter){
         $this->db->select('timeCreated, index_no AS Index No, UPPER(nic) AS NIC, in_name AS Name With Initials, gender AS Gender');
         $this->db->where('school_id', $school_id);
+
+        if ($filter != "all") {
+            $this->db->where('gender', $filter);
+        }
+        
+
         $query = $this->db->get('students_info');
+        $res = ['male' => 0, 'female' => 0];
 
         if($r_type == 'list'){
             return $query->result_array();
         }else if($r_type == 'count'){
             $res['count'] = $query->num_rows();
             $res['last_update'] = $query->row()->timeCreated;
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result() as $row){
+                    if ($row->Gender == 'Male'){
+                        $res['male'] ++;
+                    } else {
+                        $res['female'] ++;
+                    }
+                }
+            }
             return $res;
         }
     }
@@ -170,12 +210,24 @@ class Report_data_model extends CI_Model
         $this->db->join('students_info si', 'si.id = ss.student_id');
         $this->db->order_by('s.census_id', 'ASC');
         $query = $this->db->get('student_subjects ss');
+        $res = ['male' => 0, 'female' => 0];
 
         if($r_type == 'list'){
             return $query->result_array();
         }else if($r_type == 'count'){
             $res['count'] = $query->num_rows();
             $res['last_update'] = $query->row()->timeCreated;
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result() as $row){
+                    if ($row->gender == 'Male'){
+                        $res['male'] ++;
+                    } else {
+                        $res['female'] ++;
+                    }
+                }
+            }
+            
             return $res;
         }
     }

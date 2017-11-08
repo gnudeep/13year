@@ -67,7 +67,8 @@ class Report extends CI_Controller
         $school_id = $this->input->post('school_id');
         $this->response['teachers'] = $this->Report_data_model->getSchoolTeachers($school_id, 'count');
         $this->response['classes'] = $this->Report_data_model->getSchoolClasses($school_id, 'count');
-        $this->response['students'] = $this->Report_data_model->getSchoolStudents($school_id, 'count');
+        $this->response['students'] = $this->Report_data_model->getSchoolStudents($school_id, 'count', 'all');
+        $this->response['funds'] = $this->Report_data_model->getSchoolFunds($school_id, 'total');
         echo json_encode($this->response);
     }
     
@@ -107,10 +108,32 @@ class Report extends CI_Controller
                 
             case 'students':
                 if ($search_type == 'school') {
-                    $res = $this->Report_data_model->getSchoolStudents($school_id, 'list');
+                    $res = $this->Report_data_model->getSchoolStudents($school_id, 'list', 'all');
                 } else {
-                    $res = $this->Report_data_model->getSubjectStudents($school_id, 'list');
+                    $res = $this->Report_data_model->getSubjectStudents($school_id, 'list', 'all');
                 }
+                break;
+                
+            case 'male students':
+                if ($search_type == 'school') {
+                    $res = $this->Report_data_model->getSchoolStudents($school_id, 'list', 'Male');
+                } else {
+                    $res = $this->Report_data_model->getSubjectStudents($school_id, 'list', 'Male');
+                }
+                break;
+                
+            case 'female students':
+                if ($search_type == 'school') {
+                    $res = $this->Report_data_model->getSchoolStudents($school_id, 'list', 'Female');
+                } else {
+                    $res = $this->Report_data_model->getSubjectStudents($school_id, 'list', 'Female');
+                }
+                break;
+                
+            case 'funds':
+                if ($search_type == 'school') {
+                    $res = $this->Report_data_model->getSchoolFunds($school_id, 'list');
+                } 
                 break;
             
             default:
@@ -144,7 +167,7 @@ class Report extends CI_Controller
             $rowdata['school'] = $row['schoolname'];
             $rowdata['teachers'] = $this->Report_data_model->getSchoolTeachers($rowdata['school_id'], 'count')['count'];
             $rowdata['classes'] = $this->Report_data_model->getSchoolClasses($rowdata['school_id'], 'count')['count'];
-            $rowdata['students'] = $this->Report_data_model->getSchoolStudents($rowdata['school_id'], 'count')['count'];
+            $rowdata['students'] = $this->Report_data_model->getSchoolStudents($rowdata['school_id'], 'count', 'all')['count'];
             
             $this->response['schoolCounts'][] = $rowdata;
         }
