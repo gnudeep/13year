@@ -39,6 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </h2><small id="summary-title"> </small>
                     </div>
                     <div class="body">
+<<<<<<< HEAD
                         <div class="info-box-3-high bg-teal hover-expand-effect DTtrigger" id="schools_count_div" data-id="schools">
                             <div class="icon">
                                 <i class="material-icons">business</i>
@@ -107,6 +108,58 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="text updated hidden">Updated : <span id="update-funds"></span> </div>
                             </div>
                         </div>
+=======
+                        <!-- <div class="row clearfix"> -->
+                            <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12" id="schools_count_div"> -->
+                                <div class="info-box-3-high bg-teal hover-expand-effect DTtrigger" id="schools_count_div" data-id="schools">
+                                    <div class="icon">
+                                        <i class="material-icons">business</i>
+                                    </div>
+                                    <div class="content">
+                                        <div class="text">SCHOOLS</div>
+                                        <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="schools_count" ></div>
+                                        <div class="text updated hidden">Updated : <span id="update-school"></span> </div>
+                                    </div>
+                                </div>
+                            <!-- </div> -->
+                            <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"> -->
+                                <div class="info-box-3-high bg-teal hover-expand-effect DTtrigger" data-id="teachers">
+                                    <div class="icon">
+                                        <i class="material-icons">people</i>
+                                    </div>
+                                    <div class="content">
+                                        <div class="text">TEACHERS</div>
+                                        <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="teachers_count" ></div>
+                                        <div class="text updated hidden">Updated : <span id="update-teachers"></span> </div>
+                                    </div>
+                                </div>
+                            <!-- </div> -->
+                            <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"> -->
+                                <div class="info-box-3-high bg-teal hover-expand-effect DTtrigger" data-id="classes">
+                                    <div class="icon">
+                                        <i class="material-icons">domain</i>
+                                    </div>
+                                    <div class="content">
+                                        <div class="text">CLASSES</div>
+                                        <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="classes_count" ></div>
+                                        <div class="text updated hidden">Updated : <span id="update-classes"></span> </div>
+                                    </div>
+                                </div>
+                            <!-- </div> -->
+                            <!-- <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12"> -->
+                                <div class="info-box-3-high bg-teal hover-expand-effect DTtrigger" data-id="students">
+                                    <div class="icon">
+                                        <i class="material-icons">face</i>
+                                    </div>
+                                    <div class="content">
+                                        <div class="text">Students</div>
+                                        <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="students_count" ></div>
+                                        <div class="text updated hidden">Updated : <span id="update-students"></span> </div>
+                                    </div>
+                                </div>
+                            <!-- </div> -->
+                        <!-- </div> -->
+>>>>>>> origin/master
                     </div>
                 </div>
             </div>
@@ -205,6 +258,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     $(document).ready(function () {
         getTotalDetails();
+        loadMap();
 
         var allschools = Array(<?php echo json_encode($schools); ?>);
 
@@ -470,15 +524,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         }
 
+<<<<<<< HEAD
         function loadMap(schools, dataArray){
             $schoolsArray = schools;
             
+=======
+        function loadMap(){
+            $schoolsArray = Array(<?php echo json_encode($schools); ?>);
+            console.log(<?php echo json_encode($schools); ?>);
+>>>>>>> origin/master
             google.charts.load('current', { 'packages': ['map', 'table'],
                                         'mapsApiKey': 'AIzaSyDMi68dvm91pJnVYOEL087Y_5wioxMLOmc'});
             google.charts.setOnLoadCallback(drawMap);
 
             function drawMap() {
+<<<<<<< HEAD
                 var datax = google.visualization.arrayToDataTable([
+=======
+                var data = google.visualization.arrayToDataTable([
+>>>>>>> origin/master
                     ['latitude', 'longitude', 'School'],
                     <?php foreach($schools as $row) {?>
                     <?php if($row['lat']) { ?>
@@ -487,8 +551,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <?php } ?>
                 ]);
 
+<<<<<<< HEAD
                 var data = google.visualization.arrayToDataTable(dataArray, false);
 
+=======
+>>>>>>> origin/master
                 var options = {
                     center: {lat: 7.611513, lng: 80.699751},
                     enableScrollWheel: true,
@@ -520,7 +587,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         function setSchoolData(school_id, school_name, zone, province){
             $('.updated').removeClass('hidden');
+<<<<<<< HEAD
             $('#funds_count_div').removeClass('hidden');
+=======
+>>>>>>> origin/master
             $('#schools_count_div').addClass('hidden');
             $('#schoolMenu').parent().addClass('active');
 
@@ -549,11 +619,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $('#update-classes').text(response['classes']['last_update']);
 
                     $('#students_count').text(response['students']['count']);
+<<<<<<< HEAD
                     $('#students_count_male').text(response['students']['male']);
                     $('#students_count_female').text(response['students']['female']);
                     $('#update-students').text(response['students']['last_update']);
 
                     $('#funds_count').text((response['funds']['total']).toLocaleString());
+=======
+                    $('#update-students').text(response['students']['last_update']);
+
+>>>>>>> origin/master
                 },
                 error: function (response) {
                     alert("Error Updating! Please try again.");

@@ -156,7 +156,11 @@ class Report_data_model extends CI_Model
 
             if ($query->num_rows() > 0) {
                 foreach ($query->result() as $row){
+<<<<<<< HEAD
                     if ($row->Gender == 'Male'){
+=======
+                    if ($row->gender == 'Male'){
+>>>>>>> origin/master
                         $res['male'] ++;
                     } else {
                         $res['female'] ++;
