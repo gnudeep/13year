@@ -205,6 +205,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     $(document).ready(function () {
         getTotalDetails();
+        loadMap();
 
         var allschools = Array(<?php echo json_encode($schools); ?>);
 
