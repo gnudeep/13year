@@ -67,12 +67,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     </ul>
                 </li>
-                <li>
-                    <a href="<?php echo base_url()."index.php/report/getmap"?>">
-                        <i class="material-icons">map</i>
-                        <span>View on map</span>
-                    </a>
-                </li>
             </ul>
         </div>
         <!-- #Menu -->

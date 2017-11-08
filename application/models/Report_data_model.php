@@ -67,13 +67,16 @@ class Report_data_model extends CI_Model
         $query = $this->db->get('students_info');
         $res['total'] = $query->num_rows();
         
-        foreach ($query->result() as $row){
-            if ($row->gender == 'Male'){
-                $res['male'] ++;
-            } else {
-                $res['female'] ++;
+        if ($query->num_rows() > 0) {
+            foreach ($query->result() as $row){
+                if ($row->gender == 'Male'){
+                    $res['male'] ++;
+                } else {
+                    $res['female'] ++;
+                }
             }
         }
+            
         
         return $res;
     }
@@ -117,12 +120,23 @@ class Report_data_model extends CI_Model
         $this->db->select('timeCreated, index_no AS Index No, UPPER(nic) AS NIC, in_name AS Name With Initials, gender AS Gender');
         $this->db->where('school_id', $school_id);
         $query = $this->db->get('students_info');
+        $res = ['male' => 0, 'female' => 0];
 
         if($r_type == 'list'){
             return $query->result_array();
         }else if($r_type == 'count'){
             $res['count'] = $query->num_rows();
             $res['last_update'] = $query->row()->timeCreated;
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result() as $row){
+                    if ($row->gender == 'Male'){
+                        $res['male'] ++;
+                    } else {
+                        $res['female'] ++;
+                    }
+                }
+            }
             return $res;
         }
     }
@@ -170,12 +184,24 @@ class Report_data_model extends CI_Model
         $this->db->join('students_info si', 'si.id = ss.student_id');
         $this->db->order_by('s.census_id', 'ASC');
         $query = $this->db->get('student_subjects ss');
+        $res = ['male' => 0, 'female' => 0];
 
         if($r_type == 'list'){
             return $query->result_array();
         }else if($r_type == 'count'){
             $res['count'] = $query->num_rows();
             $res['last_update'] = $query->row()->timeCreated;
+
+            if ($query->num_rows() > 0) {
+                foreach ($query->result() as $row){
+                    if ($row->gender == 'Male'){
+                        $res['male'] ++;
+                    } else {
+                        $res['female'] ++;
+                    }
+                }
+            }
+            
             return $res;
         }
     }
