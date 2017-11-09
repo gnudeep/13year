@@ -143,17 +143,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <table class="table table-bordered table-striped table-hover data-table" id="allSchools">
                                 <thead>
                                     <tr>
+                                        <th>ID</th>
                                         <th>Census ID</th>
                                         <th>School Name</th>
                                         <th>Teachers</th>
                                         <th>Classes</th>
-                                        <th>Students</th>
+                                        <th>Students Male</th>
+                                        <th>Students Female</th>
+                                        <th>Students Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php if ($schoolCounts) { ?>
+                                    <?php $id = 1; $male = 0; $female = 0; ?>
                                     <?php foreach ($schoolCounts as $row) { ?>
+                                    <?php if ($row['school_id']) { ?>
                                     <tr>
+                                        <td>
+                                            <?php echo $id;?> </td>
                                         <td>
                                             <?php echo $row['school_id'];?> </td>
                                         <td>
@@ -163,11 +170,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td>
                                             <?php echo $row['classes'];?> </td>
                                         <td>
+                                            <?php echo $row['male']; $male += $row['male'];?> </td>
+                                        <td>
+                                            <?php echo $row['female']; $female += $row['female'];?> </td>
+                                        <td>
                                             <?php echo $row['students'];?> </td>
                                     </tr>
+                                    <?php $id++; ?>
+                                    <?php } ?>
                                     <?php } ?>
                                     <?php } ?>
                                 </tbody>
+                                <tfooter>
+                                <?php if ($schoolCounts) { ?>
+                                    <tr class="align-center">
+                                        <td colspan="2"> Total  </td>
+                                        <td> <?php echo $id;?> </td>
+                                        <td>
+                                            <?php echo $schoolCounts['teachers'];?> </td>
+                                        <td>
+                                            <?php echo $schoolCounts['classes'];?> </td>
+                                        <td>
+                                            <?php echo $male;?> </td>
+                                        <td>
+                                            <?php echo $female;?> </td>
+                                        <td>
+                                            <?php echo $schoolCounts['students'];?> </td>
+                                    </tr>
+                                    <?php } ?>
+                                </tfooter>
                             </table>
                         </div>
                     </div>

@@ -26,6 +26,8 @@ class Report extends CI_Controller
 
         $this->response['schools'] = $this->Report_data_model->getSchools();
         $this->response['subjects'] = $this->Form_data_model->select('subjects');
+        $this->response['provinces'] = $this->Form_data_model->select('province');
+        $this->response['zones'] = $this->Form_data_model->select('zones');
         $this->getSchoolWithCount();
         
         $this->load->view('report/sidebar', $this->response);
@@ -168,7 +170,13 @@ class Report extends CI_Controller
             $rowdata['teachers'] = $this->Report_data_model->getSchoolTeachers($rowdata['school_id'], 'count')['count'];
             $rowdata['classes'] = $this->Report_data_model->getSchoolClasses($rowdata['school_id'], 'count')['count'];
             $rowdata['students'] = $this->Report_data_model->getSchoolStudents($rowdata['school_id'], 'count', 'all')['count'];
+            $rowdata['male'] = $this->Report_data_model->getSchoolStudents($rowdata['school_id'], 'count', 'male')['count'];
+            $rowdata['female'] = $this->Report_data_model->getSchoolStudents($rowdata['school_id'], 'count', 'female')['count'];
             
+            $this->response['schoolCounts']['schools'] = $this->Report_data_model->getTotalRecords('schools');
+            $this->response['schoolCounts']['teachers'] = $this->Report_data_model->getTotalRecords('teachers');
+            $this->response['schoolCounts']['classes'] = $this->Report_data_model->getTotalRecords('classes');
+            $this->response['schoolCounts']['students'] = $this->Report_data_model->getTotalRecords('students_info');
             $this->response['schoolCounts'][] = $rowdata;
         }
     }
