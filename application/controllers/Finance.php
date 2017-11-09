@@ -25,7 +25,8 @@ class Finance extends CI_Controller
         $this->load->view('head');
         $this->load->view('finance/sidebar');
 
-        $this->response['school'] = $this->Form_data_model->select('schools');
+        $search_array = array('census_id'=> $this->session->school_id);
+        $this->response['school'] = $this->Form_data_model->searchdb('schools', $search_array);
         $this->response['balance'] = $this->General_data_model->getFundsBalance($this->session->school_id);
         $this->load->view('finance/dashboard', $this->response);
         $this->load->view('footer');
