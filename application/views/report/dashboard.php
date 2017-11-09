@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="position:absolute; right: 10px;">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="position:absolute; right: 10px; z-index:999">
                 <div class="card">
                     <div class="header">
                         <h2  id="summary-header">
@@ -111,6 +111,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
+
+        <!-- All Schools Bar Chart -->
+        <div class="row clearfix">
+        <div class="col-lg-9 col-md-9">
+                <div class="card">
+                    <div class="body">
+                        <div id="allschools_bar" style=" height: 1300px;" ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- List Selected info Modal -->
         <div class="modal fade" id="infoModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
@@ -143,7 +154,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <table class="table table-bordered table-striped table-hover data-table" id="allSchools">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th></th>
                                         <th>Census ID</th>
                                         <th>School Name</th>
                                         <th>Teachers</th>
@@ -249,6 +260,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <?php } ?>
 
         loadMap(allschools, dataArray);
+        loadChart();
 
         $(".required").append("<span class='col-red'> *</span>");
 
@@ -256,20 +268,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('#allschholsModal').modal('show');
         });
 
-        $('#allSchools').DataTable({
+        var alltable = $('#allSchools').DataTable({
             dom: 'Bfrtip',
             Sort: true,
             responsive: true,
             buttons: [
-                'csv', 'excel', 'pdf',
+                'csv', 'excel',
+                { 
+                    extend: 'pdf',
+                    footer: true,
+                    title: 'List of All Schools - 13 Years of Guaranteed Education Program'
+                },
                 {
                     extend: 'print',
                     text: 'Print',
                     autoPrint: true,
+                    footer: true,
                     title: 'List of All Schools - 13 Years of Guaranteed Education Program'
+                }
+            ],
+            columnDefs: [
+                {
+                    targets: 0,
+                    orderable: false
                 }
             ]
         });
+        alltable.on( 'order.dt search.dt', function () {
+            alltable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                cell.innerHTML = i+1;
+            } );
+        } ).columns.adjust().draw();
 
         $('.DTtrigger').click(function(){
             var search_type = $('.ml-menu').find('.active').find('.filter').data('type');
@@ -312,10 +341,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 columns: res.columns,
                                 columnDefs: [
                                     {
-                                        "targets": [ 0 ],
-                                        "visible": false
+                                        targets: 0,
+                                        header: 'id'
                                     }
                                 ],
+                                order: [[ 1, 'asc' ]],
                                 buttons: [
                                     {
                                         extend: 'csv',
@@ -358,6 +388,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             });
 
                             table.columns.adjust().draw();
+                            table.on( 'order.dt search.dt', function () {
+                                table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                                    cell.innerHTML = i+1;
+                                } );
+                                table.column(0).header().innerHTML = '';
+                            } ).columns.adjust().draw();
                         }
                         
                         
@@ -502,6 +538,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
         }
 
+        function setSchoolData(school_id, school_name, zone, province){
+            $('.updated').removeClass('hidden');
+            $('#funds_count_div').removeClass('hidden');
+            $('#schools_count_div').addClass('hidden');
+            $('#schoolMenu').parent().addClass('active');
+
+            $('#summary-header').text(school_name);
+            $('#summary-title').text(zone + ' Zone, ' + province + ' Province');
+
+            var post_url = "index.php/report/getschoolData/2";
+
+            var form_data = new FormData();
+
+            form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
+            form_data.append('school_id', school_id);
+
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + post_url,
+                dataType :'json',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    $('#teachers_count').text(response['teachers']['count']);
+                    $('#update-teachers').text(response['teachers']['last_update']);
+
+                    $('#classes_count').text(response['classes']['count']);
+                    $('#update-classes').text(response['classes']['last_update']);
+
+                    $('#students_count').text(response['students']['count']);
+                    $('#students_count_male').text(response['students']['male']);
+                    $('#students_count_female').text(response['students']['female']);
+                    $('#update-students').text(response['students']['last_update']);
+
+                    $('#funds_count').text((response['funds']['total']).toLocaleString());
+                },
+                error: function (response) {
+                    alert("Error Updating! Please try again.");
+                }
+            });
+        }
+
         function loadMap(schools, dataArray){
             $schoolsArray = schools;
             
@@ -550,47 +629,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             };
         }
 
-        function setSchoolData(school_id, school_name, zone, province){
-            $('.updated').removeClass('hidden');
-            $('#funds_count_div').removeClass('hidden');
-            $('#schools_count_div').addClass('hidden');
-            $('#schoolMenu').parent().addClass('active');
+        function loadChart(){
+            
+            google.charts.load('current', { 'packages': ['bar'],
+                                        'mapsApiKey': 'AIzaSyDMi68dvm91pJnVYOEL087Y_5wioxMLOmc'});
+            google.charts.setOnLoadCallback(drawMap);
 
-            $('#summary-header').text(school_name);
-            $('#summary-title').text(zone + ' Zone, ' + province + ' Province');
+            function drawMap() {
+                var data = google.visualization.arrayToDataTable([
+                    ['School Name', 'Teachers', 'Classes', 'Students'],
+                    <?php foreach($schoolCounts as $row) {?>
+                    <?php if($row['school_id']) { ?>
+                    <?php echo '["'. $row['school_id'] . ' - ' . $row['school'] . '", ' . $row['teachers'] . ', ' . $row['classes'] . ', ' . $row['students'] . '],'; ?>
+                    <?php } ?>
+                    <?php } ?>
+                ]);
 
-            var post_url = "index.php/report/getschoolData/2";
+                var options = {
+                    legend:{position:'in', alignment: 'start'},
+                    chart: {
+                      title: 'School Details',
+                      subtitle: 'Teachers, Classes and Students Count',
+                    },
+                    bars: 'horizontal' // Required for Material Bar Charts.
+                };
+          
 
-            var form_data = new FormData();
+                var chart = new google.charts.Bar(document.getElementById('allschools_bar'));
 
-            form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
-            form_data.append('school_id', school_id);
-
-            $.ajax({
-                type: "POST",
-                url: "<?php echo base_url(); ?>" + post_url,
-                dataType :'json',
-                data: form_data,
-                contentType: false,
-                processData: false,
-                success: function(response){
-                    $('#teachers_count').text(response['teachers']['count']);
-                    $('#update-teachers').text(response['teachers']['last_update']);
-
-                    $('#classes_count').text(response['classes']['count']);
-                    $('#update-classes').text(response['classes']['last_update']);
-
-                    $('#students_count').text(response['students']['count']);
-                    $('#students_count_male').text(response['students']['male']);
-                    $('#students_count_female').text(response['students']['female']);
-                    $('#update-students').text(response['students']['last_update']);
-
-                    $('#funds_count').text((response['funds']['total']).toLocaleString());
-                },
-                error: function (response) {
-                    alert("Error Updating! Please try again.");
-                }
-            });
+                chart.draw(data, google.charts.Bar.convertOptions(options));
+            };
         }
     });
 </script>
