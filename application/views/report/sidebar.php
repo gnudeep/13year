@@ -22,9 +22,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:void(0);" id="allschools" >
+                    <a href="javascript:void(0);" id="schoolsinfo" >
                         <i class="material-icons">done_all</i>
-                        <span>List All Schools</span>
+                        <span>School Information</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" id="allschools" >
+                        <i class="material-icons">details</i>
+                        <span>Program Details by Schools</span>
                     </a>
                 </li>
                 <li>
