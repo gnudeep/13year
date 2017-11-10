@@ -122,6 +122,58 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
+        
+        <!-- List Selected info Modal -->
+        <div class="modal fade" id="schoolsListModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg2" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-teal">
+                        <h4 class="modal-title" id="infoModalLabel"> School Information </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover js-exportable" id="schoolsList" style="width:100%" >
+                                <thead>
+                                <tr>
+                                    <th>Census ID</th>
+                                    <th>Name</th>
+                                    <th>Telephone</th>
+                                    <th>Fax</th>
+                                    <th>Email</th>
+                                    <th>Principal's Name</th>
+                                    <th>Principal's Mobile</th>
+                                    <th>Principal's Email</th>
+                                    <th>Province</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <?php if ($schools) { ?>
+                                    <?php foreach ($schools as $row) { ?>
+                                        <tr>
+                                            <td> <?php echo $row['census_id'];?> </td>
+                                            <td> <?php echo $row['schoolname'];?> </td>
+                                            <td> <?php echo $row['telephone'];?> </td>
+                                            <td> <?php echo $row['fax'];?> </td>
+                                            <td> <?php echo $row['email'];?> </td>
+                                            <td> <?php echo $row['principal_name'];?> </td>
+                                            <td> <?php echo $row['principal_mobile'];?> </td>
+                                            <td> <?php echo $row['principal_email'];?> </td>
+                                            <td> <?php echo $row['province'];?> </td>
+                                        </tr>
+                                    <?php } ?>
+                                <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link waves-effect bg-teal" data-dismiss="modal">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- List Selected info Modal -->
         <div class="modal fade" id="infoModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
@@ -143,11 +195,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         
         <!-- List All Schools Modal -->
-        <div class="modal fade" id="allschholsModal" tabindex="-1" role="dialog">
+        <div class="modal fade" id="proDetailsModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-teal">
-                        <h4 class="modal-title" id="allschholsModalLabel">All SCHOOLS</h4>
+                        <h4 class="modal-title" id="proDetailsModalLabel">All SCHOOLS</h4>
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive">
@@ -196,7 +248,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <?php if ($schoolCounts) { ?>
                                     <tr class="align-center">
                                         <td colspan="2"> Total  </td>
-                                        <td> <?php echo $id;?> </td>
+                                        <td> <?php echo $id - 1;?> </td>
                                         <td>
                                             <?php echo $schoolCounts['teachers'];?> </td>
                                         <td>
@@ -264,14 +316,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         $(".required").append("<span class='col-red'> *</span>");
 
-        $('#allschools').click(function(){
-            $('#allschholsModal').modal('show');
+        $('#schoolsinfo').click(function(){
+            $('#schoolsListModal').modal('show');
         });
 
-        var alltable = $('#allSchools').DataTable({
+        $('#allschools').click(function(){
+            $('#proDetailsModal').modal('show');
+        });
+
+        var schoolsinfotable = $('#schoolsList').DataTable({
             dom: 'Bfrtip',
-            Sort: true,
             responsive: true,
+            "order": [[ 8, 'asc' ]],
+            "displayLength": 10,
+            "drawCallback": function ( settings ) {
+                var api = this.api();
+                var rows = api.rows( {page:'current'} ).nodes();
+                var last=null;
+    
+                api.column(8, {page:'current'} ).data().each( function ( group, i ) {
+                    if ( last !== group ) {
+                        $(rows).eq( i ).before(
+                            '<tr class="group bg-blue-grey"><td colspan="9">'+group+'</td></tr>'
+                        );
+    
+                        last = group;
+                    }
+                } );
+            },
             buttons: [
                 'csv', 'excel',
                 { 
@@ -285,6 +357,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     autoPrint: true,
                     footer: true,
                     title: 'List of All Schools - 13 Years of Guaranteed Education Program'
+                }
+            ],
+            columnDefs: [
+                {
+                    targets: 0,
+                    orderable: false
+                }
+            ]
+        } );
+
+        var alltable = $('#allSchools').DataTable({
+            dom: 'Bfrtip',
+            Sort: true,
+            responsive: true,
+            buttons: [
+                'csv', 'excel',
+                { 
+                    extend: 'pdf',
+                    footer: true,
+                    title: 'Program Details - 13 Years of Guaranteed Education Program'
+                },
+                {
+                    extend: 'print',
+                    text: 'Print',
+                    autoPrint: true,
+                    footer: true,
+                    title: 'Program Details - 13 Years of Guaranteed Education Program'
                 }
             ],
             columnDefs: [
@@ -395,8 +494,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 table.column(0).header().innerHTML = '';
                             } ).columns.adjust().draw();
                         }
-                        
-                        
                     },
                     error: function (response) {
                         
@@ -606,7 +703,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     showTooltip: true,
                     showInfoWindow: true,
                     mapType: 'normal',
-                    zoomLevel: 8
+                    zoomLevel: 8,
+                    vAxis: {
+                        minorGridlines: {count:4}
+                    }
                 };
 
                 var map = new google.visualization.Map(document.getElementById('regions_div'));
