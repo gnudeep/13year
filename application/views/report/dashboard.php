@@ -295,7 +295,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url()."assets/plugins/jquery-countto/jquery.countTo.js"?>"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
-
+  
 <script>
     $(document).ready(function () {
         getTotalDetails();
