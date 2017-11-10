@@ -44,6 +44,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <table class="table table-bordered table-striped table-hover" id="students">
                                     <thead>
                                         <tr>
+                                            <th> </th>
                                             <th>Index No</th>
                                             <th>Name with Initials</th>
                                             <th>NIC</th>
@@ -54,9 +55,40 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <th>Distance to school (km)</th>
                                             <th>Parent's Income</th>
                                             <th>Travel Mode</th>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <?php if ($students) { ?>
+                                        <?php foreach ($students as $row) { ?>
+                                        <tr>
+                                            <td></td>
+                                            <td> <?php echo $row['index_no'];?> </td>
+                                            <td> <?php echo $row['in_name'];?> </td>
+                                            <td> <?php echo $row['nic'];?> </td>
+                                            <td> <?php echo $row['gender'];?> </td>
+                                            <td> <?php echo $row['address'];?> </td>
+                                            <td> <?php echo $row['telephone'];?> </td>
+                                            <td> <?php echo $row['medium'];?> </td>
+                                            <td> <?php echo $row['dist_school'];?> </td>
+                                            <td> <?php echo $row['income'];?> </td>
+                                            <td> <?php echo $row['travel_mode'];?> </td>
+                                            <td> <?php echo $row['std_id'];?> </td>
+
+                                            <td> <?php echo $row['full_name'];?> </td>
+                                            <td> <?php echo $row['dob'];?> </td>
+                                            <td> <?php echo $row['travel_mode_id'];?> </td>
+                                        </tr>
+                                        <?php } ?>
+                                        <?php } else { ?>
+                                        <tr>
+                                            <td> </td>
+                                            <td> </td>
+                                        </tr>
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -155,8 +187,126 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
 
-        </div>
 
+            <!-- Modal to verify letter from barcode-->
+            <div id="studentsModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 id="studentsModal-title">  </h4>
+                        </div>
+
+                        <?php echo form_open('teacher/students', 'role="form" id="studentsModalForm"') ?> 
+                        <div class="modal-body">
+                            <input type="text" class="hidden" name="std_id" id="std_id" >
+                            <div class="col-md-6">
+                                <!--<label for="name" class="required">Student Name</label>-->
+                                <label for="std_id" class="required">Index No</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" id="index_no" name="index_no" required>
+                                        <label class="form-label">Student Index No</label>
+                                    </div>
+                                </div>
+                                <label for="nic" class="required">NIC No</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" id="nic" name="nic">
+                                        <label class="form-label">Student NIC No</label>
+                                    </div>
+                                </div>
+                                <label for="in_name" class="required">Name with Initials</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" id="in_name" name="in_name" required>
+                                        <label class="form-label">Student Name with Initials</label>
+                                    </div>
+                                </div>
+                                <label for="in_name" class="required">Full Name</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" id="full_name" name="full_name" required>
+                                        <label class="form-label">Student Full Name </label>
+                                    </div>
+                                </div>
+                                <label for="dob" class="required">Birth Day</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="datepicker form-control" id="dob" name="dob" required>
+                                        <label class="form-label">Birth Day</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label required">Gender</label>
+                                    <select id="gender" class="form-control show-tick" name="gender" required>
+                                    <option value="">-- Please select --</option>
+                                        <option value="Male"> Male </option>
+                                        <option value="Female"> Female </option>
+                                </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="name" class="required">Address</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <textarea rows="1" class="form-control no-resize auto-growth" id="address" name="address"></textarea>
+                                        <label class="form-label">Address</label>
+                                    </div>
+                                </div>
+                                <label for="telephone" class="required">Parent's Telephone No</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control telephone" id="telephone" name="telephone" required placeholder="Ex: 000-1234567">
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label required">Medium</label>
+                                    <select id="medium" class="form-control show-tick" name="medium" required>
+                                        <option value="">-- Please select --</option>
+                                        <option value="Sinhala">Sinhala</option>
+                                        <option value="Tamil">Tamil</option>
+                                        <option value="English">English</option>
+                                </select>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label "> Distance to School in km </label>
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" id="dist_school" name="dist_school">
+                                        <label class="form-label">Distance to School in km</label>
+                                    </div>
+                                </div>
+                                <label for="trained"> Parent's Income </label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" id="income" name="income">
+                                        <label class="form-label"> Parent's Income </label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label ">Travel Mode</label>
+                                    <select id="travel_mode" class="form-control show-tick" name="travel_mode">
+                                        <option value="">-- Please select --</option>
+                                        <?php if ($travel_modes) { ?>
+                                        <?php foreach ($travel_modes as $row) { ?>
+                                        <option value="<?php echo $row['id'];?>" > <?php echo $row['travel_mode'] ;?> </option>
+                                        <?php    } ?>
+                                        <?php } ?>
+                                </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer" style="border-top:0;">
+                            <button type="button" class="btn btn-success" id="studentsModal_submit"> Submit </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
+                        </div>
+                        <?php echo form_close() ?>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </section>
 
@@ -173,9 +323,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/editor/js/dataTables.editor.js "?>"></script>
     <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/select/js/dataTables.select.min.js "?>"></script>
 
+    <!-- Select Plugin Js -->
+    <script src="<?php echo base_url()."assets/plugins/bootstrap-select/js/bootstrap-select.js"?>"></script>
+
+    <!-- Input Mask Plugin Js -->
+    <script src="<?php echo base_url()."assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js"?>"></script>
 
     <script>
         $(document).ready(function() {
+            
+        
+            $.validator.addMethod('nic', function (value, element) {
+                return value.match(/^([0-9]{9}[x|X|v|V])|([0-9]{12})$/);
+            },
+            'Please enter valid NIC'
+            );
+
             $('.js-basic-example').DataTable({
                 responsive: true
             });
@@ -189,366 +352,96 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 ]
             });
 
-            //Handle Teachers DataTable
-            var studentEditor = new $.fn.dataTable.Editor({
-                "ajax": "<?php echo base_url().'index.php/Teacher/Dtable/Students' ?>",
-                "data": function(d) {
-                    d.
-                    <?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-                },
-                "table": "#students",
-                "display": 'lightbox',
-                "fields": [{
-                        "label": "Index No:",
-                        "name": "students_info.index_no"
-                    },
-                    {
-                        "label": "School Census ID:",
-                        "name": "students_info.school_id",
-                        "def": "<?php echo $this->session->school_id; ?>",
-                        attr: {
-                            "readonly": "readonly"
-                        }
-                    },
-                    {
-                        "label": "Full Name:",
-                        "name": "students_info.full_name",
-                    },
-                    {
-                        "label": "Name with Initials:",
-                        "name": "students_info.in_name",
-                    },
-                    {
-                        "label": "NIC Number:",
-                        "name": "students_info.nic",
-                    },
-                    {
-                        "label": "Gender:",
-                        "name": "students_info.gender",
-                        "type": "select",
-                        "options": [
-                            "Male",
-                            "Female"
-                        ]
-                    },
-                    {
-                        "label": "Address:",
-                        "name": "students_info.address",
-                        "type": "textarea"
-                    },
-                    {
-                        "label": "Parent Telephone:",
-                        "name": "students_info.telephone"
-                    },
-                    {
-                        "label": "Medium:",
-                        "name": "students_info.medium",
-                        "type": "select",
-                        "options": [
-                            "Sinhala",
-                            "English"
-                        ]
-                    },
-                    {
-                        "label": "Distance to School (km):",
-                        "name": "students_info.dist_school"
-                    },
-                    {
-                        "label": "Parent's Income:",
-                        "name": "students_info.income"
-                    },
-                    {
-                        "label": "Travel Mode:",
-                        "name": "students_info.travel_mode_id",
-                        "type": "select",
-                        "placeholder": "<-- Please Select -->",
-                        "placeholderDisabled": false,
-                       },
-                       {
-                       "label": "Status:",
-                       "name": "students_info.status",
-                       "type": "hidden",
-                       "default":"Phase 1"
-                       }
-                ]
-            });
-
-            studentEditor.on('preSubmit', function(e, o, action) {
-                o.
-                <?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
-            });
-
-            studentEditor.field('students_info.index_no').input().addClass('form-control show-tick');
-            studentEditor.field('students_info.school_id').input().addClass('form-control show-tick');
-            studentEditor.field('students_info.nic').input().addClass('form-control');
-            studentEditor.field('students_info.full_name').input().addClass('form-control show-tick');
-            studentEditor.field('students_info.in_name').input().addClass('form-control show-tick');
-            studentEditor.field('students_info.gender').input().addClass('form-control show-tick');
-            studentEditor.field('students_info.address').input().addClass('form-control show-tick');
-            studentEditor.field('students_info.telephone').input().addClass('form-control show-tick');
-            studentEditor.field('students_info.medium').input().addClass('form-control show-tick');
-            studentEditor.field('students_info.dist_school').input().addClass('form-control show-tick');
-            studentEditor.field('students_info.income').input().addClass('form-control show-tick');
-            studentEditor.field('students_info.travel_mode_id').input().addClass('form-control show-tick');
-
-            $('#students').DataTable({
+            var studentsTable = $('#students').DataTable({
                 dom: "Bfrtip",
                 responsive: true,
-                ajax: {
-                    url: "<?php echo base_url().'index.php/Teacher/Dtable/Students' ?>",
-                    data: {
-                        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-                    },
-                    type: "POST"
-                },
-                serverSide: true,
-                columns: [{
-                        data: "students_info.index_no"
-                    },
+                select: true,
+                columnDefs: [
                     {
-                        data: "students_info.in_name"
-                    },
-                    {
-                        data: "students_info.nic"
-                    },
-                    {
-                        data: "students_info.gender"
-                    },
-                    {
-                        data: "students_info.address"
-                    },
-                    {
-                        data: "students_info.telephone"
-                    },
-                    {
-                        data: "students_info.medium"
-                    },
-                    {
-                        data: "students_info.dist_school"
-                    },
-                    {
-                        data: "students_info.income"
-                    },
-                    {
-                        data: "travel_mode.travel_mode"
+                        targets: [11, 12, 13],
+                        visible: false
                     }
                 ],
-                select: true,
-                buttons: [{
-                        extend: "edit",
-                        editor: studentEditor
-                    },
-                    {
-                        extend: "remove",
-                        editor: studentEditor
-                    }
-                ]
-            });
+                order: [[ 1, 'asc' ]],
+                buttons: [
+                {
+                    text: 'Edit',
+                    className: 'btn btn-primary waves-effect',
+                    action: function ( e, dt, node, config ) {
+                        if(studentsTable.rows({selected: true}).data()['0']){
+                            $('#studentsModal-title').text('Edit Student');
+                            $('#studentsModal_submit').data('action', 'edit')
+                            $('#studentsModal').modal('toggle');
+                            $('#studentsModalForm').validate({
+                                rules: {
+                                    index_no : 'required',
+                                    in_name : 'required',
+                                    nic : {required :true, nic: true},
+                                    gender : 'required',
+                                    address : 'required',
+                                    medium : 'required',
+                                    dob : 'required'
+                                },
+                                highlight: function(input) {
+                                    $(input).parents('.form-line').addClass('error');
+                                },
+                                unhighlight: function(input) {
+                                    $(input).parents('.form-line').removeClass('error');
+                                },
+                                errorPlacement: function(error, element) {
+                                    $(element).parents('.form-group').append(error);
+                                }
+                            });
+                            var data = studentsTable.rows({selected: true}).data();
 
+                            $('#std_id').val(data['0']['11']);
+                            $('#index_no').val(data['0']['1']);
+                            $('#in_name').val(data['0']['2']);
+                            $('#nic').val(data['0']['3']);
+                            $('#gender').val(data['0']['4']).trigger('change');
+                            $('#address').val(data['0']['5']);
+                            $('#telephone').val(data['0']['6']);
+                            $('#medium').val(data['0']['7']).trigger('change');
+                            $('#dist_school').val(data['0']['8']);
+                            $('#income').val(data['0']['9']);
+                            $('#travel_mode').val(data['0']['14']).trigger('change');
 
-            //Handle Classes DataTable
-            var classEditor = new $.fn.dataTable.Editor({
-                "ajax": "<?php echo base_url().'index.php/Sadmin/Dtable/Classes' ?>",
-                "data": function(d) {
-                    d.
-                    <?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-                },
-                "table": "#classes",
-                "display": 'lightbox',
-                "fields": [{
-                        "label": "School Census ID:",
-                        "name": "classes.school_id",
-                        "def": "<?php echo $this->session->school_id; ?>",
-                        attr: {
-                            "readonly": "readonly"
+                            $('#full_name').val(data['0']['12']);
+                            $('#dob').val(data['0']['13']);
+                            $('.form-line').addClass('focused')
                         }
-                    },
-                    {
-                        "label": "Grade:",
-                        "name": "classes.grade",
-                        "type": "select",
-                        "options": [
-                            "Grade 12",
-                            "Grade 13"
-                        ]
-                    },
-                    {
-                        "label": "Class:",
-                        "name": "classes.class_name",
-                    },
-                    {
-                        "label": "Class Teacher:",
-                        "name": "classes.class_teacher",
-                        "type": "select",
-                    },
-                    {
-                        "label": "Commenced Date:",
-                        "name": "classes.commenced_date",
-                        "type": "date",
+                        
                     }
-                ]
-            });
-
-            classEditor.on('preSubmit', function(e, o, action) {
-                o.
-                <?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
-            });
-
-            classEditor.field('classes.school_id').input().addClass('form-control show-tick');
-            classEditor.field('classes.grade').input().addClass('form-control show-tick');
-            classEditor.field('classes.class_name').input().addClass('form-control show-tick');
-            classEditor.field('classes.class_teacher').input().addClass('form-control show-tick');
-            classEditor.field('classes.commenced_date').input().addClass('form-control show-tick');
-
-            $('#classes').DataTable({
-                dom: "Bfrtip",
-                responsive: true,
-                ajax: {
-                    url: "<?php echo base_url().'index.php/Sadmin/Dtable/Classes' ?>",
-                    data: {
-                        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-                    },
-                    type: "POST"
                 },
-                serverSide: true,
-                columns: [{
-                        data: "classes.grade"
-                    },
                     {
-                        data: "classes.class_name"
-                    },
-                    {
-                        data: "teachers.teacher_in_name"
-                    },
-                    {
-                        data: "classes.commenced_date"
-                    }
-                ],
-                select: true,
-                buttons: [{
-                        extend: "create",
-                        editor: classEditor
-                    },
-                    {
-                        extend: "edit",
-                        editor: classEditor
-                    },
-                    {
-                        extend: "remove",
-                        editor: classEditor
+                        text: "remove"
                     }
                 ]
             });
 
+            studentsTable.on( 'order.dt search.dt', function () {
+                studentsTable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                    cell.innerHTML = i+1;
+                } );
+            } ).columns.adjust().draw();
 
-            //Handle Users DataTable
-            var usersEditor = new $.fn.dataTable.Editor({
-                "ajax": "<?php echo base_url().'index.php/Sadmin/Dtable/Users' ?>",
-                "data": function(d) {
-                    d.
-                    <?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-                },
-                "table": "#users",
-                "display": 'lightbox',
-                "fields": [{
-                        "label": "School Census ID:",
-                        "name": "school_id",
-                        "def": "<?php echo $this->session->school_id; ?>",
-                        attr: {
-                            "readonly": "readonly"
-                        }
-                    },
-                    {
-                        "label": "Name:",
-                        "name": "name",
-                    },
-                    {
-                        "label": "User Name:",
-                        "name": "uname",
-                    },
-                    {
-                        "label": "Password:",
-                        "name": "passwd",
-                        "type": "password",
-                    },
-                    {
-                        "label": "Role:",
-                        "name": "role",
-                        "type": "select",
-                        "className": "form-control",
-                        options: [{
-                                label: "School Administrator",
-                                value: 1
-                            },
-                            {
-                                label: "Finance Administrator",
-                                value: 2
-                            },
-                            {
-                                label: "Class Teacher",
-                                value: 3
-                            }
-                        ]
-                    }
-                ]
-            });
+            $('#studentsModal_submit').click(function(){
+                var action = $(this).data('action');
+                var std_id = $('#std_id').val(data['0']['11']);
+                var index_no = $('#index_no').val();
+                var in_name = $('#in_name').val();
+                var nic = $('#nic').val();
+                var gender = $('#gender').val();
+                var address = $('#address').val();
+                var telephone = $('#telephone').val();
+                var medium = $('#medium').val();
+                var dist_school = $('#dist_school').val();
+                var income = $('#income').val();
+                var travel_mode = $('#travel_mode').val();
+                var full_name = $('#full_name').val();
+                var dob = $('#dob').val();
 
-            usersEditor.on('preSubmit', function(e, o, action) {
-                o.
-                <?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
-            });
-
-            usersEditor.field('name').input().addClass('form-control');
-            usersEditor.field('uname').input().addClass('form-control');
-            usersEditor.field('passwd').input().addClass('form-control');
-            usersEditor.field('role').input().addClass('form-control show-tick');
-
-            $('#users').DataTable({
-                dom: "Bfrtip",
-                responsive: true,
-                ajax: {
-                    url: "<?php echo base_url().'index.php/Sadmin/Dtable/Users' ?>",
-                    data: {
-                        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'
-                    },
-                    type: "POST"
-                },
-                serverSide: true,
-                columns: [{
-                        data: "name"
-                    },
-                    {
-                        data: "uname"
-                    },
-                    {
-                        data: "role"
-                    }
-                ],
-                "columnDefs": [{
-                    "render": function(data, type, row) {
-                        var role;
-                        if (data == '1') {
-                            role = "School Administrator";
-                        } else
-                        if (data == '2') {
-                            role = "Finance Administrator";
-                        } else if (data == '3') {
-                            role = "Class Teacher"
-                        }
-                        return role;
-                    },
-                    "targets": 2
-                }],
-                select: true,
-                buttons: [{
-                        extend: "edit",
-                        editor: usersEditor
-                    },
-                    {
-                        extend: "remove",
-                        editor: usersEditor
-                    }
-                ]
+                alert(action);
             });
         });
 

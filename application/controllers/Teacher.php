@@ -25,6 +25,8 @@ class Teacher extends CI_Controller
         $this->load->view('teacher/sidebar');
 
         $this->getClassDetails();
+        $this->response['travel_modes'] = $this->Form_data_model->select('travel_mode');
+        
         $this->load->view('teacher/dashboard', $this->response);
         $this->load->view('footer');
     }
@@ -55,6 +57,8 @@ class Teacher extends CI_Controller
 
         $searchArray = array('school_id' =>$this->session->school_id, 'class_id' => $this->response['class']['0']['id']);
         $this->response['subjects'] = $this->Form_data_model->getClassDetails($this->session->school_id, $this->response['class']['0']['id']);
+
+        $this->response['students'] = $this->Form_data_model->getClassStudents($this->response['class']['0']['id']);
 
         $this->response['attendance'] = $this->Form_data_model->getClassAttendance($this->session->school_id, $this->response['class']['0']['id']);
         

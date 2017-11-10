@@ -127,9 +127,10 @@ class Form_data_model extends CI_Model
     }
     
     public function getClassStudents($class_id){
-        $this->db->select('*, s.id');
+        $this->db->select('*, s.id AS std_id');
         $this->db->from('class_students c');
         $this->db->join('students_info s', 'c.student_id = s.id');
+        $this->db->join('travel_mode t', 's.travel_mode_id = t.id');
         $this->db->order_by('s.index_no', 'ASC');
         $this->db->where('c.class_id', $class_id);
         $query = $this->db->get();

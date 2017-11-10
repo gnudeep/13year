@@ -22,7 +22,7 @@ class Admin extends CI_Controller
     {
         $this->check_sess();
         $this->load->view('head');
-        $this->load->view('admin/admin-sidebar');
+        $this->load->view('admin/sidebar');
 
         $this->response['schools'] = $this->Form_data_model->select('schools');
         $this->response['coordinators'] = $this->Form_data_model->select('coordinators');
@@ -51,7 +51,7 @@ class Admin extends CI_Controller
     {
         $this->check_sess();
         $this->load->view('head');
-        $this->load->view('admin/admin-sidebar');
+        $this->load->view('admin/sidebar');
 
         $this->response['province'] = $this->Form_data_model->select('province');
         $this->load->view('admin/addSchool', $this->response);
@@ -117,13 +117,33 @@ class Admin extends CI_Controller
         $appsch = $this->input->post('appsch');
         $appser = $this->input->post('appser');
         $cuname = strtolower($this->input->post('cuname'));
+        $cur_cuname = strtolower($this->input->post('cur_cuname'));
         $cpw = password_hash($this->input->post('cpw'), PASSWORD_DEFAULT);
+        $cID = $this->input->post('cID');
+        $uID = $this->input->post('uID');
         
         $coordinator_array = array('school_id' => $school_id, 'coordinator_nic' => $cnic, 'coordinator_name' => $cname, 'coordinator_dob' => $cdob, 'coordinator_mobile' => $cmobile, 'coordinator_email' => $cemail, 'coordinator_ser_app' => $appser, 'coordinator_sch_app' => $appsch);
         
         $user_array = array('role' => '1', 'name' => $cname, 'uname' => $cuname, 'passwd' => $cpw, 'school_id' => $school_id);
         
-        $res = $this->Form_data_model->addCoordinator($coordinator_array, $user_array);
+        if ($formAction == 'add') {
+            $res = $this->Form_data_model->addCoordinator($coordinator_array, $user_array);
+        } else if ($formAction == 'edit') {
+            $coordinator_array['id'] = $cID;
+            if ($cuname) {
+                if ($cpw) {
+                    $user_arrayx = array('id' => $uID, 'role' => '1', 'name' => $cname, 'uname' => $cuname, 'passwd' => $cpw, 'school_id' => $school_id);
+                } else {
+                    $user_arrayx = array('id' => $uID, 'role' => '1', 'name' => $cname, 'uname' => $cuname, 'school_id' => $school_id);
+                }
+                $res = $this->Form_data_model->updateCoordinator($coordinator_array, $user_arrayx, $cID, $uID);
+            } else {
+                $res = $this->Form_data_model->update('coordinators', $coordinator_array, $cID);
+            }
+            
+        }
+        
+        
         
         if($res == '1'){
             echo "success";

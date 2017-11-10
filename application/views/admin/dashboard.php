@@ -66,17 +66,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <td> <?php echo $row['principal_email'];?> </td>
                                         </tr>
                                     <?php } ?>
-                                <?php } else { ?>
-                                    <tr>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                        <td>  </td>
-                                    </tr>
                                 <?php } ?>
                                 </tbody>
                             </table>
@@ -134,6 +123,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <th>Date Join the School</th>
                                         <th>Date Join the Service</th>
                                         <th>User Name</th>
+                                        <th class="hidden">cID</th>
+                                        <th class="hidden">uID</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -151,6 +142,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <td> <?php echo $row['coordinator_sch_app'];?> </td>
                                         <td> <?php echo $row['coordinator_ser_app'];?> </td>
                                         <td> <?php echo $row['uname'];?> </td>
+                                        <td class="hidden"> <?php echo $row['cID'];?> </td>
+                                        <td class="hidden"> <?php echo $row['uID'];?> </td>
                                     </tr>
                                     <?php } ?>
                                     <?php } ?>
@@ -159,6 +152,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Modal to verify letter from barcode-->
+        <div id="subjectsModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 id="subjectsModal-title">  </h4>
+
+                    </div>
+
+                    <?php echo form_open('admin/Subjects', 'role="form" id="SubjectsForm"') ?> 
+                    <div class="modal-body">
+                        <input type="text" class="hidden" name="subj_id" id="subj_id" >
+                        <div class="row clearfix">
+                            <div class="col-md-12">
+                                <div class="form-group form-float">
+                                    <!--<label for="name">Coordinator Name</label>-->
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="subj" id="subj" autofocus>
+                                        <label class="form-label"> Subject Name </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top:0;">
+                        <button type="button" class="btn btn-success" id="subjectsModal_submit"> Submit </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
+                    </div>
+                    <?php echo form_close() ?>
+                </div>
+
             </div>
         </div>
 
@@ -176,6 +206,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     <?php echo form_open('admin/Coordinator', 'role="form" id="CoordinatorForm"') ?> 
                     <div class="modal-body">
+                        <input type="text" class="form-control hidden" name="cID" id="cID">
+                        <input type="text" class="form-control hidden" name="uID" id="uID">
                         <div class="row clearfix">
                             <div class="col-md-12">
                                 <div class="form-group form-float">
@@ -262,6 +294,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <!--<label for="cuname">Coordinator User Name</label>-->
                                     <div class="form-line">
                                         <input type="text" class="form-control" name="cuname" id="cuname">
+                                        <input type="text" class="form-control hidden" name="cur_cuname" id="cur_cuname">
                                         <label class="form-label">Coordinator User Name</label>
                                     </div>
                                 </div>
@@ -311,12 +344,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/export/buttons.print.min.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/editor/js/dataTables.editor.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/select/js/dataTables.select.min.js"?>"></script>
+
 <!-- Select Plugin Js -->
 <script src="<?php echo base_url()."assets/plugins/bootstrap-select/js/bootstrap-select.js"?>"></script>
 
 <!-- Input Mask Plugin Js -->
 <script src="<?php echo base_url()."assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js"?>"></script>
-
 
 <script>
     $(document).ready(function () {
@@ -366,7 +399,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             o.<?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
         } );
         
-        $('#subjects').DataTable( {
+        var subjectTable = $('#subjects').DataTable( {
             dom: "Bfrtip",
             ajax: {
                 url: "<?php echo base_url().'index.php/Admin/Subjects' ?>",
@@ -381,9 +414,46 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 style: 'single'
             },
             buttons: [
-                { extend: "create", editor: subjectEditor },
-                { extend: "edit",   editor: subjectEditor },
-                { extend: "remove", editor: subjectEditor }
+                {
+                    text: 'New',
+                    className: 'btn btn-primary waves-effect',
+                    action: function ( e, dt, node, config ) {
+                        $('#subjectsModal-title').text('Add Subject');
+                        $('#subjectsModal_submit').data('action', 'add')
+                        $('#subjectsModal').modal('toggle');
+                        $('#subjectsForm').validate({
+                            rules: {
+                                subj : 'required',
+                            },
+                            highlight: function(input) {
+                                $(input).parents('.form-line').addClass('error');
+                            },
+                            unhighlight: function(input) {
+                                $(input).parents('.form-line').removeClass('error');
+                            },
+                            errorPlacement: function(error, element) {
+                                $(element).parents('.form-group').append(error);
+                            }
+                        });
+                    }
+                },
+                {
+                    text: 'Edit',
+                    className: 'btn btn-primary waves-effect',
+                    action: function ( e, dt, node, config ) {
+                        if(subjectTable.rows({selected: true}).data()['0']){
+                            $('#subjectsModal-title').text('Edit Subject');
+                            $('#subjectsModal').data('action', 'edit')
+                            $('#subjectsModal').modal('toggle');
+
+                            var data = subjectTable.rows({selected: true}).data();
+                            $('#subj').val( data[0]['subject_name'] );
+                            $('#subj_id').val( data[0]['DT_RowId'].split("_")[1] );
+                            $('.form-line').addClass('focused')
+                        }
+                        
+                    }
+                }
             ]
         } );
         
@@ -444,6 +514,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     cmobile : 'required',
                                     cdob : 'required',
                                     cemail : 'required',
+                                    cuname: {required: false},
+                                    cpw: {required: false},
                                     're_passwd': {
                                         equalTo: "#cpw"
                                     }
@@ -469,6 +541,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             $('#appsch').val(data['0']['7']);
                             $('#appser').val(data['0']['8']);
                             $('#cuname').val(data['0']['9']);
+                            $('#cur_cuname').val(data['0']['9']);
+                            $('#cID').val(data['0']['10']);
+                            $('#uID').val(data['0']['10']);
                             $('.form-line').addClass('focused')
                         }
                         
