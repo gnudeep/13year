@@ -26,7 +26,7 @@ class Teacher extends CI_Controller
 
         $this->getClassDetails();
         $this->response['travel_modes'] = $this->Form_data_model->select('travel_mode');
-        
+
         $this->load->view('teacher/dashboard', $this->response);
         $this->load->view('footer');
     }
@@ -128,6 +128,42 @@ class Teacher extends CI_Controller
         } else {
             $this->session->set_flashdata('not-success','Something went wrong! Student Details Did not Added');
             redirect('teacher/index');
+        }
+    }
+    
+    public function students()
+    {
+        header('Content-Type: application/x-json; charset=utf-8');
+        
+        $formAction = $this->input->post('formAction');
+        $school_id = $this->session->school_id;
+        $std_id = $this->input->post('std_id');
+        $index_no = $this->input->post('index_no');
+        $in_name = $this->input->post('in_name');
+        $nic = strtoupper($this->input->post('nic'));
+        $gender = $this->input->post('gender');
+        $address = $this->input->post('address');
+        $telephone = $this->input->post('telephone');
+        $medium = $this->input->post('medium');
+        $dist_school = $this->input->post('dist_school');
+        $income = $this->input->post('income');
+        $travel_mode_id = $this->input->post('travel_mode');
+        $full_name = $this->input->post('full_name');
+        $dob = $this->input->post('dob');
+        
+        $student_array = array('school_id' => $school_id, 'index_no' => $index_no, 'in_name' => $in_name, 'full_name' => $full_name, 'nic' => $nic, 'gender' => $gender, 'address' => $address, 'telephone' => $telephone, 'medium' => $medium, 'dist_school' => $dist_school, 'income' => $income, 'travel_mode_id' => $travel_mode_id, 'dob' => $dob);
+    
+        
+        if ($formAction == 'add') {
+            $res = $this->Form_data_model->insert('students_info', $student_array);
+        } else if ($formAction == 'edit') {
+            $res = $this->Form_data_model->update('students_info', 'id', $std_id, $student_array);
+        }
+        
+        if($res == '1'){
+            echo "success";
+        }else {
+            echo strval($workplace_id);
         }
     }
     

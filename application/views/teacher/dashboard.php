@@ -426,8 +426,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             } ).columns.adjust().draw();
 
             $('#studentsModal_submit').click(function(){
-                var action = $(this).data('action');
-                var std_id = $('#std_id').val(data['0']['11']);
+                var formAction = $(this).data('action');
+                var form_data = new FormData();
+                
+                var std_id = $('#std_id').val();
                 var index_no = $('#index_no').val();
                 var in_name = $('#in_name').val();
                 var nic = $('#nic').val();
@@ -441,6 +443,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var full_name = $('#full_name').val();
                 var dob = $('#dob').val();
 
+                form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
+                form_data.append('formAction', formAction);
+                form_data.append('std_id', std_id);
+                form_data.append('index_no', index_no);
+                form_data.append('in_name', in_name);
+                form_data.append('nic', nic);
+                form_data.append('gender', gender);
+                form_data.append('address', address);
+                form_data.append('telephone', telephone);
+                form_data.append('medium', medium);
+                form_data.append('dist_school', dist_school);
+                form_data.append('income', income);
+                form_data.append('travel_mode', travel_mode);
+                form_data.append('full_name', full_name);
+                form_data.append('dob', dob);
+
+                var post_url = "index.php/teacher/students/2";
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + post_url,
+                    dataType :'text',
+                    data: form_data,
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        location.reload();
+                    },
+                    error: function (response) {
+                        alert("Error Updating! Please try again.");
+                    }
+                });
                 alert(action);
             });
         });

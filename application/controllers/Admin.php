@@ -143,8 +143,6 @@ class Admin extends CI_Controller
             
         }
         
-        
-        
         if($res == '1'){
             echo "success";
         }else {

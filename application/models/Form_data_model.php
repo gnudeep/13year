@@ -169,8 +169,6 @@ class Form_data_model extends CI_Model
             $sql5 = "EXECUTE stmt;";
             
             $query = $this->db->query($sql5);
-            
-            echo $query;
 
             $res = $query->result_array();
     
@@ -219,6 +217,16 @@ class Form_data_model extends CI_Model
         $this->db->insert($table, $schoolArray);
 
         if($this->db->affected_rows() > 0){
+            return '1';
+        }
+    }
+
+    public function update($table, $search_field, $search_key, $update_array){
+        
+        $this->db->where($search_field, $search_key);
+        $this->db->update($table, $update_array);
+        
+        if($this->db->affected_rows()){
             return '1';
         }
     }

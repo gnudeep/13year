@@ -128,7 +128,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <div class="modal-dialog modal-lg2" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-teal">
-                        <h4 class="modal-title" id="infoModalLabel"> School Information </h4>
+                        <h4 class="modal-title" id="schoolsListModalLabel"> School Information </h4>
                     </div>
                     <div class="modal-body">
                         <div class="table-responsive">
@@ -287,6 +287,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/export/buttons.print.min.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/editor/js/dataTables.editor.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/select/js/dataTables.select.min.js"?>"></script>
+
 <!-- Select Plugin Js -->
 <script src="<?php echo base_url()."assets/plugins/bootstrap-select/js/bootstrap-select.js"?>"></script>
 
@@ -294,7 +295,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url()."assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-countto/jquery.countTo.js"?>"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
   
 <script>
     $(document).ready(function () {
