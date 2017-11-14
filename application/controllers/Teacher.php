@@ -150,20 +150,30 @@ class Teacher extends CI_Controller
         $travel_mode_id = $this->input->post('travel_mode');
         $full_name = $this->input->post('full_name');
         $dob = $this->input->post('dob');
+
+        $ClassSearchArray = array('class_teacher' =>$this->session->teacher_id);
+        $class_id = $this->Form_data_model->searchdb('classes', $ClassSearchArray)['0']['id'];
+
+        $student_id = $this->Form_data_model->get_recent_id('students_info')['0']['id'] + 1;
         
-        $student_array = array('school_id' => $school_id, 'index_no' => $index_no, 'in_name' => $in_name, 'full_name' => $full_name, 'nic' => $nic, 'gender' => $gender, 'address' => $address, 'telephone' => $telephone, 'medium' => $medium, 'dist_school' => $dist_school, 'income' => $income, 'travel_mode_id' => $travel_mode_id, 'dob' => $dob);
-    
+        $student_array = array('school_id' => $school_id, 'index_no' => $index_no, 'in_name' => $in_name, 'full_name' => $full_name, 'nic' => $nic, 'gender' => $gender, 'address' => $address, 'telephone' => $telephone, 'medium' => $medium, 'dist_school' => $dist_school, 'income' => $income, 'travel_mode_id' => $travel_mode_id, 'dob' => $dob, 'status' => 'Phase 1', 'last_edit' => $this->session->user_id);
         
+
+        $classArray = array('school_id' => $school_id, 'class_id' => $class_id, 'student_id' => $student_id);
+
         if ($formAction == 'add') {
-            $res = $this->Form_data_model->insert('students_info', $student_array);
+            $student_array['id'] = $student_id;
+            $res = $this->Form_data_model->addStudent($student_array, $classArray);
         } else if ($formAction == 'edit') {
             $res = $this->Form_data_model->update('students_info', 'id', $std_id, $student_array);
+        } else if ($formAction == 'delete') {
+            $res = $this->Form_data_model->deleteStudent( $std_id );
         }
         
         if($res == '1'){
             echo "success";
         }else {
-            echo strval($workplace_id);
+            echo json_encode($res);
         }
     }
     

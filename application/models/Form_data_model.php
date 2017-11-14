@@ -130,7 +130,7 @@ class Form_data_model extends CI_Model
         $this->db->select('*, s.id AS std_id');
         $this->db->from('class_students c');
         $this->db->join('students_info s', 'c.student_id = s.id');
-        $this->db->join('travel_mode t', 's.travel_mode_id = t.id');
+        $this->db->join('travel_mode t', 's.travel_mode_id = t.id', 'left');
         $this->db->order_by('s.index_no', 'ASC');
         $this->db->where('c.class_id', $class_id);
         $query = $this->db->get();
@@ -290,6 +290,28 @@ class Form_data_model extends CI_Model
         } else {
             $err_message = $this->db->error();
             log_message('error', $err_message);
+            $this->db->trans_complete();
+        }
+
+        return $res;
+    }
+
+    public function deleteStudent( $std_id ) {
+        $res=0;
+        $tables = array('p1_attendance', 'class_students', 'student_marks', 'student_subjects');
+        $this->db->trans_start();
+
+        $this->db->where('student_id', $std_id)->delete($tables);
+        $this->db->where('id', $std_id)->delete('students_info')->reset_data(true);
+
+
+        if ($this->db->trans_status() === TRUE){
+            $res = 1;
+            $this->db->trans_complete();
+        } else {
+            $err_message = $this->db->error();
+            log_message('error', $err_message);
+            $res = $err_message;
             $this->db->trans_complete();
         }
 

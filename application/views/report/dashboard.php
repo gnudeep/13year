@@ -31,7 +31,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="position:absolute; right: 10px; z-index:999">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="position:absolute; right: 10px; z-index:11">
                 <div class="card">
                     <div class="header">
                         <h2  id="summary-header">
@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="text updated hidden">Updated : <span id="update-students"></span> </div>
                             </div>
                         </div>
-                        <div class="info-box-3 bg-red hover-expand-effect DTtrigger" data-id="male students">
+                        <div class="info-box-3 bg-red hover-expand-effect DTtrigger-gen" data-id="male students">
                             <div class="icon">
                                 <i class="material-icons">face</i>
                             </div>
@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="students_count_male" ></div>
                             </div>
                         </div>
-                        <div class="info-box-3 bg-red hover-expand-effect DTtrigger" data-id="female students">
+                        <div class="info-box-3 bg-red hover-expand-effect DTtrigger-gen" data-id="female students">
                             <div class="icon">
                                 <i class="material-icons">face</i>
                             </div>
@@ -405,6 +405,116 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             if (search_id) {
 
+                var school_name = $('.ml-menu').find('.active').find('.filter').data('name');
+                var zone = $('.ml-menu').find('.active').find('.filter').data('zone');
+                var province = $('.ml-menu').find('.active').find('.filter').data('province');
+                var form_data = new FormData();
+                var id = $(this).data("id");
+
+                form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
+                form_data.append('search_type', search_type);
+                form_data.append('select', id);
+                form_data.append('search_id', search_id);
+                
+                var columns = [];
+                var data = [];
+                var row = [];
+
+                var post_url = "index.php/report/getSelectedInfo/2";
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + post_url,
+                    dataType :'json',
+                    data: form_data,
+                    contentType: false,
+                    processData: false,
+                    success: function(res){
+                        if (res.data) {
+                            var table = $('#infoTable').DataTable({
+                                dom: 'Bfrtip',
+                                destroy: true,
+                                bSort: false,
+                                responsive: true,
+                                data: res.data,
+                                columns: res.columns,
+                                columnDefs: [
+                                    {
+                                        targets: 0,
+                                        header: 'id'
+                                    }
+                                ],
+                                order: [[ 1, 'asc' ]],
+                                buttons: [
+                                    {
+                                        extend: 'csv',
+                                        text: 'csv',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        },
+                                        title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST' + '\n' +  zone + ' Zone, ' + province + ' Province',
+                                        messageTop:  zone + ' Zone, ' + province + ' Province'
+                                    },
+                                    {
+                                        extend: 'excel',
+                                        text: 'excel',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        },
+                                        title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST',
+                                        messageTop:  zone + ' Zone, ' + province + ' Province'
+                                    },
+                                    {
+                                        extend: 'pdfHtml5',
+                                        text: 'pdf',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        },
+                                        title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST',
+                                        messageTop:  zone + ' Zone, ' + province + ' Province'
+                                    },
+                                    {
+                                        extend: 'print',
+                                        text: 'Print',
+                                        exportOptions: {
+                                            columns: ':visible'
+                                        },
+                                        autoPrint: true,
+                                        title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST',
+                                        messageTop:  zone + ' Zone, ' + province + ' Province'
+                                    }
+                                ]
+                            });
+
+                            table.columns.adjust().draw();
+                            table.on( 'order.dt search.dt', function () {
+                                table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
+                                    cell.innerHTML = i+1;
+                                } );
+                                table.column(0).header().innerHTML = '';
+                            } ).columns.adjust().draw();
+                        }
+                    },
+                    error: function (response) {
+                        
+                    }
+                });
+
+                if (search_type == 'school') {
+                    $('#infoModalLabel').text(id.toUpperCase() + ' - ' + school_name + ' - ' + zone + ' Zone, ' + province + ' Province' );
+                } else {
+                    $('#infoModalLabel').text(id.toUpperCase());
+                }
+                
+                $('#infoModal').modal('show');
+            }
+            
+        });
+
+        $('.DTtrigger-gen').click(function(){
+            var search_type = $('.ml-menu').find('.active').find('.filter').data('type');
+            var search_id = $('.ml-menu').find('.active').find('.filter').data('id');
+
+            if (search_id) {
 
                 var school_name = $('.ml-menu').find('.active').find('.filter').data('name');
                 var zone = $('.ml-menu').find('.active').find('.filter').data('zone');
@@ -442,6 +552,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     {
                                         targets: 0,
                                         header: 'id'
+                                    },
+                                    {
+                                        targets: 4,
+                                        visible: false
                                     }
                                 ],
                                 order: [[ 1, 'asc' ]],

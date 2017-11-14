@@ -9,6 +9,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+<link href="<?php echo base_url()."assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"?>" rel="stylesheet" />
 
     <section class="content">
         <div class="container-fluid">
@@ -329,6 +330,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Input Mask Plugin Js -->
     <script src="<?php echo base_url()."assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js"?>"></script>
 
+    <!-- SweetAlert Plugin Js -->
+    <script src="<?php echo base_url()."assets/plugins/sweetalert/sweetalert.min.js"?>"></script>
+
     <script>
         $(document).ready(function() {
             
@@ -358,12 +362,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 select: true,
                 columnDefs: [
                     {
-                        targets: [11, 12, 13],
+                        targets: [11, 12, 13, 14],
                         visible: false
                     }
                 ],
                 order: [[ 1, 'asc' ]],
                 buttons: [
+                {
+                    text: 'New',
+                    className: 'btn btn-primary waves-effect',
+                    action: function ( e, dt, node, config ) {
+                        
+                        $('#studentsModal-title').text('Add Student');
+                        $('#studentsModal_submit').data('action', 'add')
+                        $('#studentsModal').modal('toggle');
+                        $('#studentsModalForm').validate({
+                            rules: {
+                                index_no : 'required',
+                                in_name : 'required',
+                                nic : {required :true, nic: true},
+                                gender : 'required',
+                                address : 'required',
+                                medium : 'required',
+                                dob : 'required'
+                            },
+                            highlight: function(input) {
+                                $(input).parents('.form-line').addClass('error');
+                            },
+                            unhighlight: function(input) {
+                                $(input).parents('.form-line').removeClass('error');
+                            },
+                            errorPlacement: function(error, element) {
+                                $(element).parents('.form-group').append(error);
+                            }
+                        });
+                    }
+                },
                 {
                     text: 'Edit',
                     className: 'btn btn-primary waves-effect',
@@ -413,9 +447,54 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         
                     }
                 },
-                    {
-                        text: "remove"
+                {
+                    text: "remove",
+                    className: 'btn btn-primary waves-effect',
+                    action: function ( e, dt, node, config ) {
+                        if(studentsTable.rows({selected: true}).data()['0']){
+                            var data = studentsTable.rows({selected: true}).data();
+
+                            var std_id = data['0']['11'];
+                            var std_name = data['0']['2'];
+                            swal({
+                                title: "Are you sure?",
+                                text: "This will delete " + std_name + "from the system!",
+                                type: "warning",
+                                showCancelButton: true,
+                                confirmButtonColor: "#DD6B55",
+                                confirmButtonText: "Yes, delete it!",
+                                showCancelButton: true,
+                                closeOnConfirm: false,
+                                showLoaderOnConfirm: true,
+                            }, function () {
+                                
+                                var form_data = new FormData();
+
+                                form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
+                                form_data.append('formAction', 'delete');
+                                form_data.append('std_id', std_id);
+
+                                var post_url = "index.php/teacher/students/2";
+                                $.ajax({
+                                    type: "POST",
+                                    url: "<?php echo base_url(); ?>" + post_url,
+                                    dataType :'text',
+                                    data: form_data,
+                                    contentType: false,
+                                    processData: false,
+                                    success: function(response){
+                                    }
+                                });
+
+                                setTimeout(function () {
+                                    swal( std_name + " Deleted!");
+                                }, 2000);
+                                
+                                        //location.reload();
+                            });
+                        }
                     }
+                }
                 ]
             });
 
@@ -459,22 +538,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 form_data.append('full_name', full_name);
                 form_data.append('dob', dob);
 
-                var post_url = "index.php/teacher/students/2";
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + post_url,
-                    dataType :'text',
-                    data: form_data,
-                    contentType: false,
-                    processData: false,
-                    success: function(response){
-                        location.reload();
-                    },
-                    error: function (response) {
-                        alert("Error Updating! Please try again.");
-                    }
-                });
-                alert(action);
+                if($('#studentsModalForm').valid()){
+                    var post_url = "index.php/teacher/students/2";
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url(); ?>" + post_url,
+                        dataType :'text',
+                        data: form_data,
+                        contentType: false,
+                        processData: false,
+                        success: function(response){
+                            location.reload();
+                        },
+                        error: function (response) {
+                            alert("Error Updating! Please try again.");
+                        }
+                    });
+                }
             });
         });
 
