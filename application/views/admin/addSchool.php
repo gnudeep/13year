@@ -70,6 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </div>
                                 </div>
                             </div>
+                            
                             <label for="telephone" class="required">School Telephone No</label>
                             <div class="form-group form-float">
                                 <div class="form-line">

@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover js-exportable">
+                            <table class="table table-bordered table-striped table-hover " id="schoolTable" >
                                 <thead>
                                 <tr>
                                     <th>Census ID</th>
@@ -49,6 +49,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Principal's Name</th>
                                     <th>Principal's Mobile</th>
                                     <th>Principal's Email</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -64,6 +67,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <td> <?php echo $row['principal_name'];?> </td>
                                             <td> <?php echo $row['principal_mobile'];?> </td>
                                             <td> <?php echo $row['principal_email'];?> </td>
+                                            <td> <?php echo $row['province_id'];?> </td>
+                                            <td> <?php echo $row['district_id'];?> </td>
+                                            <td> <?php echo $row['zone_id'];?> </td>
                                         </tr>
                                     <?php } ?>
                                 <?php } ?>
@@ -329,6 +335,114 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
         
+
+        <!-- Modal to verify letter from barcode-->
+        <div id="schoolsModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 id="schoolsModal-title">  </h4>
+                    </div>
+
+                    <?php echo form_open('admin/Schools', 'role="form" id="addSchoolForm"') ?> 
+                    <div class="modal-body">
+                        <div class="row clearfix">
+                            <input type="text" class="hidden" name="std_id" id="std_id" >
+                            <div class="col-md-6">
+                                <label for="census_id" class="required">Census ID</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="census_id" id="census_id" required>
+                                        <label class="form-label">Census ID</label>
+                                    </div>
+                                </div>
+                                <label for="name" class="required">School Name</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="name" id="name" required>
+                                        <label class="form-label">School Name</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label required">Province</label>
+                                    <select id="province" class="form-control show-tick" name="province"  required>
+                                        <option value="">-- Please select --</option>
+                                        <?php if ($province) { ?>
+                                            <?php foreach ($province as $row) { ?>
+                                                <option value="<?php echo $row['id'];?>" > <?php echo $row['province'] ;?> </option>
+                                            <?php    } ?>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="form-group form-float">
+                                    <label class="form-label required">District</label>
+                                    <select id="district" class="form-control show-tick" name="district"  required>
+                                        <option value="">-- Please select --</option>
+                                    </select>
+                                </div>
+                                    <div class="form-group form-float">
+                                        <label class="form-label required">Zone</label>
+                                        <select id="zone" class="form-control show-tick" name="zone"  required>
+                                            <option value="">-- Please select --</option>
+                                        </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telephone" class="required">School Telephone No</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control telephone" name="telephone" id="telephone" required placeholder="Ex: 000-1234567">
+                                    </div>
+                                </div>
+                                <label for="fax">School Fax No</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control telephone" name="fax" id="fax" placeholder="Ex: 000-1234567">
+                                    </div>
+                                </div>
+                                <label for="email">School Email Address</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="email" class="form-control" name="email" id="email" >
+                                        <label class="form-label">School Email Address</label>
+                                    </div>
+                                </div>
+                                <label for="pname" class="required">Principal's Name</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="pname" id="pname" required>
+                                        <label class="form-label">Principal's Name</label>
+                                    </div>
+                                </div>
+                                <label for="pmobile" class="required">Principal's Mobile No</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control telephone" name="pmobile" id="pmobile" placeholder="Ex: 000-1234567" required>
+                                    </div>
+                                </div>
+                                <label for="email">Principal's Email Address</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="email" class="form-control" name="pemail" id="pemail" >
+                                        <label class="form-label">Principal's Email Address</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top:0;">
+                        <button type="button" class="btn btn-success" id="schoolsModal_submit"> Submit </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
+                    </div>
+                    <?php echo form_close() ?>
+                </div>
+
+            </div>
+        </div>
+        
     </div>
 </section>
 
@@ -354,6 +468,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     $(document).ready(function () {
         
+        $('.telephone').inputmask('999-9999999', { placeholder: '___-_______' });
         $(".required").append("<span class='col-red'> *</span>");
         
         $('.dataTable').DataTable({
@@ -598,6 +713,160 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }
         });
             
+        var schoolTable = $('#schoolTable').DataTable({
+            dom: 'Bfrtip',
+            responsive: true,
+            select: true,
+            columnDefs: [
+                {
+                    targets: [8, 9, 10],
+                    visible: false
+                }
+            ],
+            buttons:
+            [
+                {
+                    text: 'New',
+                    className: 'btn btn-primary waves-effect',
+                    action: function ( e, dt, node, config ) {
+                        
+                        $('#schoolsModal-title').text('Add School');
+                        $('#schoolsModal_submit').data('action', 'add')
+                        $('#schoolsModal').modal('toggle');
+                    }
+                },
+                {
+                    text: 'Edit',
+                    className: 'btn btn-primary waves-effect',
+                    action: function ( e, dt, node, config ) {
+                        if(schoolTable.rows({selected: true}).data()['0']){
+                            $('#schoolsModal-title').text('Edit School');
+                            $('#schoolsModal_submit').data('action', 'edit')
+                            $('#schoolsModal').modal('toggle');
+
+                            var data = schoolTable.rows({selected: true}).data();
+
+                            $('#census_id').val(data['0']['0']);
+                            $('#name').val(data['0']['1']);
+                            $('#telephone').val('0' + data['0']['2']);
+                            $('#fax').val('0' + data['0']['3']);
+                            $('#email').val(data['0']['4']);
+                            $('#pname').val(data['0']['5']);
+                            $('#pmobile').val('0' + data['0']['6']);
+                            $('#pemail').val(data['0']['7']);
+                            
+                            $('#province').val(data['0']['8']).trigger('change');
+                            //getDistricts(data['0']['8']);
+                            $('#district').val(data['0']['9']).trigger('change');
+                            getZones(data['0']['9']);
+                            $('#zone').val(data['0']['10']).trigger('change');
+
+                            $('.form-line').addClass('focused')
+                        }
+                        
+                    }
+                }
+            ]
+        });
+
+        $('#province').change(function(){
+            var id = $(this).val();
+            getDistricts(id);
+        });
+
+        $('#district').change(function(){
+            var id = $(this).val();
+            getZones(id);
+        });
+
+        $('#schoolsModal_submit').click(function() {
+            var formAction = $(this).data('action');
+            var form_data = new FormData();
+
+            var census_id = $('#census_id').val();
+            var name = $('#name').val();
+            var province = $('#province').val();
+            var district = $('#district').val();
+            var zone = $('#zone').val();
+            var telephone = $('#telephone').val();
+            var fax = $('#fax').val();
+            var email = $('#email').val();
+            var pname = $('#pname').val();
+            var pmobile = $('#pmobile').val();
+            var pemail = $('#pemail').val();
+
+            form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
+            form_data.append('formAction', formAction);
+            form_data.append('census_id', census_id);
+            form_data.append('name', name);
+            form_data.append('province', province);
+            form_data.append('district', district);
+            form_data.append('zone', zone);
+            form_data.append('telephone', telephone);
+            form_data.append('fax', fax);
+            form_data.append('email', email);
+            form_data.append('pname', pname);
+            form_data.append('pmobile', pmobile);
+            form_data.append('pemail', pemail);
+
+            if($('#addSchoolForm').valid()){
+                var post_url = "index.php/admin/schools/2";
+                $.ajax({
+                    type: "POST",
+                    url: "<?php echo base_url(); ?>" + post_url,
+                    dataType :'text',
+                    data: form_data,
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        location.reload();
+                    },
+                    error: function (response) {
+                        alert("Error Updating! Please try again.");
+                    }
+                });
+            }
+            
+        });
+
+        function getDistricts(province_id){
+            var post_url = "index.php/FormControl/getDistricts";
+            var dataarray = {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>',province_id: province_id};
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + post_url,
+                dataType :'json',
+                data: dataarray,
+                async: false,
+                success: function(res){
+                    $('#district').empty();
+                    $('#district').append('<option value="">-- Please select --</option>');
+                    $.each(res, function(ID){
+                        $('#district').append('<option value='+res[ID].id+'>'+res[ID].district+'</option>');
+                    });
+                    $('#district').selectpicker('refresh');
+                }
+            });
+        }
         
+        function getZones(district_id){
+            var dataarray = {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>',district_id: district_id};
+            var post_url = "index.php/FormControl/getZones";
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + post_url,
+                dataType :'json',
+                data: dataarray,
+                async: false,
+                success: function(res){
+                    $('#zone').empty();
+                    $('#zone').append('<option value="" hidden selected> ---------Please Select---------</option>');
+                    $.each(res, function(ID){
+                        $('#zone').append('<option value='+res[ID].id+'>'+res[ID].zone+'</option>');
+                    });
+                    $('#zone').selectpicker('refresh');
+                }
+            });
+        }
     });
 </script>

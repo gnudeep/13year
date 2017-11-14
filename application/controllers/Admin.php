@@ -26,6 +26,7 @@ class Admin extends CI_Controller
 
         $this->response['schools'] = $this->Form_data_model->select('schools');
         $this->response['coordinators'] = $this->Form_data_model->select('coordinators');
+        $this->response['province'] = $this->Form_data_model->select('province');
         $this->load->view('admin/dashboard', $this->response);
         $this->load->view('footer');
     }
@@ -101,6 +102,45 @@ class Admin extends CI_Controller
         
         //Let the model produce the data
         $this->editorlib->CI->DataTable_model->Subjects($_POST);
+    }
+
+    public function Schools()
+    {
+        header('Content-Type: application/x-json; charset=utf-8');
+        $formAction = $this->input->post('formAction');
+        $census_id = $this->input->post('census_id');
+        $name = $this->input->post('name');
+        $province = $this->input->post('province');
+        $district = $this->input->post('district');
+        $zone = $this->input->post('zone');
+        $telephone = $this->input->post('telephone');
+        $fax = $this->input->post('fax');
+        $email = $this->input->post('email');
+        $pname = $this->input->post('pname');
+        $pmobile = $this->input->post('pmobile');
+        $pemail = $this->input->post('pemail');
+
+        $schoolArray = array('census_id' =>$census_id, 'schoolname' => $name, 'province_id' => $province_id, 'district_id' => $district_id, 'zone_id' => $zone_id, 'telephone' => $telephone, 'fax' => $fax, 'email' => $email, 'principal_name' => $pname, 'principal_mobile' => $pmobile, 'principal_email' => $pemail);
+
+        
+        if ($formAction == 'add') {
+            $res = $this->Form_data_model->insert('schools', $schoolArray);
+        } else if ($formAction == 'edit') {
+            $res = $this->Form_data_model->update('schools', 'census_id', $census_id, $schoolArray);
+        } else if ($formAction == 'delete') {
+            $res = $this->Form_data_model->deleteStudent( $std_id );
+        }
+
+        if ($res == 1){
+
+            $this->session->set_flashdata('success',$name . ' School Added Successfully');
+            redirect('admin/index');
+
+        } else {
+            $this->session->set_flashdata('not-success','Something went wrong! School Did not Added');
+            redirect('admin/index');
+        }
+        
     }
     
     public function changeCoordinator()
