@@ -32,6 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <label class="form-label required">Title</label>
                                     <select id="title" class="form-control show-tick" name="title" required>
                                     <option value="">-- Please select --</option>
+                                    <option value="Mr.">Rev. </option>
                                     <option value="Mr.">Mr. </option>
                                     <option value="Mrs.">Mrs. </option>
                                     <option value="Ms.">Ms. </option>

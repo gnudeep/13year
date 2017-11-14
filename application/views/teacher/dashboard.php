@@ -78,7 +78,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <td> <?php echo $row['income'];?> </td>
                                             <td> <?php echo $row['travel_mode'];?> </td>
                                             <td> <?php echo $row['std_id'];?> </td>
-
+                                            
                                             <td> <?php echo $row['full_name'];?> </td>
                                             <td> <?php echo $row['dob'];?> </td>
                                             <td> <?php echo $row['travel_mode_id'];?> </td>
