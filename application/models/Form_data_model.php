@@ -142,7 +142,7 @@ class Form_data_model extends CI_Model
     }
     
     public function getClassAttendance($school_id, $class_id){
-        $checkQ = $this->db->query('SELECT * FROM p1_attendance');
+        $checkQ = $this->db->query('SELECT * FROM p1_attendance WHERE school_id = ' . $school_id);
         
         if($checkQ->num_rows() >= 1){
 
