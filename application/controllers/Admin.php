@@ -178,7 +178,7 @@ class Admin extends CI_Controller
                 }
                 $res = $this->Form_data_model->updateCoordinator($coordinator_array, $user_arrayx, $cID, $uID);
             } else {
-                $res = $this->Form_data_model->update('coordinators', $coordinator_array, $cID);
+                $res = $this->Form_data_model->update('coordinators', 'id', $cID, $coordinator_array);
             }
             
         }

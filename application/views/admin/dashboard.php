@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-        <!-- Exportable Table For School List -->
+        <!-- Exportable Table For Coordinators List -->
         <div class="row clearfix">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="card">
@@ -658,7 +658,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             $('#cuname').val(data['0']['9']);
                             $('#cur_cuname').val(data['0']['9']);
                             $('#cID').val(data['0']['10']);
-                            $('#uID').val(data['0']['10']);
+                            $('#uID').val(data['0']['11']);
                             $('.form-line').addClass('focused')
                         }
                         
@@ -681,6 +681,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var appser = $('#appser').val();
                 var cuname = $('#cuname').val();
                 var cpw = $('#cpw').val();
+                var cID = $('#cID').val();
+                var uID = $('#uID').val();
 
                 form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
                 form_data.append('formAction', formAction);
@@ -694,6 +696,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 form_data.append('appser', appser);
                 form_data.append('cuname', cuname);
                 form_data.append('cpw', cpw);
+                form_data.append('cID', cID);
+                form_data.append('uID', uID);
 
                 var post_url = "index.php/Admin/changeCoordinator/2";
                 $.ajax({
