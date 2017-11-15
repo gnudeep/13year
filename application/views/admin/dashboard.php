@@ -748,11 +748,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                             $('#census_id').val(data['0']['0']);
                             $('#name').val(data['0']['1']);
-                            $('#telephone').val('0' + data['0']['2']);
-                            $('#fax').val('0' + data['0']['3']);
+                            $('#telephone').val(data['0']['2']);
+                            $('#fax').val(data['0']['3']);
                             $('#email').val(data['0']['4']);
                             $('#pname').val(data['0']['5']);
-                            $('#pmobile').val('0' + data['0']['6']);
+                            $('#pmobile').val(data['0']['6']);
                             $('#pemail').val(data['0']['7']);
                             
                             $('#province').val(data['0']['8']).trigger('change');
