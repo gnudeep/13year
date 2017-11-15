@@ -19,21 +19,18 @@ class Dblog {
         $CI =& get_instance();
 
         $filepath = APPPATH . 'logs/Query-log-' . date('Y-m-d') . '.php';
-        $handle = fopen($filepath, "w");
 
         $dt = new DateTime();
         $times = $dt->format('Y-m-d H:i:s');
-        //foreach ($sql as $key => $query) {
-            //$sqlFunction = substr($query,0 , 3);
-            //if ($sqlFunction != 'SEL') {
-                //$log = $query . "\n Execution Time: ". $times[$key]. "\n Executed By: ". $CI->session->username . " - ". $sqlFunction;
-                //$log = $sql .  "\n Executed By: ". $CI->session->username . " | User ID: ". $CI->session->user_id  . "\n Executed at: ". $times ;
-                //fwrite($handle, $log. "\n\n");
-            //}
-        //}
 
         $log = $sql .  "\n Executed By: ". $CI->session->username . " | User ID: ". $CI->session->user_id  . "\n Executed at: ". $times ;
-        fwrite($handle, $log. "\n\n");
-        fclose($handle);
+
+        $headerLine = '<?php defined("BASEPATH") OR exit("No direct script access allowed"); ?>';
+        
+        if(!file_exists($filepath)){
+            file_put_contents($filepath, $headerLine. "\n\n");
+        }
+
+        file_put_contents($filepath, $log. "\n\n", FILE_APPEND);
     }
 }

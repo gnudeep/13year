@@ -101,13 +101,9 @@ class Sadmin extends CI_Controller
         $res = $this->Form_data_model->insert('teachers', $dataArray);
         //$res = 1;
         if ($res == 1){
-
             $this->session->set_flashdata('success',$name . ' Teacher Has Successfully Added');
-            $query = $this->Form_data_model->getLastQuery();
-            $this->dblog->logQueries($query);
             redirect('sadmin/index');
             
-
         } else {
             $this->session->set_flashdata('not-success','Something went wrong! Teacher Details Did not Added');
             redirect('sadmin/index');
@@ -149,8 +145,6 @@ class Sadmin extends CI_Controller
 
         if($res == '1'){
             echo "success";
-            $query = $this->Form_data_model->getLastQuery();
-            $this->dblog->logQueries($query);
         }else {
             echo "not success";
         }

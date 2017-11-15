@@ -10,6 +10,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Form_data_model extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library('dblog');
+    }
     
     public function select($table){
         switch ($table){
@@ -227,6 +232,8 @@ class Form_data_model extends CI_Model
         $this->db->update($table, $update_array);
         
         if($this->db->affected_rows()){
+            $query = $this->db->last_query();
+            $this->dblog->logQueries($query);
             return '1';
         }
     }
@@ -240,6 +247,8 @@ class Form_data_model extends CI_Model
 
         if ($this->db->trans_status() === TRUE){
             $res = 1;
+            $query = $this->db->last_query();
+            $this->dblog->logQueries($query);
             $this->db->trans_complete();
         } else {
             $err_message = $this->db->error();
@@ -259,6 +268,8 @@ class Form_data_model extends CI_Model
 
         if ($this->db->trans_status() === TRUE){
             $res = 1;
+            $query = $this->db->last_query();
+            $this->dblog->logQueries($query);
             $this->db->trans_complete();
         } else {
             $err_message = $this->db->error();
@@ -270,11 +281,18 @@ class Form_data_model extends CI_Model
     }
     
     public function addAttendance($table, $data){
-        $this->db->insert_batch($table, $data);
-        
-        if($this->db->affected_rows()){
-            return '1';
+        //$this->db->insert_batch($table, $data);
+
+        foreach ($data as $key => $values) {
+           $this->db->replace($table, $values);
+
+           if($this->db->affected_rows()){
+                $query = $this->db->last_query();
+                $this->dblog->logQueries($query);
+            }
         }
+        
+        
     }
 
     public function addStudent($std_info, $class){
@@ -286,6 +304,8 @@ class Form_data_model extends CI_Model
 
         if ($this->db->trans_status() === TRUE){
             $res = 1;
+            $query = $this->db->last_query();
+            $this->dblog->logQueries($query);
             $this->db->trans_complete();
         } else {
             $err_message = $this->db->error();
@@ -307,6 +327,8 @@ class Form_data_model extends CI_Model
 
         if ($this->db->trans_status() === TRUE){
             $res = 1;
+            $query = $this->db->last_query();
+            $this->dblog->logQueries($query);
             $this->db->trans_complete();
         } else {
             $err_message = $this->db->error();
