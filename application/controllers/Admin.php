@@ -110,9 +110,9 @@ class Admin extends CI_Controller
         $formAction = $this->input->post('formAction');
         $census_id = $this->input->post('census_id');
         $name = $this->input->post('name');
-        $province = $this->input->post('province');
-        $district = $this->input->post('district');
-        $zone = $this->input->post('zone');
+        $province_id = $this->input->post('province');
+        $district_id = $this->input->post('district');
+        $zone_id = $this->input->post('zone');
         $telephone = $this->input->post('telephone');
         $fax = $this->input->post('fax');
         $email = $this->input->post('email');
