@@ -819,7 +819,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     contentType: false,
                     processData: false,
                     success: function(response){
-                        location.reload();
+                        //location.reload();
                     },
                     error: function (response) {
                         alert("Error Updating! Please try again.");
