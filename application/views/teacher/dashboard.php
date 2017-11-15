@@ -84,11 +84,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <td> <?php echo $row['travel_mode_id'];?> </td>
                                         </tr>
                                         <?php } ?>
-                                        <?php } else { ?>
-                                        <tr>
-                                            <td> </td>
-                                            <td> </td>
-                                        </tr>
                                         <?php } ?>
                                     </tbody>
                                 </table>
