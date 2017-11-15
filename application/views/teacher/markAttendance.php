@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <td class="col-md-4">
                                                 <div class="form-group form-float" style="margin-bottom:0;">
                                                     <div class="form-line">
-                                                        <input type="text" class="attdays form-control" name="attdays[]" data-student_id="<?php echo $row['id'];?>" required>
+                                                        <input type="text" class="attdays form-control" name="attdays[]" data-student_id="<?php echo $row['std_id'];?>" required>
                                                         <label class="form-label">No of Days Attended</label>
                                                     </div>
                                                 </div>

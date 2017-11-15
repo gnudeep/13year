@@ -155,7 +155,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <?php foreach ($attendance['0'] as $key => $id) { ?>
                                             <th>
                                                 <?php echo $key;?> </th>
-                                        <?php } ?>
+                                            <?php } ?>
                                             <?php } ?>
                                         </tr>
                                     </thead>
@@ -169,11 +169,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <?php } ?>
                                         </tr>
                                         <?php } ?>
-                                        <?php } else { ?>
-                                        <tr>
-                                            <td> </td>
-                                            <td> </td>
-                                        </tr>
                                         <?php } ?>
                                     </tbody>
                                 </table>
