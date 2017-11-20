@@ -79,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="text updated hidden">Updated : <span id="update-students"></span> </div>
                             </div>
                         </div>
-                        <div class="info-box-3 bg-red hover-expand-effect DTtrigger-gen" data-id="male students">
+                        <div class="info-box-3-high bg-red hover-expand-effect DTtrigger-gen" data-id="male students">
                             <div class="icon">
                                 <i class="material-icons">face</i>
                             </div>
@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <div class="number count-to" data-from="0" data-to="125" data-speed="15" data-fresh-interval="20" id="students_count_male" ></div>
                             </div>
                         </div>
-                        <div class="info-box-3 bg-red hover-expand-effect DTtrigger-gen" data-id="female students">
+                        <div class="info-box-3-high bg-red hover-expand-effect DTtrigger-gen" data-id="female students">
                             <div class="icon">
                                 <i class="material-icons">face</i>
                             </div>
@@ -114,7 +114,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         <!-- All Schools Bar Chart -->
         <div class="row clearfix">
-        <div class="col-lg-9 col-md-9">
+            <div class="col-lg-9 col-md-9">
                 <div class="card">
                     <div class="body">
                         <div id="allschools_bar" style=" height: 1300px;" ></div>
@@ -272,6 +272,217 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
         
+        <!-- Student Profile Modal -->
+        <div class="modal fade" id="studentProfile" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-teal">
+                        <h4 class="modal-title" id="studentProfileLabel">Student Profile</h4>
+                    </div>
+                    <div class="modal-body" style="overflow-y: scroll; max-height:80vh;">
+                        <h3> Class Details </h3>
+                        <div class="row clearfix">
+                            <div class="col-md-6">
+                                
+                                <div class="col-md-3 form-control-label">
+                                    <label for="school">School</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="school" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-control-label">
+                                    <label for="grade">Grade</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="grade" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="col-md-3 form-control-label">
+                                    <label for="class">Class</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="class" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-control-label">
+                                    <label for="class_teacher">Class Teacher</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="class_teacher" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3> Personal Details </h3>
+                        <div class="row clearfix">
+                            <div class="col-md-6">
+                                
+                                <div class="col-md-3 form-control-label">
+                                    <label for="full_name">Full Name</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="full_name" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-control-label">
+                                    <label for="index_no">Index No</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="index_no" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-control-label">
+                                    <label for="nic">NIC No</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="nic" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-control-label">
+                                    <label for="dob">Birth Day</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="dob" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-control-label">
+                                    <label for="gender">Gender</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="gender" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 form-control-label">
+                                    <label for="address">Address</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <textarea class="form-control no-resize " id="address" disabled></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+
+                                <div class="col-md-4 form-control-label">
+                                    <label for="telephone">Parent's Telephone No</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="telephone" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-control-label">
+                                    <label for="medium">Medium</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="medium" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-control-label">
+                                    <label for="dist_school">Distance to School in km</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="dist_school" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-control-label">
+                                    <label for="income">Parent's Income</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="income" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 form-control-label">
+                                    <label for="travel_mode">Travel Mode</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <input type="text" id="travel_mode" class="form-control" disabled>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3> Attendance History </h3>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover data-table" id="student_attendance">
+                                <thead>
+                                    <tr>
+                                        <th>Month</th>
+                                        <th>Attended Days</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link waves-effect bg-teal" data-dismiss="modal">CLOSE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
 </section>
 
@@ -299,7 +510,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     $(document).ready(function () {
         getTotalDetails();
-        loadMap();
 
         var allschools = Array(<?php echo json_encode($schools); ?>);
 
@@ -396,6 +606,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         alltable.on( 'order.dt search.dt', function () {
             alltable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
                 cell.innerHTML = i+1;
+                alltable.cell(cell).invalidate('dom'); 
             } );
         } ).columns.adjust().draw();
 
@@ -485,10 +696,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 ]
                             });
 
+                            if ( $.inArray(id, 'students', 'male students', 'female students') ) {
+                                table.column( 5 ).visible( false )
+                            }
+
                             table.columns.adjust().draw();
                             table.on( 'order.dt search.dt', function () {
                                 table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
                                     cell.innerHTML = i+1;
+                                    table.cell(cell).invalidate('dom'); 
                                 } );
                                 table.column(0).header().innerHTML = '';
                             } ).columns.adjust().draw();
@@ -555,7 +771,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     },
                                     {
                                         targets: 4,
-                                        visible: false
+                                        render: function(data, type, row, info) {
+                                            return '<a class="std_profile" data-id="'+row['id']+'" href="#">View Profile</a>';
+                                        }
                                     }
                                 ],
                                 order: [[ 1, 'asc' ]],
@@ -564,7 +782,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         extend: 'csv',
                                         text: 'csv',
                                         exportOptions: {
-                                            columns: ':visible'
+                                            columns: [ 0, 1, 2, 3 ]
                                         },
                                         title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST' + '\n' +  zone + ' Zone, ' + province + ' Province',
                                         messageTop:  zone + ' Zone, ' + province + ' Province'
@@ -573,7 +791,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         extend: 'excel',
                                         text: 'excel',
                                         exportOptions: {
-                                            columns: ':visible'
+                                            columns: [ 0, 1, 2, 3 ]
                                         },
                                         title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST',
                                         messageTop:  zone + ' Zone, ' + province + ' Province'
@@ -582,7 +800,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         extend: 'pdfHtml5',
                                         text: 'pdf',
                                         exportOptions: {
-                                            columns: ':visible'
+                                            columns: [ 0, 1, 2, 3 ]
                                         },
                                         title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST',
                                         messageTop:  zone + ' Zone, ' + province + ' Province'
@@ -591,7 +809,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         extend: 'print',
                                         text: 'Print',
                                         exportOptions: {
-                                            columns: ':visible'
+                                            columns: [ 0, 1, 2, 3 ]
                                         },
                                         autoPrint: true,
                                         title: school_name.toUpperCase() + ' - ' + id.toUpperCase() + ' LIST',
@@ -600,10 +818,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 ]
                             });
 
+                            if ( $.inArray(id, 'students', 'male students', 'female students') ) {
+                                table.column( 5 ).visible( false )
+                            }
+
+                            table.columns(4).header().to$().text('');
                             table.columns.adjust().draw();
                             table.on( 'order.dt search.dt', function () {
                                 table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
                                     cell.innerHTML = i+1;
+                                    table.cell(cell).invalidate('dom'); 
                                 } );
                                 table.column(0).header().innerHTML = '';
                             } ).columns.adjust().draw();
@@ -690,7 +914,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         });
-            
+        
         $('#searchSchool').keyup(function(){
             var filter, ul, li, a, i;
             filter = $(this).val().toUpperCase();
@@ -706,7 +930,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
         });
-            
+        
         $('#searchSubjects').keyup(function(){
             var filter, ul, li, a, i;
             filter = $(this).val().toUpperCase();
@@ -721,6 +945,64 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 }
             }
+        });
+
+        $('#infoModal').on('click', '.std_profile', function(){
+            var std_id = $(this).data('id');
+            var form_data = new FormData();
+
+            form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
+            form_data.append('std_id', std_id);
+
+            var post_url = "index.php/report/getStudentDetails/2";
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + post_url,
+                dataType :'json',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    $('#school').val( response['class'][0]['schoolname'] );
+                    $('#grade').val( response['class'][0]['grade'] );
+                    $('#class').val( response['class'][0]['class_name'] );
+                    $('#class_teacher').val( response['class'][0]['teacher_in_name'] );
+
+                    $('#studentProfileLabel').text( response['details'][0]['in_name'] + ' Profile' );;
+                    $('#full_name').val( response['details'][0]['full_name'] );
+                    $('#index_no').val( response['details'][0]['index_no'] );
+                    $('#nic').val( response['details'][0]['nic'] );
+                    $('#dob').val( response['details'][0]['dob'] );
+                    $('#gender').val( response['details'][0]['gender'] );
+                    
+                    $('#address').val( response['details'][0]['address'] );
+                    $('#telephone').val( response['details'][0]['telephone'] );
+                    $('#medium').val( response['details'][0]['medium'] );
+                    $('#dist_school').val( response['details'][0]['dist_school'] );
+                    $('#income').val( response['details'][0]['income'] );
+                    $('#travel_mode').val( response['details'][0]['travel_mode'] );
+
+                    var table = $('#student_attendance').DataTable({
+                        dom: 't',
+                        destroy: true,
+                        bSort: false,
+                        responsive: true,
+                        data: response['attendance'],
+                        columns: [
+                            { data: 'Month' },
+                            { data: 'Attended Days' }
+                        ]
+                    });
+                    table.columns.adjust().draw();
+
+                    $('#infoModal').modal('hide');
+                    $('#studentProfile').modal('show');
+
+                },
+                error: function (response) {
+                    alert("Error! Please try again.");
+                }
+            });
         });
         
         function getTotalDetails(){

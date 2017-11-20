@@ -137,7 +137,7 @@ class Report_data_model extends CI_Model
     }
     
     public function getSchoolStudents($school_id, $r_type, $filter){
-        $this->db->select('timeCreated, index_no AS Index No, UPPER(nic) AS NIC, in_name AS Name With Initials, gender AS Gender');
+        $this->db->select('timeCreated, index_no AS Index No, UPPER(nic) AS NIC, in_name AS Name With Initials, gender AS Gender, id');
         $this->db->where('school_id', $school_id);
 
         if ($filter != "all") {
@@ -230,5 +230,35 @@ class Report_data_model extends CI_Model
             
             return $res;
         }
+    }
+
+    public function getStudentDetails($student_id){
+        $this->db->select('*');
+        $this->db->join('travel_mode t', 't.id = s.travel_mode_id', 'left');
+        $this->db->where('s.id', $student_id);
+        $query = $this->db->get('students_info s');
+
+        return $query->result_array();
+    }
+
+    public function getStudentAtendance($student_id){
+        $this->db->select('month AS Month, attended_days AS Attended Days');
+        $this->db->where('p.student_id', $student_id);
+        $this->db->limit(5);
+        $query = $this->db->get('p1_attendance p');
+
+        return $query->result_array();
+    }
+
+    public function getStudentClass($student_id){
+        $this->db->select('*');
+        $this->db->join('class_students cs', 'c.id = cs.class_id', 'left');
+        $this->db->join('schools s', 's.census_id = cs.school_id', 'left');
+        $this->db->join('teachers t', 't.id = c.class_teacher', 'left');
+        $this->db->where('cs.student_id', $student_id);
+        $this->db->limit(5);
+        $query = $this->db->get('classes c');
+
+        return $query->result_array();
     }
 }

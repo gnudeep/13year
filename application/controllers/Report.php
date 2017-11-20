@@ -189,4 +189,14 @@ class Report extends CI_Controller
         $this->response['students'] = $this->Report_data_model->getTotalRecords('students_info');
         echo json_encode($this->response);
     }
+
+    public function getStudentDetails(){
+        header('Content-Type: application/x-json; charset=utf-8');
+        $student_id = $this->input->post('std_id');
+        
+        $this->response['details'] = $this->Report_data_model->getStudentDetails($student_id);
+        $this->response['attendance'] = $this->Report_data_model->getStudentAtendance($student_id);
+        $this->response['class'] = $this->Report_data_model->getStudentClass($student_id);
+        echo json_encode($this->response);
+    }
 }

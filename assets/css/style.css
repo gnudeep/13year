@@ -4308,13 +4308,13 @@ section.content {
 
 .info-box-3-high {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    height: 120px;
+    height: 80px;
     display: flex;
     cursor: default;
     background-color: #fff;
     position: relative;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .info-box-3-high .icon {
@@ -4326,7 +4326,7 @@ section.content {
 
 .info-box-3-high .icon i {
     color: rgba(0, 0, 0, 0.15);
-    font-size: 80px;
+    font-size: 60px;
 }
 
 .info-box-3-high .chart {
@@ -4367,13 +4367,13 @@ section.content {
 
 .info-box-3-high .content .text {
     font-size: 13px;
-    margin-top: 11px;
+    margin-top: 0;
     color: #555;
 }
 
 .info-box-3-high .content .number {
     font-weight: normal;
-    font-size: 36px;
+    font-size: 28px;
     margin-top: -4px;
     color: #555;
 }
