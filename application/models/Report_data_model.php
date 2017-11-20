@@ -10,9 +10,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Report_data_model extends CI_Model
 {
-    public function getTotalRecords($table){
+    public function getTotalRecords($table, $a){
         $this->db->select('*');
         $this->db->from($table);
+        if ($a != '1') {
+            $this->db->where('gender', $a);
+        }
         $query = $this->db->get();
         $res = $query->num_rows();
         return $res;

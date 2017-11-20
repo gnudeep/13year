@@ -173,20 +173,22 @@ class Report extends CI_Controller
             $rowdata['male'] = $this->Report_data_model->getSchoolStudents($rowdata['school_id'], 'count', 'male')['count'];
             $rowdata['female'] = $this->Report_data_model->getSchoolStudents($rowdata['school_id'], 'count', 'female')['count'];
             
-            $this->response['schoolCounts']['schools'] = $this->Report_data_model->getTotalRecords('schools');
-            $this->response['schoolCounts']['teachers'] = $this->Report_data_model->getTotalRecords('teachers');
-            $this->response['schoolCounts']['classes'] = $this->Report_data_model->getTotalRecords('classes');
-            $this->response['schoolCounts']['students'] = $this->Report_data_model->getTotalRecords('students_info');
+            $this->response['schoolCounts']['schools'] = $this->Report_data_model->getTotalRecords('schools', '1');
+            $this->response['schoolCounts']['teachers'] = $this->Report_data_model->getTotalRecords('teachers', '1');
+            $this->response['schoolCounts']['classes'] = $this->Report_data_model->getTotalRecords('classes', '1');
+            $this->response['schoolCounts']['students'] = $this->Report_data_model->getTotalRecords('students_info', '1');
             $this->response['schoolCounts'][] = $rowdata;
         }
     }
 
     public function getTotalDetails(){
         header('Content-Type: application/x-json; charset=utf-8');
-        $this->response['schools'] = $this->Report_data_model->getTotalRecords('schools');
-        $this->response['teachers'] = $this->Report_data_model->getTotalRecords('teachers');
-        $this->response['classes'] = $this->Report_data_model->getTotalRecords('classes');
-        $this->response['students'] = $this->Report_data_model->getTotalRecords('students_info');
+        $this->response['schools'] = $this->Report_data_model->getTotalRecords('schools', '1');
+        $this->response['teachers'] = $this->Report_data_model->getTotalRecords('teachers', '1');
+        $this->response['classes'] = $this->Report_data_model->getTotalRecords('classes', '1');
+        $this->response['students'] = $this->Report_data_model->getTotalRecords('students_info', '1');
+        $this->response['students_male'] = $this->Report_data_model->getTotalRecords('students_info', 'Male');
+        $this->response['students_female'] = $this->Report_data_model->getTotalRecords('students_info', 'Female');
         echo json_encode($this->response);
     }
 

@@ -1024,6 +1024,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $('#teachers_count').text(response['teachers']);
                     $('#classes_count').text(response['classes']);
                     $('#students_count').text(response['students']);
+                    $('#students_count_male').text(response['students_male']);
+                    $('#students_count_female').text(response['students_female']);
                 },
                 error: function (response) {
                     alert("Error! Please try again.");
