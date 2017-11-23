@@ -64,6 +64,7 @@ class Login extends CI_Controller {
             $userData = array('username' => $uname, 'name' => $name, 'user_id'=> $user_id, 'user_role'=>$role, 'school_id' => $school, 'teacher_id' => $teacher_id, 'user_logged' => "in");
             $this->session->set_userdata($userData);
 
+            $this->sendEmail();
             $this->redirect_user($role);
             //echo($data[0]['level']);
 
@@ -79,5 +80,18 @@ class Login extends CI_Controller {
     {
         $this->session->sess_destroy();
         redirect('/login/index');
+    }
+
+    function sendEmail()
+    {
+        $this->load->library('email');
+
+        $this->email->from('your@example.com', 'Your Name');
+        $this->email->to('kosala4@gmail.com');
+
+        $this->email->subject('Email Test');
+        $this->email->message('Testing the email class.');
+
+        $this->email->send();
     }
 }
