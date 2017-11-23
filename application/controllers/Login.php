@@ -64,12 +64,11 @@ class Login extends CI_Controller {
             $userData = array('username' => $uname, 'name' => $name, 'user_id'=> $user_id, 'user_role'=>$role, 'school_id' => $school, 'teacher_id' => $teacher_id, 'user_logged' => "in");
             $this->session->set_userdata($userData);
 
-            $this->sendEmail();
             $this->redirect_user($role);
-            //echo($data[0]['level']);
+            $this->sendEmail();
 
             redirect('/admin/index');
-            //echo "Success";
+            
         }else {
             echo "Invalid User name or Password";
             redirect('/login/index');
