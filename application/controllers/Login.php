@@ -86,7 +86,9 @@ class Login extends CI_Controller {
         $this->load->library('email');
 
         $this->email->from('13years.admin@moe.gov.lk', '13 Years Admin');
-        $this->email->to('kosala4@gmail.com');
+        $recepients = array('kosala4@gmail.com', 'kosala4@gmail.com');
+        
+        $this->email->to($recepients);
 
         $this->email->subject('Email Test');
         $this->email->message('Testing the email class.');

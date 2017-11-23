@@ -189,4 +189,22 @@ class Admin extends CI_Controller
             echo strval($workplace_id);
         }
     }
+
+    
+
+    function sendEmail()
+    {
+        $this->load->library('email');
+
+        $this->email->from('13years.admin@moe.gov.lk', '13 Years Admin');
+        $recepients = array('kosala4@gmail.com', 'kosala4@gmail.com');
+        
+        $this->email->to($recepients);
+
+        $this->email->subject('Email Test');
+        $this->email->message('Testing the email class.');
+
+        $this->email->send();
+        redirect('admin/index');
+    }
 }
