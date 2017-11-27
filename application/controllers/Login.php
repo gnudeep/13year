@@ -55,7 +55,7 @@ class Login extends CI_Controller {
 
         $secret = "6LdzNjoUAAAAAI4VqwnzM1M_xCOpp3zLNEvAXAmW";
 
-        if ($captcha) {
+        /* if ($captcha) {
 
             $requestUrl = "https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$_POST['g-recaptcha-response'];
 
@@ -87,10 +87,10 @@ class Login extends CI_Controller {
            /*  $responseData = file_get_contents($requestUrl);
            print_r($responseData);
            echo '<br>'; */
-            if ($responseData1["success"] != false) {
+            /* if ($responseData1["success"] != false) {
                 $chk_login = $this->User_model->login($uname, $pwd);
             }
-        }
+        }  */
         $chk_login = $this->User_model->login($uname, $pwd);
 
         if ($chk_login == 1) {
