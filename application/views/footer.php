@@ -11,8 +11,10 @@
             </div>
 </footer>-->
 
-<script src="<?php echo base_url()."assets/plugins/momentjs/moment.js"?>"></script>
-<script src="<?php echo base_url()."assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"?>"></script>
+    <script src="<?php echo base_url()."assets/js/script.js"?>"></script>
+
+    <script src="<?php echo base_url()."assets/plugins/momentjs/moment.js"?>"></script>
+    <script src="<?php echo base_url()."assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js"?>"></script>
 
     <!-- Waves Effect Plugin Js -->
     <script src="<?php echo base_url()."assets/plugins/node-waves/waves.js"?>"></script>
