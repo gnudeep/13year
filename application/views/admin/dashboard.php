@@ -10,6 +10,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <link href="<?php echo base_url()."assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css"?>" rel="stylesheet" />
+<link href="<?php echo base_url()."assets/plugins/multi-select/css/multi-select.css"?>" rel="stylesheet">
 
 <section class="content">
     <div class="container-fluid">
@@ -52,6 +53,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th></th>
                                     <th></th>
                                     <th></th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -70,6 +73,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <td> <?php echo $row['province_id'];?> </td>
                                             <td> <?php echo $row['district_id'];?> </td>
                                             <td> <?php echo $row['zone_id'];?> </td>
+                                            <td> <?php echo $row['lat'];?> </td>
+                                            <td> <?php echo $row['lot'];?> </td>
                                         </tr>
                                     <?php } ?>
                                 <?php } ?>
@@ -170,7 +175,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 id="subjectsModal-title">  </h4>
-
                     </div>
 
                     <?php echo form_open('admin/Subjects', 'role="form" id="SubjectsForm"') ?> 
@@ -207,7 +211,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 id="coordinatorModal-title">  </h4>
-
                     </div>
 
                     <?php echo form_open('admin/Coordinator', 'role="form" id="CoordinatorForm"') ?> 
@@ -313,6 +316,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <label class="form-label">Coordinator Password</label>
                                     </div>
                                 </div>
+
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group form-float">
@@ -334,7 +338,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             </div>
         </div>
-        
 
         <!-- Modal to verify letter from barcode-->
         <div id="schoolsModal" class="modal fade" role="dialog">
@@ -389,14 +392,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <option value="">-- Please select --</option>
                                         </select>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
                                 <label for="telephone" class="required">School Telephone No</label>
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <input type="text" class="form-control telephone" name="telephone" id="telephone" required placeholder="Ex: 000-1234567">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <label for="fax">School Fax No</label>
                                 <div class="form-group form-float">
                                     <div class="form-line">
@@ -430,11 +433,82 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         <label class="form-label">Principal's Email Address</label>
                                     </div>
                                 </div>
+                                <label for="lat" class="required">School Lattitude Coordination</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control " name="lat" id="lat" required>
+                                    </div>
+                                </div>
+                                <label for="lot" class="required">School Longtitude Coordination</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control " name="lot" id="lot" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer" style="border-top:0;">
                         <button type="button" class="btn btn-success" id="schoolsModal_submit"> Submit </button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
+                    </div>
+                    <?php echo form_close() ?>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Modal to send Emails-->
+        <div id="emailsModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 id="emailsModal-title"> Send Email Mesage </h4>
+
+                    </div>
+
+                    <?php echo form_open('admin/sendEmail', 'role="form" id="SubjectsForm"') ?> 
+                    <div class="modal-body">
+                        
+                        <div class="row clearfix">
+                            <div class="col-md-12">
+                                
+                                <div class="body">
+                                    <select id="optgroup" class="ms" multiple="multiple" data-live-search="true">
+                                        <?php if ($schools) { ?>
+                                        <?php foreach ($schools as $row) { ?>
+                                        <?php if ($row['principal_email']) { ?>
+                                            <option value="<?php echo $row['principal_email'];?>"><?php echo $row['schoolname'];?></option>
+                                        <?php } ?>
+                                        <?php } ?>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <a href='#' id='select-all'>select all</a> /
+                                <a href='#' id='deselect-all'>deselect all</a> <br>
+
+                                <label for="name" class="required">Subject</label>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" class="form-control" name="subject" id="subject" required>
+                                        <label class="form-label">Subject</label>
+                                    </div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <!--<label for="name">Coordinator Name</label>-->
+                                    <div class="form-line">
+                                        <label for="name" class="required"> Message </label>
+                                        <textarea class="form-control no-resize" id="message" name="message"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top:0;">
+                        <button type="button" class="btn btn-success" id="emailsModal_submit"> Send </button>
                         <button type="button" class="btn btn-default" data-dismiss="modal"> Close </button>
                     </div>
                     <?php echo form_close() ?>
@@ -458,6 +532,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/export/buttons.print.min.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/editor/js/dataTables.editor.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-datatable/extensions/select/js/dataTables.select.min.js"?>"></script>
+<script src="<?php echo base_url()."assets/plugins/multi-select/js/jquery.multi-select.js"?>"></script>
 
 <!-- Select Plugin Js -->
 <script src="<?php echo base_url()."assets/plugins/bootstrap-select/js/bootstrap-select.js"?>"></script>
@@ -470,6 +545,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         
         $('.telephone').inputmask('999-9999999', { placeholder: '___-_______' });
         $(".required").append("<span class='col-red'> *</span>");
+
+        $('#optgroup').multiSelect({ selectableOptgroup: true });
+        $('#select-all').click(function(){
+
+            $('#optgroup').multiSelect('select_all');
+            return false;
+        });
+        $('#deselect-all').click(function(){
+            $('#optgroup').multiSelect('deselect_all');
+            return false;
+        });
+
+        $('#sendMailMenu').click(function(){
+            $('#emailsModal').modal('show');
+        });
         
         $('.dataTable').DataTable({
             responsive: true,
@@ -482,6 +572,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         },
           'Please enter valid NIC'
          );
+
+        $.validator.addMethod("PASSWORD",function(value,element){
+            return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,25}$/i.test(value);
+        },"Passwords are 8-25 characters with uppercase letters, lowercase letters and at least one number.");
         
         $('#cmobile').inputmask('999-9999999', {
             placeholder: '___-_______'
@@ -596,10 +690,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 cdob : 'required',
                                 cemail : 'required',
                                 cuname : 'required',
-                                cpw : 'required',
-                                're_passwd': {
-                                    equalTo: "#cpw"
-                                }
+                                cpw : {required :true, PASSWORD: true},
+                                re_passwd: { equalTo: "#cpw" }
                             },
                             highlight: function(input) {
                                 $(input).parents('.form-line').addClass('error');
@@ -619,7 +711,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     action: function ( e, dt, node, config ) {
                         if(coordTable.rows({selected: true}).data()['0']){
                             $('#coordinatorModal-title').text('Edit Coordinator');
-                            $('#coordinatorModal_submit').data('action', 'edit')
+                            $('#coordinatorModal_submit').data('action', 'edit');
                             $('#coordinatorModal').modal('toggle');
                             $('#CoordinatorForm').validate({
                                 rules: {
@@ -630,10 +722,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     cdob : 'required',
                                     cemail : 'required',
                                     cuname: {required: false},
-                                    cpw: {required: false},
-                                    're_passwd': {
-                                        equalTo: "#cpw"
-                                    }
+                                cpw : {required :false, PASSWORD: true},
+                                re_passwd: { equalTo: "#cpw" }
+
                                 },
                                 highlight: function(input) {
                                     $(input).parents('.form-line').addClass('error');
@@ -723,7 +814,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             select: true,
             columnDefs: [
                 {
-                    targets: [8, 9, 10],
+                    targets: [8, 9, 10, 11, 12],
                     visible: false
                 }
             ],
@@ -765,6 +856,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             getZones(data['0']['9']);
                             $('#zone').val(data['0']['10']).trigger('change');
 
+                            $('#lat').val(data['0']['11']);
+                            $('#lot').val(data['0']['12']);
                             $('.form-line').addClass('focused')
                         }
                         
@@ -798,6 +891,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             var pname = $('#pname').val();
             var pmobile = $('#pmobile').val();
             var pemail = $('#pemail').val();
+            var lat = $('#lat').val();
+            var lot = $('#lot').val();
 
             form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
             form_data.append('formAction', formAction);
@@ -812,6 +907,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             form_data.append('pname', pname);
             form_data.append('pmobile', pmobile);
             form_data.append('pemail', pemail);
+            form_data.append('lat', lat);
+            form_data.append('lot', lot);
 
             if($('#addSchoolForm').valid()){
                 var post_url = "index.php/admin/schools/2";
@@ -831,6 +928,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             }
             
+        });
+
+        $('#emailsModal_submit').click(function(){
+            
+            console.log($('#optgroup').val());
+
+            var form_data = new FormData();
+            var sel_list = $('#optgroup').val();
+            var message = $('#message').val();
+            var subject = $('#subject').val();
+            
+            form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
+            form_data.append('sel_list', sel_list);
+            form_data.append('message', message);
+            form_data.append('subject', subject);
+
+            var post_url = "index.php/admin/sendEmail/2";
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>" + post_url,
+                dataType :'text',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    //location.reload();
+                    $('#emailsModal').modal('hide');
+                    alert("Successfully Sent Message.");
+                },
+                error: function (response) {
+                    alert("Error Updating! Please try again.");
+                }
+            });
         });
 
         function getDistricts(province_id){

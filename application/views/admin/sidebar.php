@@ -28,9 +28,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </a>
                 </li>
                 <li>
-                    <a href="<?php echo base_url()."index.php/admin/sendEmail"?>" class="hidden">
+                    <a href="#" id="sendMailMenu" class="hidden">
                         <i class="material-icons">send</i>
-                        <span>Add School</span>
+                        <span>Send Email to Principals</span>
                     </a>
                 </li>
             </ul>
