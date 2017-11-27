@@ -107,20 +107,22 @@ class Admin extends CI_Controller
     public function Schools()
     {
         header('Content-Type: application/x-json; charset=utf-8');
-        $formAction = $this->input->post('formAction');
-        $census_id = $this->input->post('census_id');
-        $name = $this->input->post('name');
-        $province_id = $this->input->post('province');
-        $district_id = $this->input->post('district');
-        $zone_id = $this->input->post('zone');
-        $telephone = $this->input->post('telephone');
-        $fax = $this->input->post('fax');
-        $email = $this->input->post('email');
-        $pname = $this->input->post('pname');
-        $pmobile = $this->input->post('pmobile');
-        $pemail = $this->input->post('pemail');
+        $formAction = $this->security->xss_clean($this->input->post('formAction'));
+        $census_id = $this->security->xss_clean($this->input->post('census_id'));
+        $name = $this->security->xss_clean($this->input->post('name'));
+        $province_id = $this->security->xss_clean($this->input->post('province'));
+        $district_id = $this->security->xss_clean($this->input->post('district'));
+        $zone_id = $this->security->xss_clean($this->input->post('zone'));
+        $telephone = $this->security->xss_clean($this->input->post('telephone'));
+        $fax = $this->security->xss_clean($this->input->post('fax'));
+        $email = $this->security->xss_clean($this->input->post('email'));
+        $pname = $this->security->xss_clean($this->input->post('pname'));
+        $pmobile = $this->security->xss_clean($this->input->post('pmobile'));
+        $pemail = $this->security->xss_clean($this->input->post('pemail'));
+        $lat = $this->security->xss_clean($this->input->post('lat'));
+        $lot = $this->security->xss_clean($this->input->post('lot'));
 
-        $schoolArray = array('census_id' =>$census_id, 'schoolname' => $name, 'province_id' => $province_id, 'district_id' => $district_id, 'zone_id' => $zone_id, 'telephone' => $telephone, 'fax' => $fax, 'email' => $email, 'principal_name' => $pname, 'principal_mobile' => $pmobile, 'principal_email' => $pemail);
+        $schoolArray = array('census_id' =>$census_id, 'schoolname' => $name, 'province_id' => $province_id, 'district_id' => $district_id, 'zone_id' => $zone_id, 'telephone' => $telephone, 'fax' => $fax, 'email' => $email, 'principal_name' => $pname, 'principal_mobile' => $pmobile, 'principal_email' => $pemail, 'lat' => $lat, 'lot' => $lot);
 
         
         if ($formAction == 'add') {
@@ -147,20 +149,20 @@ class Admin extends CI_Controller
     {
         header('Content-Type: application/x-json; charset=utf-8');
         
-        $formAction = $this->input->post('formAction');
-        $school_id = $this->input->post('school_id');
-        $cname = $this->input->post('cname');
-        $cnic = $this->input->post('cnic');
-        $cdob = $this->input->post('cdob');
-        $cmobile = $this->input->post('cmobile');
-        $cemail = $this->input->post('cemail');
-        $appsch = $this->input->post('appsch');
-        $appser = $this->input->post('appser');
-        $cuname = strtolower($this->input->post('cuname'));
-        $cur_cuname = strtolower($this->input->post('cur_cuname'));
-        $cpw = password_hash($this->input->post('cpw'), PASSWORD_DEFAULT);
-        $cID = $this->input->post('cID');
-        $uID = $this->input->post('uID');
+        $formAction = $this->security->xss_clean($this->input->post('formAction'));
+        $school_id = $this->security->xss_clean($this->input->post('school_id'));
+        $cname = $this->security->xss_clean($this->input->post('cname'));
+        $cnic = $this->security->xss_clean($this->input->post('cnic'));
+        $cdob = $this->security->xss_clean($this->input->post('cdob'));
+        $cmobile = $this->security->xss_clean($this->input->post('cmobile'));
+        $cemail = $this->security->xss_clean($this->input->post('cemail'));
+        $appsch = $this->security->xss_clean($this->input->post('appsch'));
+        $appser = $this->security->xss_clean($this->input->post('appser'));
+        $cuname = strtolower($this->security->xss_clean($this->input->post('cuname')));
+        $cur_cuname = strtolower($this->security->xss_clean($this->input->post('cur_cuname')));
+        $cpw = password_hash($this->security->xss_clean($this->input->post('cpw')), PASSWORD_DEFAULT);
+        $cID = $this->security->xss_clean($this->input->post('cID'));
+        $uID = $this->security->xss_clean($this->input->post('uID'));
         
         $coordinator_array = array('school_id' => $school_id, 'coordinator_nic' => $cnic, 'coordinator_name' => $cname, 'coordinator_dob' => $cdob, 'coordinator_mobile' => $cmobile, 'coordinator_email' => $cemail, 'coordinator_ser_app' => $appser, 'coordinator_sch_app' => $appsch);
         
@@ -190,21 +192,24 @@ class Admin extends CI_Controller
         }
     }
 
-    
 
     function sendEmail()
     {
+        header('Content-Type: application/x-json; charset=utf-8');
+        $recepients = $this->security->xss_clean($this->input->post('sel_list'));
+        $message = $this->security->xss_clean($this->input->post('message'));
+        $subject = $this->security->xss_clean($this->input->post('subject'));
+
         $this->load->library('email');
 
         $this->email->from('13years.admin@moe.gov.lk', '13 Years Admin');
-        $recepients = array('kosala4@gmail.com', 'kosala4@gmail.com');
         
         $this->email->to($recepients);
 
-        $this->email->subject('Email Test');
-        $this->email->message('Testing the email class.');
+        $this->email->subject($subject);
+        $this->email->message($message);
 
         $this->email->send();
-        redirect('admin/index');
+         echo $message;
     }
 }

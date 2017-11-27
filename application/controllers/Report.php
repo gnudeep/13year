@@ -66,7 +66,7 @@ class Report extends CI_Controller
     public function getSchoolData()
     {
         header('Content-Type: application/x-json; charset=utf-8');
-        $school_id = $this->input->post('school_id');
+        $school_id = $this->security->xss_clean($this->input->post('school_id'));
         $this->response['teachers'] = $this->Report_data_model->getSchoolTeachers($school_id, 'count');
         $this->response['classes'] = $this->Report_data_model->getSchoolClasses($school_id, 'count');
         $this->response['students'] = $this->Report_data_model->getSchoolStudents($school_id, 'count', 'all');
@@ -77,7 +77,7 @@ class Report extends CI_Controller
     public function getSubjectData()
     {
         header('Content-Type: application/x-json; charset=utf-8');
-        $subject_id = $this->input->post('subject_id');
+        $subject_id = $this->security->xss_clean($this->input->post('subject_id'));
         $this->response['teachers'] = $this->Report_data_model->getSubjectTeachers($subject_id, 'count');
         $this->response['classes'] = $this->Report_data_model->getSubjectClasses($subject_id, 'count');
         $this->response['students'] = $this->Report_data_model->getSubjectStudents($subject_id, 'count');
@@ -87,9 +87,9 @@ class Report extends CI_Controller
     public function getSelectedInfo()
     {
         header('Content-Type: application/x-json; charset=utf-8');
-        $school_id = $this->input->post('search_id');
-        $search_type = $this->input->post('search_type');
-        $select = $this->input->post('select');
+        $school_id = ($this->input->post('search_id'));
+        $search_type = ($this->input->post('search_type'));
+        $select = ($this->input->post('select'));
 
         switch ($select) {
             case 'teachers':

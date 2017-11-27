@@ -29,7 +29,7 @@ class General extends CI_Controller
     public function getSchoolData()
     {
         header('Content-Type: application/x-json; charset=utf-8');
-        $school_id = $this->input->post('school_id');
+        $school_id = $this->security->xss_clean($this->input->post('school_id'));
         $res = $this->General_data_model->getTotalStudents($school_id);
         echo json_encode($res);
     }

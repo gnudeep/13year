@@ -129,12 +129,12 @@ class Sadmin extends CI_Controller
         header('Content-Type: application/x-json; charset=utf-8');
 
         $school_id = $this->session->school_id;
-        $role = $this->input->post('role');
-        $teacher_id = $this->input->post('teacher_id');
-        $teacher_name = $this->input->post('teacher_name');
-        $in_name = $this->input->post('in_name');
-        $u_name = strtolower($this->input->post('u_name'));
-        $password = password_hash($this->input->post('password'), PASSWORD_DEFAULT);
+        $role = $this->security->xss_clean($this->input->post('role'));
+        $teacher_id = $this->security->xss_clean($this->input->post('teacher_id'));
+        $teacher_name = $this->security->xss_clean($this->input->post('teacher_name'));
+        $in_name = $this->security->xss_clean($this->input->post('in_name'));
+        $u_name = strtolower($this->security->xss_clean($this->input->post('u_name')));
+        $password = password_hash($this->security->xss_clean($this->input->post('password')), PASSWORD_DEFAULT);
         
         $name = ($role == '3' ? $teacher_name : $in_name);
         $teacher_id = ($role == '3' ? $teacher_id : NULL);

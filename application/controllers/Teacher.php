@@ -135,21 +135,21 @@ class Teacher extends CI_Controller
     {
         header('Content-Type: application/x-json; charset=utf-8');
         
-        $formAction = $this->input->post('formAction');
-        $school_id = $this->session->school_id;
-        $std_id = $this->input->post('std_id');
-        $index_no = $this->input->post('index_no');
-        $in_name = $this->input->post('in_name');
-        $nic = strtoupper($this->input->post('nic'));
-        $gender = $this->input->post('gender');
-        $address = $this->input->post('address');
-        $telephone = $this->input->post('telephone');
-        $medium = $this->input->post('medium');
-        $dist_school = $this->input->post('dist_school');
-        $income = $this->input->post('income');
-        $travel_mode_id = $this->input->post('travel_mode');
-        $full_name = $this->input->post('full_name');
-        $dob = $this->input->post('dob');
+        $formAction = $this->security->xss_clean($this->input->post('formAction'));
+        $school_id = $this->security->xss_clean($this->session->school_id);
+        $std_id = $this->security->xss_clean($this->input->post('std_id'));
+        $index_no = $this->security->xss_clean($this->input->post('index_no'));
+        $in_name = $this->security->xss_clean($this->input->post('in_name'));
+        $nic = strtoupper($this->security->xss_clean($this->input->post('nic')));
+        $gender = $this->security->xss_clean($this->input->post('gender'));
+        $address = $this->security->xss_clean($this->input->post('address'));
+        $telephone = $this->security->xss_clean($this->input->post('telephone'));
+        $medium = $this->security->xss_clean($this->input->post('medium'));
+        $dist_school = $this->security->xss_clean($this->input->post('dist_school'));
+        $income = $this->security->xss_clean($this->input->post('income'));
+        $travel_mode_id = $this->security->xss_clean($this->input->post('travel_mode'));
+        $full_name = $this->security->xss_clean($this->input->post('full_name'));
+        $dob = $this->security->xss_clean($this->input->post('dob'));
 
         $ClassSearchArray = array('class_teacher' =>$this->session->teacher_id);
         $class_id = $this->Form_data_model->searchdb('classes', $ClassSearchArray)['0']['id'];
