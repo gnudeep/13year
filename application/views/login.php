@@ -6,6 +6,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
     <meta charset="utf-8" />
     <title>Sign In | 13 Years Guaranteed Education Program</title>
+
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <!-- Favicon-->
     <link rel="icon" href="<?php echo base_url()."assets/favicon2.ico"?>" type="image/x-icon">
 
@@ -47,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <div class="card">
             <div class="body">
-                <?php echo form_open('login/login_user'); ?>
+                <?php echo form_open('login/login_user', 'role="form" id="loginForm"'); ?>
                     <div class="msg">Sign in</div>
                     <div class="input-group">
                         <span class="input-group-addon">
@@ -64,6 +66,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="form-line">
                             <input type="password" class="form-control" name="password" placeholder="Password" required>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="g-recaptcha" data-sitekey="6LdzNjoUAAAAAGtDKI-5gqYuzk0J_x3W5Q4ZhPRW"></div>
+                        <label id="captcha-error" class="error hidden" for="recaptcha"> Please verify  </label>
                     </div>
                     <div class="row">
                         <div class="col-xs-8 p-t-5">
@@ -110,6 +116,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <script src="<?php echo base_url()."assets/js/admin.js"?>"></script>
     <script src="<?php echo base_url()."assets/js/pages/examples/sign-in.js"?>"></script>
 </body>
+<script>
+    //var response = grecaptcha.getResponse();
 
+    $( "#loginForm" ).submit(function( event ) {
+        var gresponse = grecaptcha.getResponse();
+        
+        if (!gresponse) {
+            $('#captcha-error').removeClass('hidden');
+            return false;
+        }
+        
+    });
+</script>
 </html>
 

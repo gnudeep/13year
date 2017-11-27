@@ -10,7 +10,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Super Admin - 0
  * School Admin - 1
  * School Finance - 2
- * School Teacher - 3
+ * Class Teacher - 3
+ * Report Viewer - 5
  */
 class Login extends CI_Controller {
     //put your code here
@@ -50,7 +51,46 @@ class Login extends CI_Controller {
         $uname = strtolower($this->security->xss_clean($_REQUEST['username']));
         //$pwd  = password_hash($this->security->xss_clean($_REQUEST['password']), PASSWORD_DEFAULT);
         $pwd  = $this->security->xss_clean($_REQUEST['password']);
+        $captcha = $this->security->xss_clean($_REQUEST['g-recaptcha-response']);
 
+        $secret = "6LdzNjoUAAAAAI4VqwnzM1M_xCOpp3zLNEvAXAmW";
+
+        if ($captcha) {
+
+            $requestUrl = "https://www.google.com/recaptcha/api/siteverify?secret=".$secret."&response=".$_POST['g-recaptcha-response'];
+
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $requestUrl);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+            curl_setopt($curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.16) Gecko/20110319 Firefox/3.6.16");
+
+            $responseData1 = curl_exec($curl);
+
+            if(curl_exec($curl) === false)
+            {
+                echo 'Curl error: ' . curl_error($curl);
+            }
+            else
+            {
+                echo 'Operation completed without any errors';
+            }
+
+            curl_close($curl);
+            echo gethostbyname('www.google.com');
+            echo '<br>';
+            echo  $responseData1;
+
+            //$responseData = json_decode($responseData);
+
+        echo 'captha is '. $captcha . '<br>' . $_POST['g-recaptcha-response'] . '<br>';
+           /*  $responseData = file_get_contents($requestUrl);
+           print_r($responseData);
+           echo '<br>'; */
+            if ($responseData1["success"] != false) {
+                $chk_login = $this->User_model->login($uname, $pwd);
+            }
+        }
         $chk_login = $this->User_model->login($uname, $pwd);
 
         if ($chk_login == 1) {
@@ -71,7 +111,7 @@ class Login extends CI_Controller {
             
         }else {
             echo "Invalid User name or Password";
-            redirect('/login/index');
+            //redirect('/login/index');
         }
     }
 
