@@ -1003,10 +1003,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
                     table.columns.adjust().draw();
 
-                    google.charts.load('current', { 'packages': ['bar'], 'mapsApiKey': 'AIzaSyDMi68dvm91pJnVYOEL087Y_5wioxMLOmc'});
+                    google.charts.load('current', { 'packages': ['bar']});
                     google.charts.setOnLoadCallback(drawMap);
 
-                    var attArray = [['Month', 'Attended days', 'Class days']]
+                    var attArray = [];
+                    attArray[0] = ['Month', 'Attended days', 'Class days'];
                     $.each( response['attendance'], function( key, value ) {
                         var valuesArray = [];
                         $.each( value, function( k, val ) {
@@ -1026,8 +1027,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             },
                             bars: 'horizontal' // Required for Material Bar Charts.
                         };
-                
-
+                        
                         var chart = new google.charts.Bar(document.getElementById('attendance_bar'));
 
                         chart.draw(data, google.charts.Bar.convertOptions(options));
