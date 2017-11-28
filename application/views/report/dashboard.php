@@ -461,19 +461,26 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                         </div>
 
-                        <h3> Attendance History </h3>
-
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover data-table" id="student_attendance">
-                                <thead>
-                                    <tr>
-                                        <th>Month</th>
-                                        <th>Attended Days</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                        <div class="row clearfix">
+                            <h3> Attendance History </h3>
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped table-hover data-table" id="student_attendance">
+                                        <thead>
+                                            <tr>
+                                                <th>Month</th>
+                                                <th>Attended Days</th>
+                                                <th>Class Days</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="attendance_bar" style=" height: 250px;" ></div>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -990,14 +997,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         data: response['attendance'],
                         columns: [
                             { data: 'Month' },
-                            { data: 'Attended Days' }
+                            { data: 'Attended Days' },
+                            { data: 'Class Days' }
                         ]
                     });
                     table.columns.adjust().draw();
 
+                    google.charts.load('current', { 'packages': ['bar'], 'mapsApiKey': 'AIzaSyDMi68dvm91pJnVYOEL087Y_5wioxMLOmc'});
+                    google.charts.setOnLoadCallback(drawMap);
+
+                    var attArray = [['Month', 'Attended days', 'Class days']]
+                    $.each( response['attendance'], function( key, value ) {
+                        var valuesArray = [];
+                        $.each( value, function( k, val ) {
+                            valuesArray.push(val);
+                        });
+                        attArray.push(valuesArray);
+                    });
+                    //console.log(JSON.stringify(dataArray))
+                    function drawMap() {
+                        var data = google.visualization.arrayToDataTable(attArray);
+
+                        var options = {
+                            legend:{position:'in', alignment: 'start'},
+                            chart: {
+                            title: 'Attendance Chart',
+                            subtitle: 'Students attendance history',
+                            },
+                            bars: 'horizontal' // Required for Material Bar Charts.
+                        };
+                
+
+                        var chart = new google.charts.Bar(document.getElementById('attendance_bar'));
+
+                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                    }
+
                     $('#infoModal').modal('hide');
                     $('#studentProfile').modal('show');
-
                 },
                 error: function (response) {
                     alert("Error! Please try again.");

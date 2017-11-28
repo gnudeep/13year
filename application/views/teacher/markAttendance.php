@@ -32,6 +32,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="form-group form-float">
+                                        <label for="attmonth required">Number of days class held</label>
+                                        <div class="form-line">
+                                            <input type="text" class="attdays form-control" name="attdays[]" data-student_id="0" required>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover" id="subjects">
@@ -180,18 +188,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
 
                 form_data.append('students', JSON.stringify(students));
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo base_url(); ?>" + post_url,
-                    dataType :'text',
-                    data: form_data,
-                    contentType: false,
-                    processData: false,
-                    success: function(response){
-                        swal("Successfull!", "Finished Marking Attendance!", "success");
-                        $('#reset').trigger('click');
-                    }
-                });
+                if ($('#markAttendanceForm').valid()) {
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php echo base_url(); ?>" + post_url,
+                        dataType :'text',
+                        data: form_data,
+                        contentType: false,
+                        processData: false,
+                        success: function(response){
+                            swal("Successfull!", "Finished Marking Attendance!", "success");
+                            $('#reset').trigger('click');
+                        }
+                    });
+                }
+                    
             });
         });
 

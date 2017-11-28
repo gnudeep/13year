@@ -245,9 +245,9 @@ class Report_data_model extends CI_Model
     }
 
     public function getStudentAtendance($student_id){
-        $this->db->select('month AS Month, attended_days AS Attended Days');
+        $this->db->select('p.month AS Month, p.attended_days AS Attended Days, p2.attended_days AS Class Days');
         $this->db->where('p.student_id', $student_id);
-        $this->db->limit(5);
+        $this->db->join('p1_attendance p2', 'p.month = p2.month AND p2.student_id = "0"', 'left');
         $query = $this->db->get('p1_attendance p');
 
         return $query->result_array();
