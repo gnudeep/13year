@@ -463,7 +463,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                         <div class="row clearfix">
                             <h3> Attendance History </h3>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-striped table-hover data-table" id="student_attendance">
                                         <thead>
@@ -478,8 +478,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     </table>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div id="attendance_bar" style=" height: auto;" ></div>
+                            <div class="col-md-8">
+                                <div id="attendance_bar"></div>
                             </div>
                         </div>
                     </div>
@@ -1003,34 +1003,44 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     });
                     table.columns.adjust().draw();
 
-                    google.charts.load('current', { 'packages': ['bar']});
-                    google.charts.setOnLoadCallback(drawMap);
-
                     var attArray = [];
                     attArray[0] = ['Month', 'Attended days', 'Class days'];
                     $.each( response['attendance'], function( key, value ) {
                         var valuesArray = [];
                         $.each( value, function( k, val ) {
-                            valuesArray.push(val);
+                            if (k != 'Month') {
+                                valuesArray.push(parseInt(val));
+                            } else{
+                                valuesArray.push(val);
+                            }
+                            
                         });
                         attArray.push(valuesArray);
                     });
-                    //console.log(JSON.stringify(dataArray))
+
+                    google.charts.load('current', { 'packages': ['corechart', 'bar']});
+                    google.charts.setOnLoadCallback(drawMap);
+
+                    console.log(JSON.stringify(attArray))
                     function drawMap() {
                         var data = google.visualization.arrayToDataTable(attArray);
 
                         var options = {
-                            legend:{position:'in', alignment: 'start'},
-                            chart: {
-                            title: 'Attendance Chart',
-                            subtitle: 'Students attendance history',
+                            title: '',
+                            width:'550',
+                            chartArea: {width: '60%'},
+                            hAxis: {
+                            title: 'Number of Days',
+                            minValue: 0
                             },
-                            bars: 'horizontal' // Required for Material Bar Charts.
+                            vAxis: {
+                            title: 'Month'
+                            }
                         };
                         
-                        var chart = new google.charts.Bar(document.getElementById('attendance_bar'));
-
-                        chart.draw(data, google.charts.Bar.convertOptions(options));
+                        var chart = new google.visualization.BarChart(document.getElementById('attendance_bar'));
+                        chart.clearChart();
+                        chart.draw(data, options);
                     }
 
                     $('#infoModal').modal('hide');
