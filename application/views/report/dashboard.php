@@ -479,7 +479,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div id="attendance_bar" style=" height: 250px;" ></div>
+                                <div id="attendance_bar" style=" height: auto;" ></div>
                             </div>
                         </div>
                     </div>
