@@ -479,7 +479,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <div id="attendance_bar"></div>
+                                <div id="attendance_bar" style="height:auto;"></div>
                             </div>
                         </div>
                     </div>
@@ -1018,33 +1018,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         attArray.push(valuesArray);
                     });
 
-                    google.charts.load('current', { 'packages': ['corechart', 'bar']});
-                    google.charts.setOnLoadCallback(drawMap);
-
-                    console.log(JSON.stringify(attArray))
-                    function drawMap() {
-                        var data = google.visualization.arrayToDataTable(attArray);
-
-                        var options = {
-                            title: '',
-                            width:'550',
-                            chartArea: {width: '60%'},
-                            hAxis: {
-                            title: 'Number of Days',
-                            minValue: 0
-                            },
-                            vAxis: {
-                            title: 'Month'
-                            }
-                        };
-                        
-                        var chart = new google.visualization.BarChart(document.getElementById('attendance_bar'));
-                        chart.clearChart();
-                        chart.draw(data, options);
-                    }
-
                     $('#infoModal').modal('hide');
                     $('#studentProfile').modal('show');
+                    //drawAttChart();
+
+                    $('#studentProfile').on('shown.bs.modal', function () {
+                        google.charts.load('current', { 'packages': ['corechart']});
+                        google.charts.setOnLoadCallback(drawAttChart);
+
+                        function drawAttChart() {
+                            var data = google.visualization.arrayToDataTable(attArray);
+
+                            var options = {
+                                legend: {position: 'top', alignment: 'start'},
+                                title: '',
+                                //width:'550',
+                                chartArea: {width: '75%'},
+                                hAxis: {
+                                title: 'Number of Days',
+                                ticks: [5,10,15,20,25,30] ,
+                                minValue: 0
+                                },
+                                vAxis: {
+                                title: ''
+                                }
+                            };
+                            
+                            var chart = new google.visualization.BarChart(document.getElementById('attendance_bar'));
+                            //chart.clearChart();
+                            chart.draw(data, options);
+                        }
+                    });
                 },
                 error: function (response) {
                     alert("Error! Please try again.");
