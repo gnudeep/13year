@@ -106,11 +106,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $(document).ready(function() {
             
             $(".required").append("<span class='col-red'> *</span>");
+            
+
+            $.validator.addMethod("PASSWORD",function(value,element){
+                return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,25}$/i.test(value);
+            },"Passwords are 8-25 characters with uppercase letters, lowercase letters and at least one number.");
 
             $('#addTeacherForm').validate({
                 rules: {
                     're_passwd': {
                         equalTo: "#password"
+                    },
+                    'passwd': {
+                        PASSWORD: true
                     }
                 },
                 highlight: function(input) {

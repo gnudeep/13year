@@ -115,11 +115,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                 </div>
             </div>
+        </div>
+        
+        <div class="row clearfix">
 
-            <!-- Subjects List Table -->
+            <!-- Users List Table -->
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                 <div class="card">
-                    <div class="header bg-blue-grey">
+                    <div class="header ">
                         <h2>
                             USERS LIST
                         </h2>
