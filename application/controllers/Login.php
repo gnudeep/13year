@@ -111,7 +111,7 @@ class Login extends CI_Controller {
             
         }else {
             echo "Invalid User name or Password";
-            //redirect('/login/index');
+            redirect('/login/index');
         }
     }
 
