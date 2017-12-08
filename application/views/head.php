@@ -99,13 +99,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <!-- Logged user's Name -->
-                <li class="name"><a href="javascript:void(0);"><?php echo $this->session->name; ?></a></li>
+                <li class="name" id="header_username"><a href="javascript:void(0);"><?php echo $this->session->name; ?></a></li>
                 <li class="pull-right dropdown">
                     <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                         <i class="material-icons">more_vert</i>
                     </a>
                     <ul class="dropdown-menu pull-right">
-                        <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
+                        <li><a href="javascript:void(0);" data-toggle="modal" data-target="#profileModal"><i class="material-icons">person</i>Profile</a></li>
                         <li><a href="<?php echo base_url()."index.php/login/logout"?>"><i class="material-icons">input</i>Sign Out</a></li>
                     </ul>
                 </li>

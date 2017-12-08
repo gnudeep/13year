@@ -212,4 +212,22 @@ class Admin extends CI_Controller
         $this->email->send();
          echo $message;
     }
+
+    public function editProfile()
+    {
+        header('Content-Type: application/x-json; charset=utf-8');
+        $edit = $this->security->xss_clean($this->input->post('edit'));
+        $user_id = $this->security->xss_clean($this->input->post('user_id'));
+        $in_name = $this->security->xss_clean($this->input->post('in_name'));
+        $passwd = password_hash($this->security->xss_clean($this->input->post('passwd')), PASSWORD_DEFAULT);
+        $res = '0';
+
+        if ($edit == 'name') {
+            $userArray = array('name' =>$in_name);
+            $res = $this->Form_data_model->update('user', 'id', $user_id, $userArray);
+        } elseif ($edit == 'passwd') {
+            $userArray = array('passwd' =>$passwd);
+            $res = $this->Form_data_model->update('user', 'id', $user_id, $userArray);
+        }
+    }
 }

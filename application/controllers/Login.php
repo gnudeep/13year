@@ -32,14 +32,19 @@ class Login extends CI_Controller {
     {
         //check user type to redirect
         if ($user_level == "0") {
-                redirect('/admin/index');
+            $this->session->set_userdata('role_name', 'Main System Administrator');
+            redirect('/admin/index');
         }else if ($user_level == "1") {
-        redirect('/sadmin/index');
+            $this->session->set_userdata('role_name', 'School System Administrator');
+            redirect('/sadmin/index');
         }else if ($user_level == "2") {
+            $this->session->set_userdata('role_name', 'School Finance Administrator');
             redirect('/finance/index');
         }else if ($user_level == "3") {
+            $this->session->set_userdata('role_name', 'Class Teacher of School');
             redirect('/teacher/index');
         }else if ($user_level == "5") {
+            $this->session->set_userdata('role_name', 'Reporting Administrator');
             redirect('/report/index');
         }else{
             redirect('/editor/index');
