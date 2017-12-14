@@ -84,14 +84,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <a href="<?php echo base_url()."index.php/general"?>" target="_blank">View Schools Map</a>
             </div>
             <!-- Footer -->
+            <div class="row">
+                <div class="legal align-center ">
+                    <a type="button" class="btn btn-lg bg-teal waves-effect p-l-80 p-r-80" href="http://dmb.moe.gov.lk"> Back to Portal </a>
+                </div>
+            </div>
+            
             <hr>
             <div class="legal align-center" style="padding-bottom:20px;">
                 <div class="copyright">
                     &copy;2017 <a href="javascript:void(0);">Data Management Branch</a><br>
                     <a href="javascript:void(0);">Ministry of Education, Sri Lanka</a>
-                </div>
-                <div class="version">
-                    <b>Version: </b> 1.0.5
                 </div>
             </div>
             <!-- #Footer -->

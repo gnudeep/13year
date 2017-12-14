@@ -147,7 +147,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </tr>
                                 </thead>
                                 <tbody>
-
                                 <?php if ($schools) { ?>
                                     <?php foreach ($schools as $row) { ?>
                                         <tr>
@@ -517,6 +516,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script>
     $(document).ready(function () {
         getTotalDetails();
+        var map = '';
 
         var allschools = Array(<?php echo json_encode($schools); ?>);
 
@@ -1158,7 +1158,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 };
 
-                var map = new google.visualization.Map(document.getElementById('regions_div'));
+                map = new google.visualization.Map(document.getElementById('regions_div'));
 
                 map.draw(data, options);
                 google.visualization.events.addListener(map, 'select', selectHandler);

@@ -25,13 +25,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
         <!-- #Menu -->
         <!-- Footer -->
-        <div class="legal">
+        <div class="legal"> 
+            <div class="copyright m-b-10">
+                <div class="align-center">
+                    <a type="button" class="btn btn-block bg-teal waves-effect" href="http://dmb.moe.gov.lk" style="color:white !important;"> Back to Data Management Portal </a>
+                </div>
+            </div>
             <div class="copyright">
                 &copy;2017 <a href="javascript:void(0);">Data Management Branch</a><br>
                 <a href="javascript:void(0);">Ministry of Education, Sri Lanka</a>
-            </div>
-            <div class="version">
-                <b>Version: </b> 1.0.5
             </div>
         </div>
         <!-- #Footer -->

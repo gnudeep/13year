@@ -73,17 +73,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     </ul>
                 </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle" id="provinceMenu">
+                        <i class="material-icons">graphic_eq</i>
+                        <span>Select Province</span>
+                    </a>
+                    <ul class="ml-menu" id="provinceListMenu">
+                    <input type="text" class="form-control" id="searchProvince" placeholder="Search Province" title="Type in a name">
+
+                    <?php if ($provinces) { ?>
+                    <?php foreach ($provinces as $row) { ?>
+                        <li>
+                            <a href="javascript:void(0);" data-id="<?php echo $row['id'];?>" data-name = "<?php echo $row['province'] ;?>" data-type="province" class="getProvince filter">
+                                <span> <?php echo $row['province'] ;?> </span>
+                            </a>
+                        </li>
+                    <?php    } ?>
+                    <?php } ?>
+
+                    </ul>
+                </li>
             </ul>
         </div>
         <!-- #Menu -->
         <!-- Footer -->
-        <div class="legal">
+        <div class="legal"> 
+            <div class="copyright m-b-10">
+                <div class="align-center">
+                    <a type="button" class="btn btn-block bg-teal waves-effect" href="http://dmb.moe.gov.lk" style="color:white !important;"> Back to Data Management Portal </a>
+                </div>
+            </div>
             <div class="copyright">
                 &copy;2017 <a href="javascript:void(0);">Data Management Branch</a><br>
                 <a href="javascript:void(0);">Ministry of Education, Sri Lanka</a>
-            </div>
-            <div class="version">
-                <b>Version: </b> 1.0.5
             </div>
         </div>
         <!-- #Footer -->
