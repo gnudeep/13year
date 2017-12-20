@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-/**
- * Created by Kosala.
- * email: kosala4@gmail.com
- * Date: 9/26/17
- * Time: 1:53 PM
- */
+# @Author: Kosala Gangabadage <kosala>
+# @Date:   2017-10-25T14:50:29+05:30
+# @Email:  kosala4@gmail.com
+# @Last modified by:   Kosala Gangabadage
+# @Last modified time: 2017-12-18T14:32:28+05:30
+
 
 class Admin extends CI_Controller
 {
@@ -88,18 +88,18 @@ class Admin extends CI_Controller
             redirect('admin/index');
         }
     }
-    
+
     public function Subjects()
     {
         header('Content-Type: application/x-json; charset=utf-8');
         // Datatables Variables
-        
-        //Load our library EditorLib 
+
+        //Load our library EditorLib
         $this->load->library('EditorLib');
-        
+
         //Call the process method to process the posted data
         $this->editorlib->process($_POST);
-        
+
         //Let the model produce the data
         $this->editorlib->CI->DataTable_model->Subjects($_POST);
     }
@@ -124,7 +124,7 @@ class Admin extends CI_Controller
 
         $schoolArray = array('census_id' =>$census_id, 'schoolname' => $name, 'province_id' => $province_id, 'district_id' => $district_id, 'zone_id' => $zone_id, 'telephone' => $telephone, 'fax' => $fax, 'email' => $email, 'principal_name' => $pname, 'principal_mobile' => $pmobile, 'principal_email' => $pemail, 'lat' => $lat, 'lot' => $lot);
 
-        
+
         if ($formAction == 'add') {
             $res = $this->Form_data_model->insert('schools', $schoolArray);
         } else if ($formAction == 'edit') {
@@ -142,13 +142,13 @@ class Admin extends CI_Controller
             $this->session->set_flashdata('not-success','Something went wrong! School Did not Added');
             redirect('admin/index');
         }
-        
+
     }
-    
+
     public function changeCoordinator()
     {
         header('Content-Type: application/x-json; charset=utf-8');
-        
+
         $formAction = $this->security->xss_clean($this->input->post('formAction'));
         $school_id = $this->security->xss_clean($this->input->post('school_id'));
         $cname = $this->security->xss_clean($this->input->post('cname'));
@@ -163,11 +163,11 @@ class Admin extends CI_Controller
         $cpw = password_hash($this->security->xss_clean($this->input->post('cpw')), PASSWORD_DEFAULT);
         $cID = $this->security->xss_clean($this->input->post('cID'));
         $uID = $this->security->xss_clean($this->input->post('uID'));
-        
+
         $coordinator_array = array('school_id' => $school_id, 'coordinator_nic' => $cnic, 'coordinator_name' => $cname, 'coordinator_dob' => $cdob, 'coordinator_mobile' => $cmobile, 'coordinator_email' => $cemail, 'coordinator_ser_app' => $appser, 'coordinator_sch_app' => $appsch);
-        
+
         $user_array = array('role' => '1', 'name' => $cname, 'uname' => $cuname, 'passwd' => $cpw, 'school_id' => $school_id);
-        
+
         if ($formAction == 'add') {
             $res = $this->Form_data_model->addCoordinator($coordinator_array, $user_array);
         } else if ($formAction == 'edit') {
@@ -182,9 +182,9 @@ class Admin extends CI_Controller
             } else {
                 $res = $this->Form_data_model->update('coordinators', 'id', $cID, $coordinator_array);
             }
-            
+
         }
-        
+
         if($res == '1'){
             echo "success";
         }else {
@@ -203,7 +203,7 @@ class Admin extends CI_Controller
         $this->load->library('email');
 
         $this->email->from('13years.admin@moe.gov.lk', '13 Years Admin');
-        
+
         $this->email->to($recepients);
 
         $this->email->subject($subject);

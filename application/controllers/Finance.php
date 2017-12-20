@@ -1,11 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-/**
- * Created by Kosala.
- * email: kosala4@gmail.com
- * Date: 10/05/17
- * Time: 10:53 PM
- */
+# @Author: Kosala Gangabadage
+# @Date:   2017-10-25T14:50:29+05:30
+# @Email:  kosala4@gmail.com
+# @Last modified by:   Kosala Gangabadage
+# @Last modified time: 2017-12-18T15:03:26+05:30
+
+
 
 class Finance extends CI_Controller
 {
@@ -55,7 +56,7 @@ class Finance extends CI_Controller
         header('Content-Type: application/x-json; charset=utf-8');
         // Datatables Variables
 
-        //Load our library EditorLib 
+        //Load our library EditorLib
         $this->load->library('EditorLib');
 
         //`Call the process method to process the posted data

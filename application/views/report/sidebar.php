@@ -1,10 +1,12 @@
 <?php
-/**
- * Created by Kosala.
- * email: kosala4@gmail.com
- * Date: 9/26/17
- * Time: 1:54 PM
- */
+defined('BASEPATH') OR exit('No direct script access allowed');
+# @Author: Kosala Gangabadage
+# @Date:   2017-11-10T15:05:05+05:30
+# @Email:  kosala4@gmail.com
+# @Last modified by:   Kosala Gangabadage
+# @Last modified time: 2017-12-18T15:17:39+05:30
+
+ 
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
@@ -73,7 +75,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     </ul>
                 </li>
-                <li>
+                <li hidden>
                     <a href="javascript:void(0);" class="menu-toggle" id="provinceMenu">
                         <i class="material-icons">graphic_eq</i>
                         <span>Select Province</span>
@@ -106,4 +108,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     </aside>
     <!-- #END# Right Sidebar -->
 </section>
-

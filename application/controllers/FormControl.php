@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-/**
- * Created by Kosala.
- * email: kosala4@gmail.com
- * User: edu
- * Date: 9/27/17
- * Time: 1:00 PM
- */
+# @Author: Kosala Gangabadage
+# @Date:   2017-10-25T14:50:29+05:30
+# @Email:  kosala4@gmail.com
+# @Last modified by:   Kosala Gangabadage
+# @Last modified time: 2017-12-18T15:14:59+05:30
+
+
 
 class FormControl extends CI_Controller
 {
