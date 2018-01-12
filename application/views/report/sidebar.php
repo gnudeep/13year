@@ -4,10 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 # @Date:   2017-11-10T15:05:05+05:30
 # @Email:  kosala4@gmail.com
 # @Last modified by:   Kosala Gangabadage
-# @Last modified time: 2017-12-18T15:17:39+05:30
+# @Last modified time: 2017-12-29T15:48:39+05:30
 
- 
-defined('BASEPATH') OR exit('No direct script access allowed');
+
 ?>
 
 <section>
@@ -15,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <aside id="leftsidebar" class="sidebar">
         <!-- Menu -->
         <div class="menu">
-            <ul class="list">
+            <ul class="list" style="margin-bottom: 200px">
                 <li class="header">MAIN NAVIGATION</li>
                 <li>
                     <a href="<?php echo base_url()."index.php/report/index"?>">
