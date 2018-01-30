@@ -828,3 +828,15 @@ div.DTE_Bubble div.DTE_Bubble_Liner div.DTE_Bubble_Table > form div.DTE_Form_Con
 div.DTE_Bubble div.DTE_Bubble_Liner div.DTE_Bubble_Table div.DTE_Form_Buttons {
   margin-top: 1em;
 }
+
+div.DTE_Inline div.DTE_Field {
+  width: 100%;
+  margin: 0;
+}
+div.DTE_Inline div.DTE_Field > div {
+  max-width: 100%;
+  flex: none;
+}
+div.DTE_Inline div.DTE_Field input {
+  margin: -5px 0 -10px !important;
+}

@@ -149,7 +149,7 @@ DataTable.Editor.display.bootstrap = $.extend( true, {}, DataTable.Editor.models
 		// Add `form-control` to required elements
 		dte.on( 'displayOrder.dtebs', function ( e, display, action, form ) {
 			$.each( dte.s.fields, function ( key, field ) {
-				$('input:not([type=checkbox]):not([type=radio]), elect, textarea', field.node() )
+				$('input:not([type=checkbox]):not([type=radio]), select, textarea', field.node() )
 					.addClass( 'form-control' );
 			} );
 		} );
