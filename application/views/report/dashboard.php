@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="card">
                     <div class="header">
                         <h2  id="summary-header">
-                            SUMMARY 
+                            SUMMARY
                         </h2><small id="summary-title"> </small>
                     </div>
                     <div class="body">
@@ -122,7 +122,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-        
+
         <!-- List Selected info Modal -->
         <div class="modal fade" id="schoolsListModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg2" role="document">
@@ -192,7 +192,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-        
+
         <!-- List All Schools Modal -->
         <div class="modal fade" id="proDetailsModal" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
@@ -270,7 +270,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-        
+
         <!-- Student Profile Modal -->
         <div class="modal fade" id="studentProfile" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
@@ -282,7 +282,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <h3> Class Details </h3>
                         <div class="row clearfix">
                             <div class="col-md-6">
-                                
+
                                 <div class="col-md-3 form-control-label">
                                     <label for="school">School</label>
                                 </div>
@@ -330,11 +330,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                         </div>
-                        
+
                         <h3> Personal Details </h3>
                         <div class="row clearfix">
                             <div class="col-md-6">
-                                
+
                                 <div class="col-md-3 form-control-label">
                                     <label for="full_name">Full Name</label>
                                 </div>
@@ -488,7 +488,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
             </div>
         </div>
-        
+
     </div>
 </section>
 
@@ -512,7 +512,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url()."assets/plugins/jquery-inputmask/jquery.inputmask.bundle.js"?>"></script>
 <script src="<?php echo base_url()."assets/plugins/jquery-countto/jquery.countTo.js"?>"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  
+
 <script>
     $(document).ready(function () {
         getTotalDetails();
@@ -550,20 +550,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var api = this.api();
                 var rows = api.rows( {page:'current'} ).nodes();
                 var last=null;
-    
+
                 api.column(8, {page:'current'} ).data().each( function ( group, i ) {
                     if ( last !== group ) {
                         $(rows).eq( i ).before(
                             '<tr class="group bg-blue-grey"><td colspan="9">'+group+'</td></tr>'
                         );
-    
+
                         last = group;
                     }
                 } );
             },
             buttons: [
                 'csv', 'excel',
-                { 
+                {
                     extend: 'pdf',
                     footer: true,
                     title: 'List of All Schools - 13 Years of Guaranteed Education Program'
@@ -590,7 +590,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             responsive: true,
             buttons: [
                 'csv', 'excel',
-                { 
+                {
                     extend: 'pdf',
                     footer: true,
                     title: 'Program Details - 13 Years of Guaranteed Education Program'
@@ -613,7 +613,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         alltable.on( 'order.dt search.dt', function () {
             alltable.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
                 cell.innerHTML = i+1;
-                alltable.cell(cell).invalidate('dom'); 
+                alltable.cell(cell).invalidate('dom');
             } );
         } ).columns.adjust().draw();
 
@@ -633,7 +633,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 form_data.append('search_type', search_type);
                 form_data.append('select', id);
                 form_data.append('search_id', search_id);
-                
+
                 var columns = [];
                 var data = [];
                 var row = [];
@@ -711,14 +711,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             table.on( 'order.dt search.dt', function () {
                                 table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
                                     cell.innerHTML = i+1;
-                                    table.cell(cell).invalidate('dom'); 
+                                    table.cell(cell).invalidate('dom');
                                 } );
                                 table.column(0).header().innerHTML = '';
                             } ).columns.adjust().draw();
                         }
                     },
                     error: function (response) {
-                        
+
                     }
                 });
 
@@ -727,10 +727,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 } else {
                     $('#infoModalLabel').text(id.toUpperCase());
                 }
-                
+
                 $('#infoModal').modal('show');
             }
-            
+
         });
 
         $('.DTtrigger-gen').click(function(){
@@ -749,7 +749,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 form_data.append('search_type', search_type);
                 form_data.append('select', id);
                 form_data.append('search_id', search_id);
-                
+
                 var columns = [];
                 var data = [];
                 var row = [];
@@ -834,14 +834,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             table.on( 'order.dt search.dt', function () {
                                 table.column(0, {search:'applied', order:'applied'}).nodes().each( function (cell, i) {
                                     cell.innerHTML = i+1;
-                                    table.cell(cell).invalidate('dom'); 
+                                    table.cell(cell).invalidate('dom');
                                 } );
                                 table.column(0).header().innerHTML = '';
                             } ).columns.adjust().draw();
                         }
                     },
                     error: function (response) {
-                        
+
                     }
                 });
 
@@ -850,10 +850,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 } else {
                     $('#infoModalLabel').text(id.toUpperCase());
                 }
-                
+
                 $('#infoModal').modal('show');
             }
-            
+
         });
 
         $('#infoModal').on('hidden.bs.modal', function () {
@@ -861,14 +861,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 $('#infoTable').DataTable().destroy();
                 $('#infoTable').empty();
             }
-                
+
         })
-        
+
         $('.getSchool').click(function(){
 
             $('li').removeClass('active');
             $(this).parent().addClass('active');
-            
+
             var school_id = $(this).data('id');
             var school_name = $(this).data('name');
             var zone = $(this).data('zone');
@@ -876,7 +876,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             setSchoolData(school_id, school_name, zone, province);
         });
-        
+
         $('.getSubject').click(function(){
             $('.updated').removeClass('hidden');
             $('#funds_count_div').addClass('hidden');
@@ -884,7 +884,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $('li').removeClass('active');
             $(this).parent().addClass('active');
             $('#subjectsMenu').parent().addClass('active');
-            
+
             var name = $(this).data('name');
             $('#schools_count_div').addClass('hidden');
             $('#summary-header').text(name);
@@ -921,7 +921,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         });
-        
+
         $('#searchSchool').keyup(function(){
             var filter, ul, li, a, i;
             filter = $(this).val().toUpperCase();
@@ -937,7 +937,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             }
         });
-        
+
         $('#searchSubjects').keyup(function(){
             var filter, ul, li, a, i;
             filter = $(this).val().toUpperCase();
@@ -981,7 +981,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     $('#nic').val( response['details'][0]['nic'] );
                     $('#dob').val( response['details'][0]['dob'] );
                     $('#gender').val( response['details'][0]['gender'] );
-                    
+
                     $('#address').val( response['details'][0]['address'] );
                     $('#telephone').val( response['details'][0]['telephone'] );
                     $('#medium').val( response['details'][0]['medium'] );
@@ -1013,7 +1013,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             } else{
                                 valuesArray.push(val);
                             }
-                            
+
                         });
                         attArray.push(valuesArray);
                     });
@@ -1043,7 +1043,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 title: ''
                                 }
                             };
-                            
+
                             var chart = new google.visualization.BarChart(document.getElementById('attendance_bar'));
                             //chart.clearChart();
                             chart.draw(data, options);
@@ -1055,7 +1055,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         });
-        
+
         function getTotalDetails(){
 
             var form_data = new FormData();
@@ -1129,9 +1129,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
         function loadMap(schools, dataArray){
             $schoolsArray = schools;
-            
+
             google.charts.load('current', { 'packages': ['map', 'table'],
-                                        'mapsApiKey': 'AIzaSyDMi68dvm91pJnVYOEL087Y_5wioxMLOmc'});
+                                        'mapsApiKey': 'AIzaSyDOvVS2xdQsXepvDngDs1WXClZ6ViC_ibk'});
             google.charts.setOnLoadCallback(drawMap);
 
             function drawMap() {
@@ -1170,7 +1170,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     var province = $schoolsArray['0'][selection[0].row]['province'];
                     var zone = $schoolsArray['0'][selection[0].row]['zone'];
                     var school_name = school_id + ' - ' + school;
-                    
+
                     $('li').removeClass('active');
                     $('a[data-id=' + school_id + ']').parent().addClass('active');
                     setSchoolData(school_id, school_name, zone, province);
@@ -1179,7 +1179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         }
 
         function loadChart(){
-            
+
             google.charts.load('current', { 'packages': ['bar'],
                                         'mapsApiKey': 'AIzaSyDMi68dvm91pJnVYOEL087Y_5wioxMLOmc'});
             google.charts.setOnLoadCallback(drawMap);
@@ -1202,7 +1202,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     },
                     bars: 'horizontal' // Required for Material Bar Charts.
                 };
-          
+
 
                 var chart = new google.charts.Bar(document.getElementById('allschools_bar'));
 

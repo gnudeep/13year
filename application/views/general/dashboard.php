@@ -210,7 +210,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $schoolsArray = Array(<?php echo json_encode($schools); ?>);
         console.log(<?php echo json_encode($schools); ?>);
         google.charts.load('current', { 'packages': ['map', 'table'],
-                                       'mapsApiKey': 'AIzaSyDMi68dvm91pJnVYOEL087Y_5wioxMLOmc'});
+                                       'mapsApiKey': 'AIzaSyDOvVS2xdQsXepvDngDs1WXClZ6ViC_ibk'});
         google.charts.setOnLoadCallback(drawMap);
 
         function drawMap() {
@@ -243,7 +243,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 var school_id = $schoolsArray['0'][selection[0].row]['census_id'];
                 var province = $schoolsArray['0'][selection[0].row]['province'];
                 var zone = $schoolsArray['0'][selection[0].row]['zone'];
-                
+
                 $('#school').text(school);
                 $('#schooldesc').text(zone + ' Zone, ' + province + ' Province');
 
@@ -278,4 +278,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         };
     });
 </script>
-
