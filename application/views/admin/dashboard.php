@@ -166,7 +166,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </div>
         </div>
 
-        <!-- Modal to verify letter from barcode-->
+        <!-- Subjects Modal -->
         <div id="subjectsModal" class="modal fade" role="dialog">
             <div class="modal-dialog">
 
@@ -177,7 +177,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <h4 id="subjectsModal-title">  </h4>
                     </div>
 
-                    <?php echo form_open('admin/Subjects', 'role="form" id="SubjectsForm"') ?> 
+                    <?php echo form_open('admin/Subjects', 'role="form" id="SubjectsForm"') ?>
                     <div class="modal-body">
                         <input type="text" class="hidden" name="subj_id" id="subj_id" >
                         <div class="row clearfix">
@@ -213,7 +213,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <h4 id="coordinatorModal-title">  </h4>
                     </div>
 
-                    <?php echo form_open('admin/Coordinator', 'role="form" id="CoordinatorForm"') ?> 
+                    <?php echo form_open('admin/Coordinator', 'role="form" id="CoordinatorForm"') ?>
                     <div class="modal-body">
                         <input type="text" class="form-control hidden" name="cID" id="cID">
                         <input type="text" class="form-control hidden" name="uID" id="uID">
@@ -350,7 +350,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <h4 id="schoolsModal-title">  </h4>
                     </div>
 
-                    <?php echo form_open('admin/Schools', 'role="form" id="addSchoolForm"') ?> 
+                    <?php echo form_open('admin/Schools', 'role="form" id="addSchoolForm"') ?>
                     <div class="modal-body">
                         <div class="row clearfix">
                             <input type="text" class="hidden" name="std_id" id="std_id" >
@@ -470,12 +470,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                     </div>
 
-                    <?php echo form_open('admin/sendEmail', 'role="form" id="SubjectsForm"') ?> 
+                    <?php echo form_open('admin/sendEmail', 'role="form" id="SubjectsForm"') ?>
                     <div class="modal-body">
-                        
+
                         <div class="row clearfix">
                             <div class="col-md-12">
-                                
+
                                 <div class="body">
                                     <select id="optgroup" class="ms" multiple="multiple" data-live-search="true">
                                         <?php if ($schools) { ?>
@@ -516,7 +516,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
             </div>
         </div>
-        
+
     </div>
 </section>
 
@@ -542,7 +542,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 <script>
     $(document).ready(function () {
-        
+
         $('.telephone').inputmask('999-9999999', { placeholder: '___-_______' });
         $(".required").append("<span class='col-red'> *</span>");
 
@@ -560,13 +560,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $('#sendMailMenu').click(function(){
             $('#emailsModal').modal('show');
         });
-        
+
         $('.dataTable').DataTable({
             responsive: true,
             iDisplayLength: 5,
             page: {length: '5'}
         });
-        
+
         $.validator.addMethod('nic', function (value, element) {
             return value.match(/^([0-9]{9}[x|X|v|V])|([0-9]{12})$/);
         },
@@ -576,7 +576,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         $.validator.addMethod("PASSWORD",function(value,element){
             return this.optional(element) || /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,25}$/i.test(value);
         },"Passwords are 8-25 characters with uppercase letters, lowercase letters and at least one number.");
-        
+
         $('#cmobile').inputmask('999-9999999', {
             placeholder: '___-_______'
         });
@@ -596,7 +596,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
             },
             "table": "#subjects",
-            "fields": [ 
+            "fields": [
                 {
                 "label": "Subject:",
                 "name": "subject_name",
@@ -607,7 +607,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         subjectEditor.on( 'preSubmit', function ( e, o, action ) {
             o.<?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
         } );
-        
+
         var subjectTable = $('#subjects').DataTable( {
             dom: "Bfrtip",
             ajax: {
@@ -660,12 +660,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             $('#subj_id').val( data[0]['DT_RowId'].split("_")[1] );
                             $('.form-line').addClass('focused')
                         }
-                        
+
                     }
                 }
             ]
         } );
-        
+
         var coordTable = $('#coordinatorTable').DataTable({
             dom: 'Bfrtip',
             responsive: true,
@@ -752,12 +752,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             $('#uID').val(data['0']['11']);
                             $('.form-line').addClass('focused')
                         }
-                        
+
                     }
                 }
             ]
         });
-        
+
         $('#coordinatorModal_submit').click(function(){
             if( $('#CoordinatorForm').valid() ){
                 var formAction = $('#coordinatorModal_submit').data('action');
@@ -807,7 +807,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 });
             }
         });
-            
+
         var schoolTable = $('#schoolTable').DataTable({
             dom: 'Bfrtip',
             responsive: true,
@@ -824,7 +824,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     text: 'New',
                     className: 'btn btn-primary waves-effect',
                     action: function ( e, dt, node, config ) {
-                        
+
                         $('#schoolsModal-title').text('Add School');
                         $('#schoolsModal_submit').data('action', 'add')
                         $('#schoolsModal').modal('toggle');
@@ -849,7 +849,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             $('#pname').val(data['0']['5']);
                             $('#pmobile').val(data['0']['6']);
                             $('#pemail').val(data['0']['7']);
-                            
+
                             $('#province').val(data['0']['8']).trigger('change');
                             //getDistricts(data['0']['8']);
                             $('#district').val(data['0']['9']).trigger('change');
@@ -860,7 +860,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             $('#lot').val(data['0']['12']);
                             $('.form-line').addClass('focused')
                         }
-                        
+
                     }
                 }
             ]
@@ -927,18 +927,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     }
                 });
             }
-            
+
         });
 
         $('#emailsModal_submit').click(function(){
-            
-            console.log($('#optgroup').val());
+
+            //console.log($('#optgroup').val());
 
             var form_data = new FormData();
             var sel_list = $('#optgroup').val();
             var message = $('#message').val();
             var subject = $('#subject').val();
-            
+
             form_data.append('<?php echo $this->security->get_csrf_token_name(); ?>','<?php echo $this->security->get_csrf_hash(); ?>');
             form_data.append('sel_list', sel_list);
             form_data.append('message', message);
@@ -982,7 +982,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 }
             });
         }
-        
+
         function getZones(district_id){
             var dataarray = {'<?php echo $this->security->get_csrf_token_name(); ?>':'<?php echo $this->security->get_csrf_hash(); ?>',district_id: district_id};
             var post_url = "index.php/FormControl/getZones";
