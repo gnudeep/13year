@@ -134,6 +134,7 @@ DataTable.Editor.display.bootstrap = $.extend( true, {}, DataTable.Editor.models
 			);
 
 			self._dom.close = $('<button class="close">&times;</div>');
+			self._dom.modalContent = self._dom.content.find('div.modal-content');
 
 			self._dom.close.click( function () {
 				self._dte.close('icon');
@@ -168,7 +169,7 @@ DataTable.Editor.display.bootstrap = $.extend( true, {}, DataTable.Editor.models
 		self._dte = dte;
 		self._shown = true;
 
-		var content = self._dom.content.find('div.modal-content');
+		var content = self._dom.modalContent;
 		content.children().detach();
 		content.append( append );
 

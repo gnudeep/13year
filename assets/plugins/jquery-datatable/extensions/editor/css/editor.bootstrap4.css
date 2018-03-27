@@ -840,3 +840,9 @@ div.DTE_Inline div.DTE_Field > div {
 div.DTE_Inline div.DTE_Field input {
   margin: -5px 0 -10px !important;
 }
+
+div.DTE_Body div.DTE_Body_Content div.DTE_Field.block label,
+div.DTE_Body div.DTE_Body_Content div.DTE_Field.block > div {
+  max-width: 100%;
+  flex: 0 0 100%;
+}

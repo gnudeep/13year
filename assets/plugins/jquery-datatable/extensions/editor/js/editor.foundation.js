@@ -122,7 +122,7 @@ DataTable.Editor.display.foundation = $.extend( true, {}, DataTable.Editor.model
 				} );
 			}
 
-			$(self._dom.content).appendTo('body');
+			//$(self._dom.content).appendTo('body');
 			self._reveal.open();
 		}
 		else {
@@ -130,7 +130,10 @@ DataTable.Editor.display.foundation = $.extend( true, {}, DataTable.Editor.model
 			$(self._dom.content).foundation( 'reveal','open' );
 		}
 
-		$(document).on('click.dte-zf', 'div.reveal-modal-bg, div.reveal-overlay', function () {
+		$(document).on('click.dte-zf', 'div.reveal-modal-bg, div.reveal-overlay', function (e) {
+			if ( $(e.target).closest(self._dom.content).length ) {
+				return;
+			}
 			self._dte.background();
 		} );
 	},
