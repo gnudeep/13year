@@ -1131,7 +1131,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             $schoolsArray = schools;
 
             google.charts.load('current', { 'packages': ['map', 'table'],
-                                        'mapsApiKey': 'AIzaSyDOvVS2xdQsXepvDngDs1WXClZ6ViC_ibk'});
+                                        'mapsApiKey': 'AIzaSyAOxmJpZe-izqt3yE34tgOivVLeIwFEGLA'});
             google.charts.setOnLoadCallback(drawMap);
 
             function drawMap() {
@@ -1181,7 +1181,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         function loadChart(){
 
             google.charts.load('current', { 'packages': ['bar'],
-                                        'mapsApiKey': 'AIzaSyDMi68dvm91pJnVYOEL087Y_5wioxMLOmc'});
+                                        'mapsApiKey': 'AIzaSyAOxmJpZe-izqt3yE34tgOivVLeIwFEGLA'});
             google.charts.setOnLoadCallback(drawMap);
 
             function drawMap() {
