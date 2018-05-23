@@ -588,24 +588,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ]
         });
-        //
-        // var subjectEditor = new $.fn.dataTable.Editor( {
-        //     "ajax": "<?php echo base_url().'index.php/Admin/Subjects' ?>",
-        //     "data":function ( d ) {
-        //         d.<?php echo $this->security->get_csrf_token_name(); ?> = '<?php echo $this->security->get_csrf_hash(); ?>';
-        //     },
-        //     "table": "#subjects",
-        //     "fields": [
-        //         {
-        //         "label": "Subject:",
-        //         "name": "subject_name",
-        //         }
-        //     ]
-        // } );
-        //
-        // subjectEditor.on( 'preSubmit', function ( e, o, action ) {
-        //     o.<?php echo $this->security->get_csrf_token_name(); ?> = "<?php echo $this->security->get_csrf_hash(); ?>";
-        // } );
 
         var subjectTable = $('#subjects').DataTable( {
             dom: "Bfrtip",

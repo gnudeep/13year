@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 # @Date:   2017-10-25T14:50:29+05:30
 # @Email:  kosala4@gmail.com
 # @Last modified by:   Kosala Gangabadage
-# @Last modified time: 2017-12-18T14:32:28+05:30
+# @Last modified time: 2018-05-23T14:20:35+05:30
 
 
 class Admin extends CI_Controller
@@ -168,7 +168,11 @@ class Admin extends CI_Controller
 
         $user_array = array('role' => '1', 'name' => $cname, 'uname' => $cuname, 'passwd' => $cpw, 'school_id' => $school_id);
 
+        $UIDArray = $this->Form_data_model->get_recent_id('user');
+        $newUId = $UIDArray['0']['id'] + 1;// + 1
         if ($formAction == 'add') {
+            $user_array['id'] = $newUId;
+            $coordinator_array['user_id'] = $newUId;
             $res = $this->Form_data_model->addCoordinator($coordinator_array, $user_array);
         } else if ($formAction == 'edit') {
             $coordinator_array['id'] = $cID;
